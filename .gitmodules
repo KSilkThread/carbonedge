@@ -1,0 +1,3 @@
+[submodule "deployment/minifabric"]
+	path = deployment/minifabric
+	url = https://github.com/KSilkThread/minifabric.git
