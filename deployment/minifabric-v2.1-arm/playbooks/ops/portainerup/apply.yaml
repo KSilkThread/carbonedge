@@ -1,0 +1,9 @@
+---
+
+- name: portainer up for docker
+  include_tasks: "dockerapply.yaml"
+  when: TARGET_ENV == 'DOCKER'
+
+- name: portainer up for k8s
+  include_tasks: "k8sapply.yaml"
+  when: TARGET_ENV == 'K8SCLASSIC'
