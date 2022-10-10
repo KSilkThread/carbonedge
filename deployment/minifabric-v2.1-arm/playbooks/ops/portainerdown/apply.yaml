@@ -1,0 +1,18 @@
+---
+- name: "Ensure portainer directory exists"
+  file:
+    path: "{{ pjroot }}/vars/portainer"
+    state: "directory"
+
+- name: Shutdown portainer container from docker
+  include_tasks: "dockerapply.yaml"
+  when: TARGET_ENV == 'DOCKER'
+
+- name: Shutdown portainer container from k8s
+  include_tasks: "k8sapply.yaml"
+  when: TARGET_ENV == 'K8SCLASSIC'
+
+- name: "remove explorer directory"
+  file:
+    path: "{{ pjroot }}/vars/portainer"
+    state: "absent"
