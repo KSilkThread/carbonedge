@@ -66,6 +66,22 @@ async function invokeSubmitTransactioncc(cc, cmd , args, node){
         node.error(error);
     }
 }
+
+function createCAClient(ccp, caAddress, node){
+    try {
+        const caInfo = ccp.certificateAuthorities[caAddress];
+        const caTLSCACerts = caInfo.tlsCACerts.pem;
+        return new FabricCAServices(caInfo.url, {trustedRoots: caTLSCACerts, verify: false}, caInfo.caName);
+    } catch (error) {
+        node.error(error);
+    }
+}
+
+// enroll User 
+
+//register User
+
+// revoke User
     
 
 module.exports = {loadCCP, loadFileWallet, loadMemoryWallet, createGateway, invokeEvaluateTransaction, invokeSubmitTransactioncc};
