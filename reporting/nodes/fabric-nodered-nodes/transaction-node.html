@@ -4,13 +4,13 @@
         color: '#a6bbcf',
         defaults: {
             name: {value:""},
-            userid:{value:"Admin"},
-            channel:{value:"mychannel"},
-            chaincode:{value:"simple"},
+            userid:{value:"Admin", required: true},
+            channel:{value:"mychannel", required: true},
+            chaincode:{value:"simple", required: true},
             args:{value:"a"},
-            cmd:{value:"query"},
-            configurations: {value: "", type:"configNode"},
-            transactiontype: {value: ""}
+            cmd:{value:"query", required: true},
+            configurations: {value: "", type:"configNode", required: true},
+            transactiontype: {value: "", required: true}
         },
         inputs:1,
         outputs:1,
