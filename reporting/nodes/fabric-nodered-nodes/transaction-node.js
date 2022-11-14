@@ -37,12 +37,11 @@ module.exports = function(RED){
 
             try {
 
-                 let result;
+                let result;
 
                 if(node.transactiontype === 'evaluate'){
                     result = await libary.invokeEvaluateTransaction(cc, node.cmd, node.params, node);
                 } else {
-                    console.log(node.params);
                     result = await libary.invokeSubmitTransactioncc(cc, node.cmd, node.params, node);
                 }
                 msg.payload = result.toString('utf-8');
@@ -52,8 +51,8 @@ module.exports = function(RED){
                 node.error(error);
             } finally {
                 gateway.disconnect();
+                node.log("Disconnected");
             }
-
         });
     }
 

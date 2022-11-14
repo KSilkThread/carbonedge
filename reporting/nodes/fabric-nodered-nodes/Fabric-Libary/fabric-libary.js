@@ -34,13 +34,15 @@ async function loadCCP(path, node){
 
 async function createGateway(ccp, userid, wallet, chaincode, channel, node){
 
-    try { const gateway = new hlffabric.Gateway();
+    try {const gateway = new hlffabric.Gateway();
+
         await gateway.connect(ccp, {identity: userid, wallet: wallet});
         const network = await gateway.getNetwork(channel);
         const cc = network.getContract(chaincode);
-        return {Gateway: gateway,
-                Network: network,
-                Chaincode: cc};
+        return { gateway,
+                 network,
+                 cc     };
+
     } catch (error) {
         node.error(error);
     }
