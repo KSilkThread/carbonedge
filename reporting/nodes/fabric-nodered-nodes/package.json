@@ -11,8 +11,7 @@
     "nodes": {
         "txNode": "transaction-node.js",
         "configNode": "config-node.js",
-        "addUser": "ca-nodes.js",
-        "enrollAdmin": "ca-nodes.js"
+        "addUser": "ca-nodes.js"
     }
   }
 }
