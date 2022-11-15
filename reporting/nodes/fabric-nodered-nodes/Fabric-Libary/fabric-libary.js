@@ -1,5 +1,5 @@
 const hlffabric = require('fabric-network');
-const cahlffabric = require('fabric-ca-client');
+const FabricCAServices = require("fabric-ca-client");
 const fs = require('fs');
 
 function loadMemoryWallet(node){
@@ -141,6 +141,7 @@ async function registerUser(caClient, wallet, enrollmentId, role, node){
 
 async function enrollAdminUser(caClient, wallet, userid, password, mspId, node){
     await enrollUser(caClient, wallet, userid, password, mspId, node);
+    node.log("Admin enrolled successfully");
 }
 
 // revoke User
@@ -149,4 +150,5 @@ function revokeUser(caClient, node){
 }
     
 
-module.exports = {loadCCP, loadFileWallet, loadMemoryWallet, createGateway, invokeEvaluateTransaction, invokeSubmitTransactioncc};
+module.exports = {loadCCP, loadFileWallet, loadMemoryWallet, createGateway, invokeEvaluateTransaction, invokeSubmitTransactioncc,
+                  createCAClient, enrollAdminUser, enrollUser, registerUser};
