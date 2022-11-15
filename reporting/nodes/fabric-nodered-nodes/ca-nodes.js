@@ -7,8 +7,8 @@ module.exports = function(RED){
         var node = this;
 
         node.configurations = RED.nodes.getNode(config.configurations);
-        node.ccpPath = config.ccpPath;
-        node.walletpath = config.walletpath;
+        node.ccpPath = node.configurations.ccpPath;
+        node.walletpath = node.configurations.walletPath;
         node.adminid = config.adminid;
         node.adminsecret = config.adminsecret;
         node.caAddress = config.caAddress;
@@ -21,7 +21,8 @@ module.exports = function(RED){
             const wallet = await libary.loadFileWallet(node.walletpath, node);
             node.log("File wallet loaded");
             const caClient = libary.createCAClient(ccp, node.caAddress, node);
-            libary.enrollAdminUser(caClient, wallet, node.adminid, node.adminsecret, node.mspId, node);
+            node.log("CA Client created");
+            await libary.enrollAdminUser(caClient, wallet, node.adminid, node.adminsecret, node.mspId, node);
             node.log("Admin created");
             node.send(msg);
         });
@@ -34,8 +35,8 @@ module.exports = function(RED){
         var node = this;
 
         node.configurations = RED.nodes.getNode(config.configurations);
-        node.ccpPath = config.ccpPath;
-        node.walletpath = config.walletpath;
+        node.ccpPath = node.configurations.ccpPath;
+        node.walletpath = node.configurations.walletPath;
         node.caAddress = config.caAddress;
         node.enrollmentId = config.enrollmentId;
         node.role = config.role;
@@ -48,9 +49,9 @@ module.exports = function(RED){
             node.log("File wallet loaded");
             const caClient = libary.createCAClient(ccp, node.caAddress, node);
             node.log("Ca client created");
-            const enrollmentSecret = libary.registerUser(caClient, wallet, node.enrollmentId, node.role, node);
+            const enrollmentSecret = await libary.registerUser(caClient, wallet, node.enrollmentId, node.role, node);
             node.log("Enrollment Secret created");
-            libary.enrollUser(caClient, wallet, node.enrollmentId, enrollmentSecret, node.mspId, node);
+            await libary.enrollUser(caClient, wallet, node.enrollmentId, enrollmentSecret, node.mspId, node);
             node.log("User: "+ node.enrollmentId + " created");
             node.send(msg);
         });
