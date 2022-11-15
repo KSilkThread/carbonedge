@@ -10,7 +10,9 @@
   "node-red" : {
     "nodes": {
         "txNode": "transaction-node.js",
-        "configNode": "config-node.js"
+        "configNode": "config-node.js",
+        "addUser": "ca-nodes.js",
+        "enrollAdmin": "ca-nodes.js"
     }
   }
 }
