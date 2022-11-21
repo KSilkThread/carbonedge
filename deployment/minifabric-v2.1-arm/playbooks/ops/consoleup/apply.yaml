@@ -35,7 +35,7 @@
 - name: Start configtxlator
   command: >-
     docker run -d --network {{ NETNAME }} --name configtxlator.{{ NETNAME }} --hostname configtxlator.{{ NETNAME }}
-    chinyati/fabric-tools:arm64-2.1.0
+    laughingadversial/fabric-tools:3.0
     /bin/bash -c "/usr/local/bin/configtxlator start --CORS=*"
 
 - name: Get current org ca name
