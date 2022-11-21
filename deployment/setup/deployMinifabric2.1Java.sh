@@ -8,45 +8,45 @@ echo -e '\nCleaned up!'
 
 echo -e 'Checking all images\n'
 
-# fabric-baseimage
+# fabric-baseimage not done yet
 docker pull chinyati/fabric-baseimage:arm64-0.4.20
 docker tag chinyati/fabric-baseimage:arm64-0.4.20 hyperledger/fabric-baseimage:arm64-0.4.20
 docker tag chinyati/fabric-baseimage:arm64-0.4.20 hyperledger/fabric-baseimage
 
-# fabric-baseos
+# fabric-baseos --> peters
 docker pull laughingadversial/fabric-baseos:3.0
 docker tag  laughingadversial/fabric-baseos:3.0 hyperledger/fabric-baseos:arm64-0.4.20
 docker tag  laughingadversial/fabric-baseos:3.0 hyperledger/fabric-baseos
 
-# fabric-tools
+# fabric-tools --> peters
 docker pull laughingadversial/fabric-tools:3.0
 docker tag laughingadversial/fabric-tools:3.0 hyperledger/fabric-tools:2.1
 docker tag laughingadversial/fabric-tools:3.0 hyperledger/fabric-tools
 
-# orderer
+# orderer --> peters
 docker pull laughingadversial/fabric-orderer:3.0
 docker tag laughingadversial/fabric-orderer:3.0 hyperledger/fabric-orderer:2.1
 docker tag laughingadversial/fabric-orderer:3.0 hyperledger/fabric-orderer
 
-# peer
+# peer --> peters
 docker pull laughingadversial/fabric-peer:3.0
 docker tag laughingadversial/fabric-peer:3.0 hyperledger/fabric-peer:2.1
 docker tag laughingadversial/fabric-peer:3.0 hyperledger/fabric-peer
 
-# fabric-ccenv
+# fabric-ccenv --> peters
 docker pull laughingadversial/fabric-ccenv:3.0
 docker tag laughingadversial/fabric-ccenv:3.0 hyperledger/fabric-ccenv:2.1
 docker tag laughingadversial/fabric-ccenv:3.0 hyperledger/fabric-ccenv
 
 # fabric-ca
-docker pull couchdb:3.2.2
-docker tag couchdb:3.2.2 hyperledger/fabric-ca:1.4
-docker tag couchdb:3.2.2 hyperledger/fabric-ca
+docker pull chinyati/fabric-ca:arm64-1.4.7
+docker tag chinyati/fabric-ca:arm64-1.4.7 hyperledger/fabric-ca:1.4
+docker tag chinyati/fabric-ca:arm64-1.4.7 hyperledger/fabric-ca
 
-# couchdb
-docker pull chinyati/fabric-couchdb:arm64-0.4.20
-docker tag chinyati/fabric-couchdb:arm64-0.4.20 hyperledger/fabric-couchdb:arm64-0.4.20
-docker tag chinyati/fabric-couchdb:arm64-0.4.20 hyperledger/fabric-couchdb
+# couchdb --> original couchdb
+docker pull couchdb:3.2.2
+docker tag couchdb:3.2.2 hyperledger/fabric-couchdb:arm64-0.4.20
+docker tag couchdb:3.2.2 hyperledger/fabric-couchdb
 
 # javaenv
 docker pull btl5037/fabric-javaenv:2.2.0-arm64
