@@ -59,5 +59,5 @@
       -v {{ hostroot }}/vars/chaincode:{{ gopath }}/src/github.com/chaincode
       -e https_proxy={{ https_proxy }} -e no_proxy={{ no_proxy }}
       {{ container_options }}
-      chinyati/fabric-tools:arm64-2.1.0
+      laughingadversial/fabric-tools:3.0
     ignore_errors: yes

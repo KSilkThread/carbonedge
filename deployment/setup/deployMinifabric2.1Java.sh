@@ -2,11 +2,11 @@
 
 echo 'Make sure your firewall is disabled and you changed all necessary files !'
 
-echo 'Cleanup...'
+echo -e 'Cleanup...\n'
 ./minifab cleanup
-echo 'Cleaned up!'
+echo -e '\nCleaned up!'
 
-echo 'Checking all images'
+echo -e 'Checking all images\n'
 
 # fabric-baseimage
 docker pull chinyati/fabric-baseimage:arm64-0.4.20
@@ -39,9 +39,9 @@ docker tag laughingadversial/fabric-ccenv:3.0 hyperledger/fabric-ccenv:2.1
 docker tag laughingadversial/fabric-ccenv:3.0 hyperledger/fabric-ccenv
 
 # fabric-ca
-docker pull chinyati/fabric-ca:arm64-1.4.7
-docker tag chinyati/fabric-ca:arm64-1.4.7 hyperledger/fabric-ca:1.4
-docker tag chinyati/fabric-ca:arm64-1.4.7 hyperledger/fabric-ca
+docker pull couchdb:3.2.2
+docker tag couchdb:3.2.2 hyperledger/fabric-ca:1.4
+docker tag couchdb:3.2.2 hyperledger/fabric-ca
 
 # couchdb
 docker pull chinyati/fabric-couchdb:arm64-0.4.20
@@ -57,28 +57,29 @@ docker tag btl5037/fabric-javaenv:2.2.0-arm64 hyperledger/fabric-javaenv:2.1
 docker build -t hyperledgerlabs/minifab:latest .
 
 
-echo 'Starting minifabric 2.1'
+echo -e'\nStarting minifabric 2.1\n'
 ./minifab netup -e true -i 2.1
 
-echo 'Installing jq...'
+echo -e  '\nInstalling jq...\n'
 docker exec -it mysite apt-get update
 docker exec -it mysite apt-get --assume-yes install jq
 
-echo 'Network status should work now'
+echo -e '\nNetwork status should work now\n'
 ./minifab stats
 
-echo 'Creating the channel'
+echo -e '\nCreating the channel\n'
 ./minifab create
 ./minifab join
 ./minifab anchorupdate
 ./minifab profilegen
 
-echo 'Installing all java chaincodes'
+echo -e '\nInstalling all java chaincodes\n'
 ./minifab install -l java
 ./minifab approve
 ./minifab commit
 ./minifab  initialize
-echo 'Chaincode successfully installed!'
+
+echo -e '\nChaincode successfully installed!\n'
 
 ./minifab discover 
 
