@@ -51,6 +51,7 @@ docker tag chinyati/fabric-couchdb:arm64-0.4.20 hyperledger/fabric-couchdb
 # javaenv
 docker pull btl5037/fabric-javaenv:2.2.0-arm64
 docker tag btl5037/fabric-javaenv:2.2.0-arm64 hyperledger/fabric-javaenv:2.1
+docker tag btl5037/fabric-javaenv:2.2.0-arm64 hyperledger/fabric-javaenv:3.0
 
 #Node und go env muss ich noch schauen 
 
