@@ -48,17 +48,17 @@ docker pull couchdb:3.2.2
 docker tag couchdb:3.2.2 hyperledger/fabric-couchdb:arm64-0.4.20
 docker tag couchdb:3.2.2 hyperledger/fabric-couchdb
 
-# javaenv
-docker pull btl5037/fabric-javaenv:2.2.0-arm64
-docker tag btl5037/fabric-javaenv:2.2.0-arm64 hyperledger/fabric-javaenv:2.1
-docker tag btl5037/fabric-javaenv:2.2.0-arm64 hyperledger/fabric-javaenv:3.0
+# javaenv --> peters
+docker pull laughingadversial/fabric-javaenv:arm64-2.5.0
+docker tag laughingadversial/fabric-javaenv:arm64-2.5.0 hyperledger/fabric-javaenv:2.1
+docker tag laughingadversial/fabric-javaenv:arm64-2.5.0 hyperledger/fabric-javaenv:3.0
 
 #Node und go env muss ich noch schauen 
 
 docker build -t hyperledgerlabs/minifab:latest .
 
 
-echo -e'\nStarting minifabric 2.1\n'
+echo -e '\nStarting minifabric 2.1\n'
 ./minifab netup -e true -i 2.1
 
 echo -e  '\nInstalling jq...\n'
