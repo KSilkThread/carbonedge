@@ -89,7 +89,7 @@ spec:
           secretName: "{{ nodename }}-secret"
       containers:
       - name: {{ nodename }}
-        image: chinyati/fabric-ca:arm64-1.4.7
+        image: laughingadversial/fabric-ca:arm64-1.5.5
         imagePullPolicy: IfNotPresent
         env:
         - { name: "FABRIC_CA_HOME", value: "/etc/hyperledger/fabric-ca-server" }

@@ -102,7 +102,7 @@
     -v {{ hostroot }}/vars/keyfiles/{{ orgattrs[item.org].certpath }}/{{item.org}}:/certs
     -v {{ item.fullname }}:/etc/hyperledger/fabric-ca-server
     {{ container_options }}
-    chinyati/fabric-ca:arm64-1.4.7 {{ item.command }}
+    laughingadversial/fabric-ca:arm64-1.5.5 {{ item.command }}
   with_items: "{{ allcas }}"
   register: castat
   ignore_errors: yes

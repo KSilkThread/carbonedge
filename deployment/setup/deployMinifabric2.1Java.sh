@@ -55,7 +55,7 @@ docker tag laughingadversial/fabric-javaenv:arm64-2.5.0 hyperledger/fabric-javae
 
 #Node und go env muss ich noch schauen 
 
-sudo docker build -t hyperledgerlabs/minifab:latest .
+#sudo docker build -t hyperledgerlabs/minifab:latest .
 
 
 echo -e '\nStarting minifabric 2.1\n'
