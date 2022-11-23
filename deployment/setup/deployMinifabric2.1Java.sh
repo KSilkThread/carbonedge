@@ -38,10 +38,10 @@ docker pull laughingadversial/fabric-ccenv:3.0
 docker tag laughingadversial/fabric-ccenv:3.0 hyperledger/fabric-ccenv:2.1
 docker tag laughingadversial/fabric-ccenv:3.0 hyperledger/fabric-ccenv
 
-# fabric-ca
-docker pull chinyati/fabric-ca:arm64-1.4.7
-docker tag chinyati/fabric-ca:arm64-1.4.7 hyperledger/fabric-ca:1.4
-docker tag chinyati/fabric-ca:arm64-1.4.7 hyperledger/fabric-ca
+# fabric-ca --> peters
+docker pull laughingadversial/fabric-ca:arm64-1.5.5
+docker tag laughingadversial/fabric-ca:arm64-1.5.5 hyperledger/fabric-ca:1.4
+docker tag laughingadversial/fabric-ca:arm64-1.5.5 hyperledger/fabric-ca
 
 # couchdb --> original couchdb
 docker pull couchdb:3.2.2
