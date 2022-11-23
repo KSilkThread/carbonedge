@@ -1,5 +1,4 @@
 #!/bin/bash
-
 echo 'Make sure your firewall is disabled and you changed all necessary files !'
 
 echo -e 'Cleanup...\n'
@@ -8,7 +7,8 @@ echo -e '\nCleaned up!'
 
 echo -e 'Checking all images\n'
 
-# fabric-baseimage not done yet is this needed anylonger
+#is this needed anylonger?
+# fabric-baseimage not done yet
 #docker pull chinyati/fabric-baseimage:arm64-0.4.20
 #docker tag chinyati/fabric-baseimage:arm64-0.4.20 hyperledger/fabric-baseimage:arm64-0.4.20
 #docker tag chinyati/fabric-baseimage:arm64-0.4.20 hyperledger/fabric-baseimage
@@ -56,32 +56,3 @@ docker tag laughingadversial/fabric-javaenv:arm64-2.5.0 hyperledger/fabric-javae
 #Node und go env muss ich noch schauen 
 
 sudo docker build -t hyperledgerlabs/minifab:latest .
-
-
-echo -e '\nStarting minifabric 2.1\n'
-./minifab netup -e true -i 2.1
-
-#echo -e  '\nInstalling jq...\n' does not install during skript execution but everything is functioning
-#docker exec -it mysite apt-get update
-#docker exec -it mysite apt-get --assume-yes install jq
-
-echo -e '\nNetwork status should work now\n'
-./minifab stats
-
-echo -e '\nCreating the channel\n'
-./minifab create
-./minifab join
-./minifab anchorupdate
-./minifab profilegen
-
-echo -e '\nInstalling all java chaincodes\n'
-./minifab install -l java
-./minifab approve
-./minifab commit
-./minifab  initialize
-
-echo -e '\nChaincode successfully installed!\n'
-
-./minifab discover 
-
-echo 'Setup finished'
