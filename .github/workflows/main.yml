@@ -1,0 +1,23 @@
+name: GitHub Actions Demo
+run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+on:
+	push:
+		branches:
+			- docs/process-modelling
+jobs:
+export-drawio-image:
+	runs-on: ubuntu-latest 
+    steps:				
+		- name: checkout repository
+		  uses: actions/checkout@v3
+		- name: create image from xml
+		- uses: Burnett01/actions-drawio@1.2
+			with:
+				src: ./reporting/docs/cems-processes.drawio
+				dest: ./reporting/docs/cems-processes.png
+					
+		- name: upload image as artifact
+		- uses: actions/upload-artifact@v3
+			with:
+				name: png
+				path: ./reporting/docs/cems-processes.png	
