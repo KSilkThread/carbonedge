@@ -3,11 +3,9 @@ run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
 on: push
 jobs:
 export-drawio-image:
-	runs-on: ubuntu-latest 
-    steps:				
-		- name: checkout repository
-		  uses: actions/checkout@v3
-		- name: create image from xml
+	runs-on: ubuntu-latest
+	steps:
+		- uses: actions/checkout@v3
 		- uses: Burnett01/actions-drawio@1.2
 			with:
 				src: ./reporting/docs/cems-processes.drawio
