@@ -1,17 +1,32 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: push
+name: Export draw.io to PNG
+
+on:
+  push:
+    branches:
+    - master
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-	runs-on: ubuntu-latest
-	steps:
-		- uses: actions/checkout@v3
-		- uses: Burnett01/actions-drawio@1.2
-			with:
-				src: ./reporting/docs/cems-processes.drawio
-				dest: ./reporting/docs/cems-processes.png
-					
-		- name: upload image as artifact
-		- uses: actions/upload-artifact@v3
-			with:
-				name: png
-				path: ./reporting/docs/cems-processes.png	
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      - name: 'Update apt list and install draw.io for desktop'
+        run: sudo apt update
+
+      - name: 'Generate png from xml'
+        run: sudo apt update
+
+      - name: 'Push artifacts'
+      - uses: actions/upload-artifact@v3
+        with: 
+	  name: png
+    	  path: test.png
