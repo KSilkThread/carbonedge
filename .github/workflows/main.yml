@@ -17,7 +17,7 @@ jobs:
       - name: install draw.io desktop app
         run: sudo dpkg -i draw.io-amd64-13.0.3.deb
       - name: Export png from xml
-        run: drawio -x -f png -o processes.png ./cems-processes.drawio
+        run: drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio
       - uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
