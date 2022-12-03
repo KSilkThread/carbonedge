@@ -12,7 +12,7 @@ jobs:
         run: sudo apt install x11-xserver-utils
     
       - name: Set environment variable
-        run: echo "{DISPLAY}={:1}" >> $GITHUB_ENV
+        run: echo "{DISPLAY}={:0}" >> $GITHUB_ENV
         
      # - name: set xhost  
      #   run: xhost +
@@ -33,7 +33,7 @@ jobs:
         run: sudo dpkg -i draw.io-amd64-13.0.3.deb
         
       - name: Export png from xml
-        run: drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio
+        run: DISPLAY=:0 drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio
         
       - uses: actions-js/push@master
         with:
