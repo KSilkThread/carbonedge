@@ -38,6 +38,13 @@ jobs:
       - name: Export png from xml
         run: xvfb-run drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio --no-sandbox
         
-      - uses: actions-js/push@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+      #- uses: actions-js/push@master
+      #  with:
+      #    github_token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Commit report
+        run: |
+          git config --global user.name 'KSilkThread'
+          git config --global user.email '12004185+KSilkThread@users.noreply.github.com'
+          git commit -am "Export process model"
+          git push
