@@ -36,7 +36,7 @@ jobs:
         run: sudo dpkg -i draw.io-amd64-13.0.3.deb
         
       - name: Export png from xml
-        run: xvfb-run drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio
+        run: xvfb-run drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio --no-sandbox
         
       - uses: actions-js/push@master
         with:
