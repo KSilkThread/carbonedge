@@ -2,7 +2,7 @@ name: Export draw.io to PNG
 on:
   push:
     branches:
-      - master
+      - docs/process-modelling
   workflow_dispatch: null
 jobs:
   build:
