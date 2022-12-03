@@ -8,14 +8,17 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Install deps
+        run: sudo apt install x11-xserver-utils
+    
       - name: Set environment variable
         run: echo "{DISPLAY}={0:0}" >> $GITHUB_ENV
         
-    #  - name: set xhost  
-    #    run: xhost +
+      - name: set xhost  
+        run: xhost +
         
-    #  - name: another export
-    #    run: echo "{DISPLAY}={$IP:0}" >> $GITHUB_ENV
+      - name: another export
+        run: echo "{DISPLAY}={$IP:0}" >> $GITHUB_ENV
         
       - uses: actions/checkout@v3
       
