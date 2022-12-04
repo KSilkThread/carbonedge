@@ -12,11 +12,11 @@ This document describes general interaction patterns (e.g., measuring) on implem
 
 ## 1. Measurement based methodology
 ...        
- <img src="../pictures/measurement-based-method.png"/> 
+ <img src="../../pictures/measurement-based-method.png"/> 
 
 ## 2. Calculation based methodology
 ...
-<img src="../pictures/calculation-based-method.png"/> 
+<img src="../../pictures/calculation-based-method.png"/> 
 
 ## 3. Certification of automated measuring system (AMS)
 ...
