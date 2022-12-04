@@ -2,7 +2,8 @@ name: Export draw.io to PNG
 on:
   push:
     branches:
-      - docs/process-modelling
+     # - docs/process-modelling
+      - 'docs/**'
   workflow_dispatch: null
 jobs:
   build:
@@ -13,15 +14,6 @@ jobs:
         
       - name: Install deps
         run: sudo apt install xvfb
-    
-     # - name: Set environment variable
-     #   run: echo "{DISPLAY}={:0}" >> $GITHUB_ENV
-        
-     # - name: set xhost  
-     #   run: xhost +
-        
-     # - name: another export
-     #   run: echo "{DISPLAY}={$IP:0}" >> $GITHUB_ENV
         
       - uses: actions/checkout@v3
       
@@ -37,10 +29,6 @@ jobs:
         
       - name: Export png from xml
         run: xvfb-run drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio --no-sandbox
-        
-      #- uses: actions-js/push@master
-      #  with:
-      #    github_token: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Commit report
         run: |
