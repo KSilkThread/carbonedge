@@ -17,7 +17,7 @@ jobs:
       - name: install draw.io desktop app
         run: sudo dpkg -i drawio-amd64-20.3.0.deb
       - name: Export png from xml
-        run: xvfb-run drawio -x -f png -o ./pictures/ ./ -r --no-sandbox
+        run: xvfb-run drawio -x -f svg -o ./pictures/ ./ -r --no-sandbox
       - name: Commit report
         run: >
           git config --global user.name 'KSilkThread'
