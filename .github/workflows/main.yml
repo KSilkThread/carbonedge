@@ -1,9 +1,9 @@
 name: Export draw.io to PNG
-on:
-  push:
-    branches:
+on: push
+  #push:
+    #branches:
      # - docs/process-modelling
-      - 'docs/**'
+     # - 'docs/**'
   workflow_dispatch: null
 jobs:
   build:
@@ -22,18 +22,18 @@ jobs:
         
       - name: Download draw.io desktop app
         run: wget
-          https://github.com/jgraph/drawio-desktop/releases/download/v13.0.3/draw.io-amd64-13.0.3.deb
+          https://github.com/jgraph/drawio-desktop/releases/download/v20.3.0/drawio-amd64-20.3.0.deb
           
       - name: install draw.io desktop app
-        run: sudo dpkg -i draw.io-amd64-13.0.3.deb
+        run: sudo dpkg -i drawio-amd64-20.3.0.deb
         
       - name: Export png from xml
-        run: xvfb-run drawio -x -f png -o ./reporting/docs/cems-processes.png ./reporting/docs/cems-processes.drawio --no-sandbox
+        run: xvfb-run drawio -x -f png -o . ./ -r --no-sandbox
       
       - name: Commit report
         run: |
           git config --global user.name 'KSilkThread'
           git config --global user.email '12004185+KSilkThread@users.noreply.github.com'
-          git add reporting/docs/cems-processes.png
+          git add -A
           git commit -am "Export process model"
           git push
