@@ -1,0 +1,5 @@
+{
+    "sensorid":"sensor1",
+    "org":"org1",
+    "requiredcerts":["QAL2","QAL3","AST"]
+}
