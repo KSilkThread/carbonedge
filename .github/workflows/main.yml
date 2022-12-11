@@ -10,7 +10,7 @@ jobs:
         run: sudo apt install xvfb
       - uses: actions/checkout@v3
       - name: Install deps
-        run: sudo apt install libappindicator3-1
+        run: sudo apt install libappindicator3-1 libnotify4
       - name: Download draw.io desktop app
         run: wget
           https://github.com/jgraph/drawio-desktop/releases/download/v20.3.0/drawio-amd64-20.3.0.deb
