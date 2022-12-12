@@ -14,6 +14,8 @@ import org.hyperledger.fabric.contract.annotation.License;
 import org.hyperledger.fabric.contract.annotation.Transaction;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
+import org.hyperledger.fabric.shim.Chaincode.Response;
+import org.hyperledger.fabric.shim.Chaincode.Response.Status;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
@@ -62,9 +64,15 @@ public class MonitoringContract implements ContractInterface {
         final ChaincodeStub stub = context.getStub();
         final ClientIdentity clientIdentity = context.getClientIdentity();
         final String timestamp = stub.getTxTimestamp().toString();
+        final String cmspID = clientIdentity.getMSPID();
+
+        Response response = stub.invokeChaincodeWithStringArgs("ValidationContract", List.of("checkCertificates", sensorid, cmspID), stub.getChannelId());  
+            if(response.getStatus() != Status.SUCCESS){
+                throw new ChaincodeException("Invalid Certificate");
+            }
 
         //final String txid = stub.getTxId();
-        final String cmspID = clientIdentity.getMSPID();
+        
         CompositeKey key = stub.createCompositeKey(keyPrefixString, new String[] {cmspID, sensorid, timestamp});
         
         MonitoringAsset asset = new MonitoringAsset(sensorid, cmspID, data, timestamp);

@@ -100,19 +100,23 @@ public class ValidationContract implements ContractInterface {
     }
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public String checkCertificates(Context ctx, String sensorid, String org){
+    public boolean checkCertificates(Context ctx, String sensorid, String org){
 
         if(!assetExists(ctx, sensorid, org)){
             throw new ChaincodeException("Asset does not exist");
         }
 
         ChaincodeStub stub = ctx.getStub();
-        //ValidationAsset asset = ValidationAsset.fromJSON(getValidationAsset(ctx, sensorid, org));
-        Response response = stub.invokeChaincodeWithStringArgs("simple", List.of("query","a"), "mychannel");
-        if(response.getStatus() != Status.SUCCESS){
-            throw new ChaincodeException(response.getStringPayload()+ "-------------" + response.getMessage());
+        ValidationAsset asset = ValidationAsset.fromJSON(getValidationAsset(ctx, sensorid, org));
+
+        for(String chaincode: asset.getRequiredcerts()){
+            Response response = stub.invokeChaincodeWithStringArgs(chaincode, List.of("isValid", sensorid, org), stub.getChannelId());  
+            if(response.getStatus() != Status.SUCCESS){
+                throw new ChaincodeException("Invalid Certificate");
+            }
         }
-        return response.toString();
+        
+        return true;
     }
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
