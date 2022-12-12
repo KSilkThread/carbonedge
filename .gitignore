@@ -5,3 +5,6 @@ vars/*
 *.deb
 *.bkp
 *.dtmp
+*.bin
+*.class
+.gradle
