@@ -79,12 +79,7 @@ public class MonitoringContract implements ContractInterface {
         stub.putStringState(key.toString(), asset.toJSON());
     }
 
-    //Necessary ???
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void deleteData(final Context context){
-        
-    }
-
+    //TODO
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String queryDataByOrg(final Context context, final String mspid){
         ChaincodeStub stub = context.getStub();
@@ -100,13 +95,6 @@ public class MonitoringContract implements ContractInterface {
 
     
         return String.valueOf(result);    
-    }
-
-
-    //TODO querySensor
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public void querySensor(final Context context){
-
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
@@ -158,26 +146,6 @@ public class MonitoringContract implements ContractInterface {
         }
 
         return helper.prettySensorJson(assetList, sensorid).toString();
-    }
-
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public String queryConsortiumEntries(final Context context){
-
-        ChaincodeStub stub = context.getStub();
-        String channel = stub.getChannelId();
-        CompositeKey key = new CompositeKey(keyPrefixString);
-        List<MonitoringAsset> assetList = new ArrayList<>();
-
-        QueryResultsIterator<KeyValue> iterator = stub.getStateByPartialCompositeKey(key.toString());
-
-       
-        
-        for(KeyValue kv: iterator){
-            assetList.add(MonitoringAsset.fromJSON(kv.getStringValue()));
-        } 
-        
-
-        return helper.prettyConsortiumJson(assetList, channel).toString();
     }
     
 }
