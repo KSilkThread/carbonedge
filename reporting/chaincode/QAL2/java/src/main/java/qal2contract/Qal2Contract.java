@@ -11,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -59,11 +60,16 @@ public class Qal2Contract implements ContractInterface {
 
         @Transaction(intent = Transaction.TYPE.SUBMIT)
         public void createCertificate(Context ctx, String sensorid, String ownerorg){
+                ChaincodeStub stub = ctx.getStub();
+
+                if(ownerorg == stub.getMspId()){
+                        throw new ChaincodeException("You are not allowed to create a certificate for yourself");
+                }
+
                 if(certificateExists(ctx, sensorid, ownerorg)){
                         throw new ChaincodeException("Certificate already exists");
                 }
 
-                ChaincodeStub stub = ctx.getStub();
                 Qal2Certificate certificate = new Qal2Certificate(sensorid, ownerorg);
                 CompositeKey key = new CompositeKey(keyprefix, new String[] {ownerorg, sensorid});
                 stub.putStringState(key.toString(), certificate.toJson());
@@ -71,6 +77,12 @@ public class Qal2Contract implements ContractInterface {
 
         @Transaction(intent = Transaction.TYPE.SUBMIT)
         public void updateInspector(Context ctx, String sensorid, String ownerorg, String inspectorcert, String inspectororganisation) throws NoSuchAlgorithmException{
+                
+                ChaincodeStub stub = ctx.getStub();
+
+                if(ownerorg == stub.getMspId()){
+                        throw new ChaincodeException("You are not allowed to update the inspector");
+                }
 
                 if(!certificateExists(ctx, sensorid, ownerorg)){
                         throw new ChaincodeException("Certificate does not exist");
@@ -79,12 +91,12 @@ public class Qal2Contract implements ContractInterface {
                 Qal2Certificate currentcertificate = Qal2Certificate.fromJSON(getCertificate(ctx, sensorid, ownerorg));
 
                 CompositeKey key = new CompositeKey(keyprefix, new String[] {ownerorg, sensorid});
-                ChaincodeStub stub = ctx.getStub();
-
+                
                 
                 String salted = inspectorcert.concat(inspectororganisation);
                 MessageDigest digest = MessageDigest.getInstance("SHA-256");
                 byte[] hashedcert = digest.digest(salted.getBytes(StandardCharsets.UTF_8));
+
                 Qal2Certificate certificate = new Qal2Certificate(sensorid, ownerorg, new String(hashedcert, StandardCharsets.UTF_8), inspectororganisation, currentcertificate.getExpirydate());
                 stub.putStringState(key.toString(), certificate.toJson());
 
@@ -94,6 +106,22 @@ public class Qal2Contract implements ContractInterface {
         public void certify(Context ctx, String sensorid, String ownerorg, String inspectorcert) throws NoSuchAlgorithmException{
 
                 ChaincodeStub stub = ctx.getStub();
+                final ClientIdentity clientIdentity = ctx.getClientIdentity();
+                final String cmspID = clientIdentity.getMSPID();
+                final String checkid = clientIdentity.getX509Certificate().getSubjectDN().getName();
+                final String isid = "CN="+sensorid+", OU=client";
+
+                if(!certificateExists(ctx, sensorid, ownerorg)){
+                        throw new ChaincodeException("The certificate does not exists");
+                }
+
+                if(!cmspID.equals(ownerorg)){
+                        throw new ChaincodeException("Your organisation is not allowed to certify this device");
+                }
+
+                if(!isid.equals(checkid)){
+                        throw new ChaincodeException("You are not allowed to certify this device! You are not the device!");
+                }
 
                 LocalDateTime time = LocalDateTime.ofInstant(stub.getTxTimestamp(), ZoneOffset.UTC);
                 time = time.plus(3, ChronoUnit.YEARS);

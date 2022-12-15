@@ -6,6 +6,7 @@ package validationcontract;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
 import org.hyperledger.fabric.contract.annotation.Contact;
@@ -60,11 +61,18 @@ public class ValidationContract implements ContractInterface {
         if(assetExists(ctx, sensorid, ownerorganisation)){
             throw new ChaincodeException("ValidationAsset already exists");
         }
+
+        final ClientIdentity clientIdentity = ctx.getClientIdentity();
+        final String cmspID = clientIdentity.getMSPID();
+
+        if(cmspID.equals(ownerorganisation)){
+            throw new ChaincodeException("You are not allowed to create this asset");
+        }
+
         ChaincodeStub stub = ctx.getStub();
         ValidationAsset asset = new ValidationAsset(sensorid, ownerorganisation, requiredCertificates);
         CompositeKey key = new CompositeKey(keyPrefixString, new String[] {sensorid, ownerorganisation});
         stub.putStringState(key.toString(), asset.toJSON());
-
     }
 
     @Transaction(intent = Transaction.TYPE.EVALUATE)
@@ -91,6 +99,13 @@ public class ValidationContract implements ContractInterface {
     public void updateCertifications(Context ctx, String sensorid, String org, String... certs){
         if(!assetExists(ctx, sensorid, org)){
             throw new ChaincodeException("Asset does not exist");
+        }
+
+        final ClientIdentity clientIdentity = ctx.getClientIdentity();
+        final String cmspID = clientIdentity.getMSPID();
+        
+        if(cmspID.equals(org)){
+            throw new ChaincodeException("You are not allowed to update this asset");
         }
 
         ChaincodeStub stub = ctx.getStub();
@@ -143,8 +158,8 @@ public class ValidationContract implements ContractInterface {
         for(KeyValue kv: iterator){
             assetList.add(ValidationAsset.fromJSON(kv.getStringValue()));
         } 
-
         return new Gson().toJson(assetList);
-    }
+    }        
+
 
 }

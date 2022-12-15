@@ -65,6 +65,12 @@ public class MonitoringContract implements ContractInterface {
         final ClientIdentity clientIdentity = context.getClientIdentity();
         final String timestamp = stub.getTxTimestamp().toString();
         final String cmspID = clientIdentity.getMSPID();
+        final String checkid = clientIdentity.getX509Certificate().getSubjectDN().getName();
+        final String isid = "CN="+sensorid+", OU=client";
+
+        if(!isid.equals(checkid)){
+            throw new ChaincodeException("You do not have the permission to do that");
+        }
 
         Response response = stub.invokeChaincodeWithStringArgs("ValidationContract", List.of("checkCertificates", sensorid, cmspID), stub.getChannelId());  
             if(response.getStatus() != Status.SUCCESS){
