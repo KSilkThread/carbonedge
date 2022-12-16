@@ -45,62 +45,115 @@ public class QAL3Certificate {
         this.sAmsprecision = new BigDecimal(sAmsprecision);
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getSensorid() {
         return sensorid;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getOwnerorg() {
         return ownerorg;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getsAmsdrift() {
         return sAmsdrift;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getsAmsprecision() {
         return sAmsprecision;
     }
 
+    
+    /** 
+     * @return CusumDrift[]
+     */
     public CusumDrift[] getDriftzero() {
         return driftzero;
     }
 
+    
+    /** 
+     * @return CusumDrift[]
+     */
     public CusumDrift[] getDriftreference() {
         return driftreference;
     }
 
+    
+    /** 
+     * @return CusumPrecision[]
+     */
     public CusumPrecision[] getPrecisionzero() {
         return precisionzero;
     }
 
+    
+    /** 
+     * @return CusumPrecision[]
+     */
     public CusumPrecision[] getPrecisionreference() {
         return precisionreference;
     }
 
+    
+    /** 
+     * @param object
+     */
     public void appendZeroDrift(CusumDrift object){
         final int n = getDriftzero().length;
         this.driftzero = Arrays.copyOf(getDriftzero(), n + 1);
         this.driftzero[n] = object;
     }
 
+    
+    /** 
+     * @param object
+     */
     public void appendReferenceDrift(CusumDrift object){
         final int n = getDriftreference().length;
         this.driftreference = Arrays.copyOf(getDriftreference(), n + 1);
         this.driftreference[n] = object;
     }
 
+    
+    /** 
+     * @param object
+     */
     public void appendZeroPrecision(CusumPrecision object){
         final int n = getPrecisionzero().length;
         this.precisionzero = Arrays.copyOf(getPrecisionzero(), n + 1);
         this.precisionzero[n] = object;
     }
 
+    
+    /** 
+     * @param object
+     */
     public void appendReferencePrecision(CusumPrecision object){
         final int n = getPrecisionreference().length;
         this.precisionreference = Arrays.copyOf(getPrecisionreference(), n + 1);
         this.precisionreference[n] = object;
     }
 
+    
+    /** 
+     * @param obj
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj == this){
@@ -125,6 +178,10 @@ public class QAL3Certificate {
     
     }
 
+    
+    /** 
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.getSensorid(), this.getOwnerorg(), this.getsAmsdrift(), this.getsAmsprecision(),
@@ -132,14 +189,27 @@ public class QAL3Certificate {
 
     }
 
+    
+    /** 
+     * @return String
+     */
     public String toJSON(){
         return new Gson().toJson(this);
     }
 
+    
+    /** 
+     * @param json
+     * @return QAL3Certificate
+     */
     public static QAL3Certificate fromJSON(String json){
         return new Gson().fromJson(json, QAL3Certificate.class);
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return toJSON();

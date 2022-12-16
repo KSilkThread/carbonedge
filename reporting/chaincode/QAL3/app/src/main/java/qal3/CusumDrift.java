@@ -22,50 +22,77 @@ public class CusumDrift {
     private BigDecimal sumneg;
     @Property
     private boolean valid;
-    @Property
-    private BigDecimal adjustment;
 
-    public CusumDrift(BigDecimal value, BigDecimal sumpos, BigDecimal sumneg, boolean valid, BigDecimal adjustment){
-        this.value = value;
-        this.sumpos = sumpos;
-        this.sumneg = sumneg;
+    public CusumDrift(String value, String sumpos, String sumneg, boolean valid){
+        this.value = new BigDecimal(value);
+        this.sumpos = new BigDecimal(sumpos);
+        this.sumneg = new BigDecimal(sumneg);
         this.valid = valid;
-        this.adjustment = adjustment;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getValue() {
         return value;
     }
 
-    public BigDecimal getAdjustment() {
-        return adjustment;
-    }
-
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getSumneg() {
         return sumneg;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getSumpos() {
         return sumpos;
     }
 
+    
+    /** 
+     * @return boolean
+     */
     public boolean isValid() {
         return valid;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String toJSON(){
         return new Gson().toJson(this);
     }
 
+    
+    /** 
+     * @param json
+     * @return CusumDrift
+     */
     public static CusumDrift fromJSON(String json){
         return new Gson().fromJson(json, CusumDrift.class);
     }
 
+    
+    /** 
+     * @return int
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(this.getValue(), this.getSumpos(), this.getSumneg(), this.isValid(), this.getAdjustment());
+        return Objects.hash(this.getValue(), this.getSumpos(), this.getSumneg(), this.isValid());
     }
 
+    
+    /** 
+     * @param obj
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj == this){
@@ -78,11 +105,15 @@ public class CusumDrift {
 
         CusumDrift other = (CusumDrift) obj;
 
-        return Objects.deepEquals(new BigDecimal[] {this.getValue(), this.getSumpos(), this.getSumneg(), this.getAdjustment()}, 
-                                  new BigDecimal[] {other.getValue(), other.getSumpos(), other.getSumneg(), other.getAdjustment()})
+        return Objects.deepEquals(new BigDecimal[] {this.getValue(), this.getSumpos(), this.getSumneg()}, 
+                                  new BigDecimal[] {other.getValue(), other.getSumpos(), other.getSumneg()})
                                   && Objects.deepEquals(this.isValid(), other.isValid());
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return toJSON();

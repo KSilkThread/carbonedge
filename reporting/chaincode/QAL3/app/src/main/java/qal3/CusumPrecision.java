@@ -21,73 +21,116 @@ public class CusumPrecision {
     private BigDecimal s;
     @Property
     private boolean valid;
-    @Property
-    private BigDecimal correction;
 
-    public CusumPrecision(BigDecimal value, BigDecimal delta, BigDecimal deltapowtwohalf, BigDecimal s, boolean valid, BigDecimal correction){
-        this.value = value;
-        this.delta = delta;
-        this.deltapowtwohalf = deltapowtwohalf;
-        this.s = s;
+    public CusumPrecision(String value, String delta, String deltapowtwohalf, String s, boolean valid){
+        this.value = new BigDecimal(value);
+        this.delta = new BigDecimal(delta);
+        this.deltapowtwohalf = new BigDecimal(deltapowtwohalf);
+        this.s = new BigDecimal(s);
         this.valid = valid;
-        this.correction = correction;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getValue() {
         return value;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getDelta() {
         return delta;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getDeltapowtwohalf() {
         return deltapowtwohalf;
     }
 
+    
+    /** 
+     * @return BigDecimal
+     */
     public BigDecimal getS() {
         return s;
     }
     
+    
+    /** 
+     * @return boolean
+     */
     public boolean isValid() {
         return valid;
     }
 
-    public BigDecimal getCorrection() {
-        return correction;
-    }
-
-    public void setCorrection(BigDecimal correction) {
-        this.correction = correction;
-    }
-
+    
+    /** 
+     * @param delta
+     */
     public void setDelta(BigDecimal delta) {
         this.delta = delta;
     }
 
+    
+    /** 
+     * @param value
+     */
     public void setValue(BigDecimal value) {
         this.value = value;
     }
 
+    
+    /** 
+     * @param deltapowtwohalf
+     */
     public void setDeltapowtwohalf(BigDecimal deltapowtwohalf) {
         this.deltapowtwohalf = deltapowtwohalf;
     }
 
+    
+    /** 
+     * @param s
+     */
     public void setS(BigDecimal s) {
         this.s = s;
     }
 
+    
+    /** 
+     * @param valid
+     */
     public void setValid(boolean valid) {
         this.valid = valid;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String toJSON(){
         return new Gson().toJson(this);
     }
 
+    
+    /** 
+     * @param json
+     * @return CusumPrecision
+     */
     public static CusumPrecision fromJSON(String json){
         return new Gson().fromJson(json, CusumPrecision.class);
     }
+    
+    /** 
+     * @param obj
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj == this){
@@ -100,16 +143,24 @@ public class CusumPrecision {
 
         CusumPrecision other = (CusumPrecision) obj;
 
-        return Objects.deepEquals(new BigDecimal[] {this.getValue(), this.getDelta(), this.getDeltapowtwohalf(), this.getS(), this.getCorrection()}, 
-                                  new BigDecimal[] {other.getValue(), other.getDelta(), other.getDeltapowtwohalf(), other.getS(), other.getCorrection()})
+        return Objects.deepEquals(new BigDecimal[] {this.getValue(), this.getDelta(), this.getDeltapowtwohalf(), this.getS()}, 
+                                  new BigDecimal[] {other.getValue(), other.getDelta(), other.getDeltapowtwohalf(), other.getS()})
                                   && Objects.deepEquals(this.isValid(), other.isValid());
     }
 
+    
+    /** 
+     * @return int
+     */
     @Override
     public int hashCode() {
-        return Objects.hash(this.getValue(), this.getDelta(), this.getDeltapowtwohalf(), this.getS(), this.getCorrection(), this.isValid());
+        return Objects.hash(this.getValue(), this.getDelta(), this.getDeltapowtwohalf(), this.getS(), this.isValid());
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return toJSON();
