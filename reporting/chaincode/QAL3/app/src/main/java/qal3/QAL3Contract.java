@@ -1,5 +1,7 @@
 package qal3;
 
+import java.math.BigDecimal;
+
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
 import org.hyperledger.fabric.contract.ContractInterface;
@@ -12,6 +14,8 @@ import org.hyperledger.fabric.contract.annotation.Transaction;
 import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
+
+import com.google.gson.Gson;
 
 @Contract(
         name = "QAL3 Contract",
@@ -31,6 +35,7 @@ public class QAL3Contract implements ContractInterface {
 
 
     private final String kexprefix = "org~id";
+    Helper helper = new Helper();
 
     
     /** 
@@ -117,8 +122,122 @@ public class QAL3Contract implements ContractInterface {
 
         CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
         return stub.getStringState(key.toString());
+    }
+    
+    /** 
+     * @param ctx
+     * @param sensorid
+     * @param ownerorg
+     * @return boolean
+     */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public boolean isValid(Context ctx, String sensorid, String ownerorg){
+        return false;
+    }
+    
+    /** 
+     * @param ctx
+     * @param sensorid
+     * @param ownerorg
+     * @return String
+     */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getDriftZero(Context ctx, String sensorid, String ownerorg){
+        String result = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(result);
+        return new Gson().toJson(certificate.getDriftzero());
+    }
+    
+    /** 
+     * @param ctx
+     * @param sensorid
+     * @param ownerorg
+     * @return String
+     */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getDriftReference(Context ctx, String sensorid, String ownerorg){
+        String result = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(result);
+        return new Gson().toJson(certificate.getDriftreference());
+    }
+    
+    /** 
+     * @param ctx
+     * @param sensorid
+     * @param ownerorg
+     * @return String
+     */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPrecisionZero(Context ctx, String sensorid, String ownerorg){
+        String result = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(result);
+        return new Gson().toJson(certificate.getPrecisionzero());
+    }
+    
+    /** 
+     * @param ctx
+     * @param sensorid
+     * @param ownerorg
+     * @return String
+     */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public String getPrecisionReference(Context ctx, String sensorid, String ownerorg){
+        String result = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(result);
+        return new Gson().toJson(certificate.getPrecisionreference());
+    }
+    //TODO alarm clientid 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public void commitDriftZero(Context ctx, String sensorid, String ownerorg, String measurement){
+        ChaincodeStub stub = ctx.getStub();
+        ClientIdentity clientid = ctx.getClientIdentity();
 
+        String certjson = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
+        CusumDrift driftobj = helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftzero(), new BigDecimal(measurement));
+        certificate.appendZeroDrift(driftobj);
+        CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
+        stub.putStringState(key.toString(), certificate.toJSON());
 
+    }
+    //TODO alarm clientid 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public void commitDriftReference(Context ctx, String sensorid, String ownerorg, String measurement){
+        ChaincodeStub stub = ctx.getStub();
+        ClientIdentity clientid = ctx.getClientIdentity();
+
+        String certjson = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
+        CusumDrift driftobj = helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftreference(), new BigDecimal(measurement));
+        certificate.appendReferenceDrift(driftobj);
+        CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
+        stub.putStringState(key.toString(), certificate.toJSON());
+    }
+    //TODO alarm clientid 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public void commitPrecisionZero(Context ctx, String sensorid, String ownerorg, String measurement){
+        ChaincodeStub stub = ctx.getStub();
+        ClientIdentity clientid = ctx.getClientIdentity();
+
+        String certjson = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
+        CusumPrecision driftobj = helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionzero(), new BigDecimal(measurement));
+        certificate.appendZeroPrecision(driftobj);
+        CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
+        stub.putStringState(key.toString(), certificate.toJSON());
+    }
+    //TODO alarm clientid 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public void commitPrecisionReference(Context ctx, String sensorid, String ownerorg, String measurement){
+        ChaincodeStub stub = ctx.getStub();
+        ClientIdentity clientid = ctx.getClientIdentity();
+
+        String certjson = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
+        CusumPrecision driftobj = helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionreference(), new BigDecimal(measurement));
+        certificate.appendReferencePrecision(driftobj);
+        CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
+        stub.putStringState(key.toString(), certificate.toJSON());
     }
     
 }

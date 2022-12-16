@@ -26,16 +26,16 @@ public class QAL3Certificate {
     private final String ownerorg;
 
     @Property
-    private CusumDrift[] driftzero = {};
+    private CusumDrift[] driftzero = {new CusumDrift("0", "0", "0", true)};
 
     @Property
-    private CusumDrift[] driftreference = {};
+    private CusumDrift[] driftreference = {new CusumDrift("0", "0", "0", true)};
 
     @Property
-    private CusumPrecision[] precisionzero = {};
+    private CusumPrecision[] precisionzero = {new CusumPrecision("0", "0", "0", "0", true)};
 
     @Property
-    private CusumPrecision[] precisionreference = {};
+    private CusumPrecision[] precisionreference = {new CusumPrecision("0", "0", "0", "0", true)};
 
 
     public QAL3Certificate(String sensorid, String ownerorg, String sAmsdrift, String sAmsprecision){
