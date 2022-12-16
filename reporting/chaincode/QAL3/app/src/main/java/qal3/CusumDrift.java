@@ -31,6 +31,14 @@ public class CusumDrift {
     }
 
     
+    public CusumDrift(BigDecimal measurement, BigDecimal sumpos, BigDecimal sumneg, boolean valid) {
+        this.value = measurement;
+        this.sumpos = sumpos;
+        this.sumneg = sumneg;
+        this.valid = valid;
+    }
+
+
     /** 
      * @return BigDecimal
      */

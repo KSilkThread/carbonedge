@@ -31,6 +31,15 @@ public class CusumPrecision {
     }
 
     
+    public CusumPrecision(BigDecimal measurement, BigDecimal delta, BigDecimal dpowhalf, BigDecimal s, boolean b) {
+        this.value = measurement;
+        this.delta = delta;
+        this.deltapowtwohalf = dpowhalf;
+        this.s = s;
+        this.valid = b;
+    }
+
+
     /** 
      * @return BigDecimal
      */
