@@ -5,9 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 public class CusumDriftTest {
 
     CusumDrift drift = new CusumDrift("2", "0", "0", false);
