@@ -2,7 +2,7 @@ module.exports = function(RED){
     
     const hlf = require('fabric-network');
     const fs = require('fs');
-    const libary = require('./Fabric-Libary/fabric-libary');
+    const libary = require('../fabric-libary/fabric-libary');
 
     function txNode(config){
         RED.nodes.createNode(this, config);
@@ -44,15 +44,17 @@ module.exports = function(RED){
                 } else {
                     result = await libary.invokeSubmitTransactioncc(cc, node.cmd, msg.args, node);
                 }
+
+                msg.payload = result.toString('utf-8');
+                node.send(msg);
+
             } catch (error) {
                 node.error(error);
             } finally {
                 gateway.disconnect();
                 node.log("Disconnected");
             }
-
-            msg.payload = result.toString('utf-8');
-            node.send(msg);
+            
         });
     }
 

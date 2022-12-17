@@ -1,6 +1,6 @@
 module.exports = function(RED){
 
-    const libary = require('./Fabric-Libary/fabric-libary')
+    const libary = require('../fabric-libary/fabric-libary')
 
     function enrollAdmin(config){
         RED.nodes.createNode(this, config);

@@ -9,9 +9,9 @@
   "license": "MIT",
   "node-red" : {
     "nodes": {
-        "txNode": "transaction-node.js",
-        "configNode": "config-node.js",
-        "addUser": "ca-nodes.js"
+        "txNode": "transaction-node/transaction-node.js",
+        "configNode": "config-node/config-node.js",
+        "addUser": "ca-nodes/ca-nodes.js"
     }
   }
 }
