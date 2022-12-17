@@ -18,13 +18,19 @@ E.g. our layer model of softwre artifacts...
 ## 2. Settings and Software List
 ...
 
-| Software | Version | Link |
-| -------- | ------- | ---- |
-| Windows  | 1.1.1   | x    |
-| Docker   | 5       | x    |
-| x        | 1       | x    |
-| x        | 1       | x    |
-| x        | 1       | x    |
+| Software  | Version | Link                                       | as Container? |
+|-----------|---------|--------------------------------------------|---------------|
+| Docker    | ...     | https://docs.docker.com/engine/install/    | no            |
+| NGINX     | ...     | https://hub.docker.com/_/nginx             | yes           |
+| Grafana   | ...     | https://hub.docker.com/r/grafana/grafana   | yes           |
+| Mosquitto | ...     | https://hub.docker.com/_/eclipse-mosquitto | yes           |
+| node-RED  | ..      | ...                                        |               |
+| x         | 1       | x                                          |               |
+| x         | 1       | x                                          |               |
+| x         | 1       | x                                          |               |
+| x         | 1       | x                                          |               |
+| x         | 1       | x                                          |               |
+| x         | 1       | x                                          |               |
 <!--For formating tables in markdown use this vsCode exntension https://marketplace.visualstudio.com/items?itemName=salesforce.sfdocs-markdown-assistant&ref=hackernoon.com -->
 
 ## 3. Container Setup
