@@ -17,13 +17,9 @@ module.exports = function(RED){
 
         node.on('input', async function(msg){
             const ccp = await libary.loadCCP(node.ccpPath, node);
-            node.log("Connection profile loaded");
             const wallet = await libary.loadFileWallet(node.walletpath, node);
-            node.log("File wallet loaded");
             const caClient = libary.createCAClient(ccp, node.caAddress, node);
-            node.log("CA Client created");
             await libary.enrollAdminUser(caClient, wallet, node.adminid, node.adminsecret, node.mspId, node);
-            node.log("Admin created");
             node.send(msg);
         });
     }
@@ -44,13 +40,9 @@ module.exports = function(RED){
 
         node.on('input', async function(msg){
             const ccp = await libary.loadCCP(node.ccpPath, node);
-            node.log("Connection profile loaded");
             const wallet = await libary.loadFileWallet(node.walletpath, node);
-            node.log("File wallet loaded");
             const caClient = libary.createCAClient(ccp, node.caAddress, node);
-            node.log("Ca client created");
             const enrollmentSecret = await libary.registerUser(caClient, wallet, node.enrollmentId, node.role, node);
-            node.log("Enrollment Secret created");
             await libary.enrollUser(caClient, wallet, node.enrollmentId, enrollmentSecret, node.mspId, node);
             node.log("User: "+ node.enrollmentId + " created");
             node.send(msg);

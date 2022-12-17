@@ -21,38 +21,38 @@ module.exports = function(RED){
         node.ccpPath = node.configurations.ccpPath;
         node.walletPath = node.configurations.walletPath;
         node.args = config.args;
-        node.params = node.args.split(' ');
         node.cmd = config.cmd
         node.transactiontype = config.transactiontype;
         node.log("Settings loaded");
 
         node.on('input', async function(msg){
 
+            if(!msg.args){
+                node.send(msg);
+            }
+
             const ccp = await libary.loadCCP(node.ccpPath, node);
-            node.log("CCP loaded");
             const wallet = await libary.loadFileWallet(node.walletPath, node);
-            node.log("Wallet loaded");
             const {gateway, network, cc} = await libary.createGateway(ccp, node.userid, wallet, node.chaincode, node.channel, node);
-            node.log("Gateway created");
+            
+            let result;
 
             try {
-
-                let result;
-
+                
                 if(node.transactiontype === 'evaluate'){
-                    result = await libary.invokeEvaluateTransaction(cc, node.cmd, node.params, node);
+                    result = await libary.invokeEvaluateTransaction(cc, node.cmd, msg.args, node);
                 } else {
-                    result = await libary.invokeSubmitTransactioncc(cc, node.cmd, node.params, node);
+                    result = await libary.invokeSubmitTransactioncc(cc, node.cmd, msg.args, node);
                 }
-                msg.payload = result.toString('utf-8');
-                node.send(msg);
-
             } catch (error) {
                 node.error(error);
             } finally {
                 gateway.disconnect();
                 node.log("Disconnected");
             }
+
+            msg.payload = result.toString('utf-8');
+            node.send(msg);
         });
     }
 
