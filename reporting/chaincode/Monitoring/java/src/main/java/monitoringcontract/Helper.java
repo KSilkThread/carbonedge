@@ -118,7 +118,11 @@ public class Helper {
         return json.toString();
     }
 
-    
+
+    public JsonObject parseResponse(String response){
+        return new Gson().fromJson(response, JsonObject.class);
+    }
+
     /** 
      * @param context Hyperledger fabric context
      * @param mspid Mspid of the organisation, which owns the sensor

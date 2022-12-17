@@ -80,7 +80,7 @@ public class MonitoringContract implements ContractInterface {
         }
 
         Response response = stub.invokeChaincodeWithStringArgs("ValidationContract", List.of("checkCertificates", sensorid, cmspID), stub.getChannelId());  
-            if(response.getStatus() != Status.SUCCESS){
+            if(response.getStatus()!= Status.SUCCESS){
                 return helper.createFailResponse("Invalid Certificate");
             }
         
@@ -126,8 +126,8 @@ public class MonitoringContract implements ContractInterface {
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String readMonitoringAsset(Context context, final String mspid, final String sensorid, final String timestamp){
 
-        if(!helper.assetExists(context, mspid, sensorid, timestamp)){
-                helper.createFailResponse("Asset does not exists");
+        if(!helper.parseResponse(monitoringExists(context, mspid, sensorid, timestamp)).get("status").getAsString().equals("200")){
+                return helper.createFailResponse("Asset does not exists");
         }
         ChaincodeStub stub = context.getStub();
         CompositeKey key = stub.createCompositeKey(keyPrefixString , new String[] {mspid, sensorid, timestamp});
