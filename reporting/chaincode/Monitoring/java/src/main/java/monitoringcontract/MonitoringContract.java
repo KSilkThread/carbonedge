@@ -12,7 +12,6 @@ import org.hyperledger.fabric.contract.annotation.Default;
 import org.hyperledger.fabric.contract.annotation.Info;
 import org.hyperledger.fabric.contract.annotation.License;
 import org.hyperledger.fabric.contract.annotation.Transaction;
-import org.hyperledger.fabric.shim.ChaincodeException;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.Chaincode.Response;
 import org.hyperledger.fabric.shim.Chaincode.Response.Status;
@@ -21,9 +20,6 @@ import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
 
 import com.google.gson.JsonObject;
-
-
-
 
 @Contract(
         name = "MonitoringContract",
@@ -36,8 +32,7 @@ import com.google.gson.JsonObject;
                         url = "http://www.apache.org/licenses/LICENSE-2.0.html"),
                 contact = @Contact(
                         email = "janbiermann24@gmail.com",
-                        name = "Jan")))
-
+                        name = "janzumbier")))
 
 @Default
 public class MonitoringContract implements ContractInterface {
@@ -48,10 +43,9 @@ public class MonitoringContract implements ContractInterface {
 
     
     /** 
-     * @param context
+     * @param context Hyperledger fabric context
      * @return String
      */
-    //init
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String init(final Context context){
 
@@ -64,13 +58,15 @@ public class MonitoringContract implements ContractInterface {
 
     
     /** 
-     * @param context
-     * @param sensorid
-     * @param data
+     * Submits a MonitoringAsset to the ledger 
+     * 
+     * @param context Hyperledger fabric context
+     * @param sensorid Id of the sensor which must be equal with the SubjectDN CN at the X.509 certificate
+     * @param data Data which should be invoked to the ledger
+     * @return String Response
      */
-    //push
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void pushData(final Context context, final String sensorid, final int data){
+    public String pushMonitoringAsset(final Context context, final String sensorid, final int data){
 
         final ChaincodeStub stub = context.getStub();
         final ClientIdentity clientIdentity = context.getClientIdentity();
@@ -80,86 +76,71 @@ public class MonitoringContract implements ContractInterface {
         final String isid = "CN="+sensorid+", OU=client";
 
         if(!isid.equals(checkid)){
-            throw new ChaincodeException("You do not have the permission to do that");
+            return helper.createFailResponse("You do not have the permission to do that");
         }
 
         Response response = stub.invokeChaincodeWithStringArgs("ValidationContract", List.of("checkCertificates", sensorid, cmspID), stub.getChannelId());  
             if(response.getStatus() != Status.SUCCESS){
-                throw new ChaincodeException("Invalid Certificate");
+                return helper.createFailResponse("Invalid Certificate");
             }
-
-        //final String txid = stub.getTxId();
         
         CompositeKey key = stub.createCompositeKey(keyPrefixString, new String[] {cmspID, sensorid, timestamp});
         
         MonitoringAsset asset = new MonitoringAsset(sensorid, cmspID, data, timestamp);
         stub.putStringState(key.toString(), asset.toJSON());
+        return helper.createSuccessResponse("MonitoringAsset successfully added!");
     }
 
     
     /** 
-     * @param context
-     * @param mspid
-     * @return String
-     */
-    //TODO
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public String queryDataByOrg(final Context context, final String mspid){
-        ChaincodeStub stub = context.getStub();
-        CompositeKey key = new CompositeKey(keyPrefixString, new String[] {mspid});
-
-        int result = 0;
-
-        QueryResultsIterator<KeyValue> iterator = stub.getStateByPartialCompositeKey(key.toString());
-
-        for (KeyValue kv: iterator){
-            result += MonitoringAsset.fromJSON(kv.getStringValue()).getData();
-        }
-
-    
-        return String.valueOf(result);    
-    }
-
-    
-    /** 
-     * @param context
-     * @param mspid
-     * @param sensorid
-     * @param timestamp
-     * @return boolean
+     * Checks, if a specic MonitoringAsset exists on the ledger
+     * 
+     * @param context Hyperledger fabric context
+     * @param mspid Mspid of the organisation, which owns the sensor
+     * @param sensorid Organisation wide unique sensor id
+     * @param timestamp Timestamp of the transaction
+     * @return String Response 
      */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public boolean dataExists(final Context context, final String mspid, final String sensorid, final String timestamp){
+    public String monitoringExists(final Context context, final String mspid, final String sensorid, final String timestamp){
         ChaincodeStub stub = context.getStub(); 
         CompositeKey key = stub.createCompositeKey(keyPrefixString, new String[] {mspid, sensorid, timestamp});
         String result = stub.getStringState(key.toString());
-        return (result != null && result.length() > 0);
+        if(result != null && result.length() > 0){
+            return helper.createSuccessResponse(true);
+        }
+        return helper.createFailResponse(false);
     }
+        
 
     
-    /** 
-     * @param context
-     * @param mspid
-     * @param sensorid
-     * @param timestamp
-     * @return String
+    /**
+     * Queries a specific MonitoringAsset
+     * 
+     * @param context Hyperledger fabric context
+     * @param mspid Mspid of the organisation, which owns the sensor
+     * @param sensorid Organisation wide unique sensor id
+     * @param timestamp Timestamp of the transaction
+     * @return String Response
      */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String readMonitoringAsset(Context context, final String mspid, final String sensorid, final String timestamp){
 
-        if(!dataExists(context, mspid, sensorid, timestamp)){
-                throw new ChaincodeException("Asset does not exists!");
+        if(!helper.assetExists(context, mspid, sensorid, timestamp)){
+                helper.createFailResponse("Asset does not exists");
         }
         ChaincodeStub stub = context.getStub();
         CompositeKey key = stub.createCompositeKey(keyPrefixString , new String[] {mspid, sensorid, timestamp});
-        return stub.getStringState(key.toString());
+        return helper.createSuccessResponse(stub.getStringState(key.toString()));
     }
 
     
-    /** 
-     * @param context
-     * @param mspid
-     * @return String
+    /**
+     * Gets all MonitoringAssets, which belong to one specific organisation
+     *  
+     * @param context Hyperledger fabric context
+     * @param mspid Mspid of the organisation, which owns the sensor
+     * @return String Response
      */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String queryOrgEntries(Context context, final String mspid){
@@ -174,15 +155,17 @@ public class MonitoringContract implements ContractInterface {
             assetList.add(MonitoringAsset.fromJSON(result.getStringValue()));
         }
 
-        return helper.prettyOrgJson(assetList, mspid).toString();        
+        return helper.createSuccessResponse(helper.prettyOrgJson(assetList, mspid).toString());        
     }
 
     
-    /** 
-     * @param context
-     * @param mspid
-     * @param sensorid
-     * @return String
+    /**
+     * Queries all MonitoringAssets, which belong to one specific organisation and were invokey by a specific sensor 
+     * 
+     * @param context Hyperledger fabric context
+     * @param mspid Mspid of the organisation, which owns the sensor
+     * @param sensorid Organisation wide unique sensor id
+     * @return String Response
      */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String querySensorEntries(final Context context, final String mspid, final String sensorid){
@@ -197,7 +180,7 @@ public class MonitoringContract implements ContractInterface {
             assetList.add(MonitoringAsset.fromJSON(kv.getStringValue()));
         }
 
-        return helper.prettySensorJson(assetList, sensorid).toString();
+        return helper.createSuccessResponse(helper.prettySensorJson(assetList, sensorid).toString());
     }
     
 }
