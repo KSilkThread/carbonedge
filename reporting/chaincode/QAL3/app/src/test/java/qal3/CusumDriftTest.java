@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Test;
 
 public class CusumDriftTest {
 
-    CusumDrift drift = new CusumDrift("2", "0", "0", false);
-    CusumDrift drift2 = new CusumDrift("2", "1", "0", true);
+    CusumDrift drift = new CusumDrift("2", "0", "0", false, true);
+    CusumDrift drift2 = new CusumDrift("2", "1", "0", true, false);
 
 
     @Test void isEquals(){

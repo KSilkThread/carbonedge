@@ -20,23 +20,23 @@ public class CusumPrecision {
     @Property
     private BigDecimal s;
     @Property
-    private boolean valid;
+    private boolean precisiondecreased;
 
-    public CusumPrecision(String value, String delta, String deltapowtwohalf, String s, boolean valid){
+    public CusumPrecision(String value, String delta, String deltapowtwohalf, String s, boolean precisiondecreased){
         this.value = new BigDecimal(value);
         this.delta = new BigDecimal(delta);
         this.deltapowtwohalf = new BigDecimal(deltapowtwohalf);
         this.s = new BigDecimal(s);
-        this.valid = valid;
+        this.precisiondecreased = precisiondecreased;
     }
 
     
-    public CusumPrecision(BigDecimal measurement, BigDecimal delta, BigDecimal dpowhalf, BigDecimal s, boolean b) {
+    public CusumPrecision(BigDecimal measurement, BigDecimal delta, BigDecimal dpowhalf, BigDecimal s, boolean precisiondecreased) {
         this.value = measurement;
         this.delta = delta;
         this.deltapowtwohalf = dpowhalf;
         this.s = s;
-        this.valid = b;
+        this.precisiondecreased = precisiondecreased;
     }
 
 
@@ -75,8 +75,8 @@ public class CusumPrecision {
     /** 
      * @return boolean
      */
-    public boolean isValid() {
-        return valid;
+    public boolean isPrecisiondecreased() {
+        return precisiondecreased;
     }
 
     
@@ -113,10 +113,10 @@ public class CusumPrecision {
 
     
     /** 
-     * @param valid
+     * @param precisiondecreased
      */
-    public void setValid(boolean valid) {
-        this.valid = valid;
+    public void setprecisiondecreased(boolean precisiondecreased) {
+        this.precisiondecreased = precisiondecreased;
     }
 
     
@@ -154,7 +154,7 @@ public class CusumPrecision {
 
         return Objects.deepEquals(new BigDecimal[] {this.getValue(), this.getDelta(), this.getDeltapowtwohalf(), this.getS()}, 
                                   new BigDecimal[] {other.getValue(), other.getDelta(), other.getDeltapowtwohalf(), other.getS()})
-                                  && Objects.deepEquals(this.isValid(), other.isValid());
+                                  && Objects.deepEquals(this.isPrecisiondecreased(), other.isPrecisiondecreased());
     }
 
     
@@ -163,7 +163,7 @@ public class CusumPrecision {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.getValue(), this.getDelta(), this.getDeltapowtwohalf(), this.getS(), this.isValid());
+        return Objects.hash(this.getValue(), this.getDelta(), this.getDeltapowtwohalf(), this.getS(), this.isPrecisiondecreased());
     }
 
     

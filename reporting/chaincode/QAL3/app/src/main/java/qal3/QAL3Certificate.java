@@ -1,6 +1,10 @@
 package qal3;
 
 import java.math.BigDecimal;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -26,23 +30,30 @@ public class QAL3Certificate {
     private final String ownerorg;
 
     @Property
-    private CusumDrift[] driftzero = {new CusumDrift("0", "0", "0", true)};
+    private final int maintenanceinterval;
 
     @Property
-    private CusumDrift[] driftreference = {new CusumDrift("0", "0", "0", true)};
+    private String expirydate;
 
     @Property
-    private CusumPrecision[] precisionzero = {new CusumPrecision("0", "0", "0", "0", true)};
+    private CusumDrift[] driftzero = {new CusumDrift("0", "0", "0", false, false)};
 
     @Property
-    private CusumPrecision[] precisionreference = {new CusumPrecision("0", "0", "0", "0", true)};
+    private CusumDrift[] driftreference = {new CusumDrift("0", "0", "0", false, false)};
+
+    @Property
+    private CusumPrecision[] precisionzero = {new CusumPrecision("0", "0", "0", "0", false)};
+
+    @Property
+    private CusumPrecision[] precisionreference = {new CusumPrecision("0", "0", "0", "0", false)};
 
 
-    public QAL3Certificate(String sensorid, String ownerorg, String sAmsdrift, String sAmsprecision){
+    public QAL3Certificate(String sensorid, String ownerorg, String sAmsdrift, String sAmsprecision, int maintainanceinterval){
         this.sensorid = sensorid;
         this.ownerorg = ownerorg;
         this.sAmsdrift = new BigDecimal(sAmsdrift);
         this.sAmsprecision = new BigDecimal(sAmsprecision);
+        this.maintenanceinterval = maintainanceinterval;
     }
 
     
@@ -107,6 +118,22 @@ public class QAL3Certificate {
      */
     public CusumPrecision[] getPrecisionreference() {
         return precisionreference;
+    }
+
+    public String getExpirydate() {
+        return expirydate;
+    }
+
+    public int getMaintenanceinterval() {
+        return maintenanceinterval;
+    }
+
+
+    public void updateExpirydate(Instant timestamp){
+        LocalDateTime time = LocalDateTime.ofInstant(timestamp, ZoneOffset.UTC);
+        time = time.plus(getMaintenanceinterval(), ChronoUnit.DAYS);
+        Instant newexpiry = time.toInstant(ZoneOffset.UTC);
+        this.expirydate = newexpiry.toString();
     }
 
     

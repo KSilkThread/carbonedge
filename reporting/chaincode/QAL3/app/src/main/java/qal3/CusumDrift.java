@@ -21,21 +21,25 @@ public class CusumDrift {
     @Property
     private BigDecimal sumneg;
     @Property
-    private boolean valid;
+    private boolean posdrift;
+    @Property
+    private boolean negdrift;
 
-    public CusumDrift(String value, String sumpos, String sumneg, boolean valid){
+    public CusumDrift(String value, String sumpos, String sumneg, boolean posdrift,boolean negdrift){
         this.value = new BigDecimal(value);
         this.sumpos = new BigDecimal(sumpos);
         this.sumneg = new BigDecimal(sumneg);
-        this.valid = valid;
+        this.negdrift = negdrift;
+        this.posdrift = posdrift;
     }
 
     
-    public CusumDrift(BigDecimal measurement, BigDecimal sumpos, BigDecimal sumneg, boolean valid) {
+    public CusumDrift(BigDecimal measurement, BigDecimal sumpos, BigDecimal sumneg, boolean posdrift, boolean negdrift) {
         this.value = measurement;
         this.sumpos = sumpos;
         this.sumneg = sumneg;
-        this.valid = valid;
+        this.negdrift = negdrift;
+        this.posdrift = posdrift;
     }
 
 
@@ -62,12 +66,12 @@ public class CusumDrift {
         return sumpos;
     }
 
-    
-    /** 
-     * @return boolean
-     */
-    public boolean isValid() {
-        return valid;
+    public boolean isPosdrift() {
+        return posdrift;
+    }
+
+    public boolean isNegdrift() {
+        return negdrift;
     }
 
     
@@ -93,7 +97,7 @@ public class CusumDrift {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.getValue(), this.getSumpos(), this.getSumneg(), this.isValid());
+        return Objects.hash(this.getValue(), this.getSumpos(), this.getSumneg(), this.isPosdrift(), this.isNegdrift());
     }
 
     
@@ -115,8 +119,10 @@ public class CusumDrift {
 
         return Objects.deepEquals(new BigDecimal[] {this.getValue(), this.getSumpos(), this.getSumneg()}, 
                                   new BigDecimal[] {other.getValue(), other.getSumpos(), other.getSumneg()})
-                                  && Objects.deepEquals(this.isValid(), other.isValid());
+                                  && Objects.deepEquals(this.isPosdrift(), other.isPosdrift())
+                                  && Objects.deepEquals(this.isNegdrift(), other.isNegdrift());
     }
+                                 
 
     
     /** 

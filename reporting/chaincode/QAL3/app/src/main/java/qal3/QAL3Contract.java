@@ -1,6 +1,7 @@
 package qal3;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 
 import org.hyperledger.fabric.contract.ClientIdentity;
 import org.hyperledger.fabric.contract.Context;
@@ -16,6 +17,7 @@ import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 @Contract(
         name = "QAL3 Contract",
@@ -37,6 +39,16 @@ public class QAL3Contract implements ContractInterface {
     private final String kexprefix = "org~id";
     Helper helper = new Helper();
 
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public String init(final Context context){
+
+        JsonObject json = new JsonObject();
+        json.addProperty("status", "200");
+        json.addProperty("response", "Init");
+        return json.toString();
+
+    }
+
     
     /** 
      * @param ctx
@@ -46,7 +58,7 @@ public class QAL3Contract implements ContractInterface {
      * @param sDrift
      */
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void createCertificate(Context ctx, String sensorid, String ownerorg, String sPrecision, String sDrift){
+    public void createCertificate(Context ctx, String sensorid, String ownerorg, String sPrecision, String sDrift, String maintainanceintervall){
         ChaincodeStub stub = ctx.getStub();
         ClientIdentity clientid = ctx.getClientIdentity();
 
@@ -58,7 +70,7 @@ public class QAL3Contract implements ContractInterface {
             throw new ChaincodeException("Certificate already exists");
         }
 
-        QAL3Certificate certificate = new QAL3Certificate(sensorid, ownerorg, sDrift, sPrecision);
+        QAL3Certificate certificate = new QAL3Certificate(sensorid, ownerorg, sDrift, sPrecision, Integer.parseInt(maintainanceintervall));
         CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
         stub.putStringState(key.toString(), certificate.toJSON());
     }
@@ -128,17 +140,6 @@ public class QAL3Contract implements ContractInterface {
      * @param ctx
      * @param sensorid
      * @param ownerorg
-     * @return boolean
-     */
-    @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public boolean isValid(Context ctx, String sensorid, String ownerorg){
-        return false;
-    }
-    
-    /** 
-     * @param ctx
-     * @param sensorid
-     * @param ownerorg
      * @return String
      */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
@@ -186,58 +187,65 @@ public class QAL3Contract implements ContractInterface {
         QAL3Certificate certificate = QAL3Certificate.fromJSON(result);
         return new Gson().toJson(certificate.getPrecisionreference());
     }
-    //TODO alarm clientid 
+
+    
+    /** 
+     * @param ctx
+     * @param sensorid
+     * @param ownerorg
+     * @param dz
+     * @param dr
+     * @param pz
+     * @param pr
+     */
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void commitDriftZero(Context ctx, String sensorid, String ownerorg, String measurement){
+    public void commitValues(Context ctx, String sensorid, String ownerorg, String dz, String dr, String pz, String pr){
         ChaincodeStub stub = ctx.getStub();
-        ClientIdentity clientid = ctx.getClientIdentity();
 
         String certjson = getCertificate(ctx, sensorid, ownerorg);
         QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
-        CusumDrift driftobj = helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftzero(), new BigDecimal(measurement));
-        certificate.appendZeroDrift(driftobj);
-        CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
-        stub.putStringState(key.toString(), certificate.toJSON());
+        certificate.appendZeroDrift(helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftzero(), new BigDecimal(dz)));
+        certificate.appendReferenceDrift(helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftreference(), new BigDecimal(dr)));
+        certificate.appendZeroPrecision(helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionzero(), new BigDecimal(pz)));
+        certificate.appendReferencePrecision(helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionreference(), new BigDecimal(pr)));
 
-    }
-    //TODO alarm clientid 
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void commitDriftReference(Context ctx, String sensorid, String ownerorg, String measurement){
-        ChaincodeStub stub = ctx.getStub();
-        ClientIdentity clientid = ctx.getClientIdentity();
+        certificate.updateExpirydate(stub.getTxTimestamp());
 
-        String certjson = getCertificate(ctx, sensorid, ownerorg);
-        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
-        CusumDrift driftobj = helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftreference(), new BigDecimal(measurement));
-        certificate.appendReferenceDrift(driftobj);
-        CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
-        stub.putStringState(key.toString(), certificate.toJSON());
-    }
-    //TODO alarm clientid 
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void commitPrecisionZero(Context ctx, String sensorid, String ownerorg, String measurement){
-        ChaincodeStub stub = ctx.getStub();
-        ClientIdentity clientid = ctx.getClientIdentity();
-
-        String certjson = getCertificate(ctx, sensorid, ownerorg);
-        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
-        CusumPrecision driftobj = helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionzero(), new BigDecimal(measurement));
-        certificate.appendZeroPrecision(driftobj);
         CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
         stub.putStringState(key.toString(), certificate.toJSON());
     }
-    //TODO alarm clientid 
-    @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void commitPrecisionReference(Context ctx, String sensorid, String ownerorg, String measurement){
-        ChaincodeStub stub = ctx.getStub();
-        ClientIdentity clientid = ctx.getClientIdentity();
 
-        String certjson = getCertificate(ctx, sensorid, ownerorg);
-        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
-        CusumPrecision driftobj = helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionreference(), new BigDecimal(measurement));
-        certificate.appendReferencePrecision(driftobj);
-        CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
-        stub.putStringState(key.toString(), certificate.toJSON());
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
+    public boolean isValid(Context ctx, String sensorid, String ownerorg){
+        return !isExpired(ctx, sensorid, ownerorg) && !hasdecreasedPrecision(ctx, sensorid, ownerorg) && !hasDrift(ctx, sensorid, ownerorg);
+    }
+
+
+    public boolean hasDrift(Context ctx, String sensorid, String ownerorg) {
+        QAL3Certificate cert = QAL3Certificate.fromJSON(getCertificate(ctx, sensorid, ownerorg));
+        CusumDrift lastzeropoint = cert.getDriftzero()[cert.getDriftzero().length-1];
+        CusumDrift lastreferencepoint = cert.getDriftreference()[cert.getDriftreference().length-1];
+        return lastzeropoint.isPosdrift() || lastzeropoint.isNegdrift() || lastreferencepoint.isPosdrift() || lastreferencepoint.isNegdrift();
+    }
+
+
+    public boolean hasdecreasedPrecision(Context ctx, String sensorid, String ownerorg) {
+        QAL3Certificate cert = QAL3Certificate.fromJSON(getCertificate(ctx, sensorid, ownerorg));
+        CusumPrecision lastzeropoint = cert.getPrecisionzero()[cert.getPrecisionzero().length-1];
+        CusumPrecision lastreferencepoint = cert.getPrecisionreference()[cert.getPrecisionreference().length-1];
+        return lastzeropoint.isPrecisiondecreased() || lastreferencepoint.isPrecisiondecreased();
+    }
+
+
+    public boolean isExpired(Context ctx, String sensorid, String ownerorg) {
+        QAL3Certificate cert = QAL3Certificate.fromJSON(getCertificate(ctx, sensorid, ownerorg));
+        ChaincodeStub stub = ctx.getStub();
+
+        if(cert.getExpirydate() == null){
+            return true;
+        }
+        Instant expire = Instant.parse(cert.getExpirydate());
+        return stub.getTxTimestamp().isAfter(expire);
     }
     
 }
