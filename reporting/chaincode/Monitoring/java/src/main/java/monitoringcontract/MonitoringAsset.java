@@ -33,35 +33,69 @@ public class MonitoringAsset {
         this.timestamp = timestamp;
     }
 
+    
+    /** 
+     * @return int
+     */
     public int getData() {
         return data;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getOrganisation() {
         return organisation;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getSensorid() {
         return sensorid;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String toJSON(){
         return new Gson().toJson(this);
     }
 
+    
+    /** 
+     * @param jsonString
+     * @return MonitoringAsset
+     */
     public static MonitoringAsset fromJSON(String jsonString){
         return new Gson().fromJson(jsonString, MonitoringAsset.class);
     }
     
+    
+    /** 
+     * @return String
+     */
     public String getTimestamp() {
         return timestamp;
     }
 
+    
+    /** 
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(getSensorid(), getOrganisation(), getData(), getTimestamp());
     }
 
+    
+    /** 
+     * @param obj
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj){
 
@@ -81,6 +115,10 @@ public class MonitoringAsset {
                                   && Objects.deepEquals(this.getTimestamp(), other.getTimestamp());
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString(){
         return toJSON();

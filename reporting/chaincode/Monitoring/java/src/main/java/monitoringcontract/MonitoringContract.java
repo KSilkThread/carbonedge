@@ -46,6 +46,11 @@ public class MonitoringContract implements ContractInterface {
 
     Helper helper = new Helper();
 
+    
+    /** 
+     * @param context
+     * @return String
+     */
     //init
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String init(final Context context){
@@ -57,6 +62,12 @@ public class MonitoringContract implements ContractInterface {
 
     }
 
+    
+    /** 
+     * @param context
+     * @param sensorid
+     * @param data
+     */
     //push
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public void pushData(final Context context, final String sensorid, final int data){
@@ -85,6 +96,12 @@ public class MonitoringContract implements ContractInterface {
         stub.putStringState(key.toString(), asset.toJSON());
     }
 
+    
+    /** 
+     * @param context
+     * @param mspid
+     * @return String
+     */
     //TODO
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String queryDataByOrg(final Context context, final String mspid){
@@ -103,6 +120,14 @@ public class MonitoringContract implements ContractInterface {
         return String.valueOf(result);    
     }
 
+    
+    /** 
+     * @param context
+     * @param mspid
+     * @param sensorid
+     * @param timestamp
+     * @return boolean
+     */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public boolean dataExists(final Context context, final String mspid, final String sensorid, final String timestamp){
         ChaincodeStub stub = context.getStub(); 
@@ -111,6 +136,14 @@ public class MonitoringContract implements ContractInterface {
         return (result != null && result.length() > 0);
     }
 
+    
+    /** 
+     * @param context
+     * @param mspid
+     * @param sensorid
+     * @param timestamp
+     * @return String
+     */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String readMonitoringAsset(Context context, final String mspid, final String sensorid, final String timestamp){
 
@@ -122,6 +155,12 @@ public class MonitoringContract implements ContractInterface {
         return stub.getStringState(key.toString());
     }
 
+    
+    /** 
+     * @param context
+     * @param mspid
+     * @return String
+     */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String queryOrgEntries(Context context, final String mspid){
 
@@ -138,6 +177,13 @@ public class MonitoringContract implements ContractInterface {
         return helper.prettyOrgJson(assetList, mspid).toString();        
     }
 
+    
+    /** 
+     * @param context
+     * @param mspid
+     * @param sensorid
+     * @return String
+     */
     @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String querySensorEntries(final Context context, final String mspid, final String sensorid){
 

@@ -13,6 +13,12 @@ public class Helper {
 
     }
 
+    
+    /** 
+     * @param assetList
+     * @param channelname
+     * @return JsonObject
+     */
     public JsonObject prettyConsortiumJson(List<MonitoringAsset> assetList, String channelname){
         JsonObject json = new JsonObject();
 
@@ -38,6 +44,12 @@ public class Helper {
         
     }
 
+    
+    /** 
+     * @param assetList
+     * @param org
+     * @return JsonObject
+     */
     public JsonObject prettyOrgJson(List<MonitoringAsset> assetList, String org){
 
         JsonObject json = new JsonObject();
@@ -63,6 +75,12 @@ public class Helper {
     }
 
 
+    
+    /** 
+     * @param assetList
+     * @param senosrid
+     * @return JsonObject
+     */
     public JsonObject prettySensorJson(List<MonitoringAsset> assetList, String senosrid){
         JsonObject json = new JsonObject();
         json.addProperty("Sensorid", senosrid);
