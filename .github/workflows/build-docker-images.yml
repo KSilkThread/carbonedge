@@ -37,7 +37,8 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: "{{defaultContext}}:devices/hmi/app/edge-app/"
+          #context: "{{defaultContext}}:devices/hmi/app/edge-app"
+          context: "./devices/hmi/app/edge-app"
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/carbonmeter-webapp:latest
