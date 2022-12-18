@@ -25,31 +25,61 @@ public class ValidationAsset {
         this.requiredcerts = certificates;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getOrg() {
         return org;
     }
 
+    
+    /** 
+     * @return String[]
+     */
     public String[] getRequiredcerts() {
         return requiredcerts;
     }
 
+    
+    /** 
+     * @return String
+     */
     public String getSensorid() {
         return sensorid;
     }
 
+    
+    /** 
+     * @return String
+     */
     @Override
     public String toString() {
         return this.toJSON();
     }
 
+    
+    /** 
+     * @return String
+     */
     public String toJSON(){
         return new Gson().toJson(this);
     }
 
+    
+    /** 
+     * @param json
+     * @return ValidationAsset
+     */
     public static ValidationAsset fromJSON(String json){
         return new Gson().fromJson(json, ValidationAsset.class);
     }
 
+    
+    /** 
+     * @param obj
+     * @return boolean
+     */
     @Override
     public boolean equals(Object obj) {
         if(obj == this){
@@ -67,6 +97,10 @@ public class ValidationAsset {
                                   && Objects.deepEquals(this.requiredcerts, other.requiredcerts);
     }
 
+    
+    /** 
+     * @return int
+     */
     @Override
     public int hashCode() {
         return Objects.hash(this.sensorid, this.org, this.requiredcerts);
