@@ -1,5 +1,6 @@
 import yaml 
 import yamlAdjustment as yA
+import minifabOverwrite_j2 as j2
 
 RELATIVE_PATH_TO_MINIFAB_MODULE = "./../../minifabric"
 
@@ -75,25 +76,29 @@ def main():
       {{ container_options }}
       laughingadversial/fabric-tools:3.0''')
 
-     #playbooks/ops/netup/k8stemplates/allnodes.j2
-     #
-     #.j2 file....;
-     #
-    changesForARM8 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/k8sapply.yaml","name","start cli container","command",'''>-
-      docker run -dit --network {{ NETNAME }} --name {{ CLINAME }} --hostname {{ CLINAME }}
-      -v /var/run/docker.sock:/var/run/docker.sock
-      -v {{ hostroot }}/vars:/vars
-      -v {{ hostroot }}/vars/chaincode:{{ gopath }}/src/github.com/chaincode
-      -e https_proxy={{ https_proxy }} -e no_proxy={{ no_proxy }}
-      {{ container_options }}
-      laughingadversial/fabric-tools:3.0''')
     
+    yA.overwriteYAML(changesForARM1)
+    yA.overwriteYAML(changesForARM2)
+    yA.overwriteYAML(changesForARM3)
+    yA.overwriteYAML(changesForARM4)
+    yA.overwriteYAML(changesForARM5)
+    yA.overwriteYAML(changesForARM6)
+    yA.overwriteYAML(changesForARM7)
+    yA.overwriteYAML(changesForARM8)
 
     #/spec.yaml additions to mapping
-    changesForARM13 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/spec.yaml",["fabric","settings","ca"],[],"CORE_CHAINCODE_BUILDER",'''laughingadversial/fabric-ccenv:3.0''')
+    changesForARM9 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/spec.yaml",["fabric","settings","ca"],[],"CORE_CHAINCODE_BUILDER",'''laughingadversial/fabric-ccenv:3.0''')
 
-    yA.addMappingToYaml(changesForARM13)
-    #overwriteYAML(firstAttribute)
+    yA.addMappingToYaml(changesForARM9)
+   
+    #playbooks/ops/netup/k8stemplates/allnodes.j2
+     #
+     #.j2 file....;
+     #four further changes 
+    
+    j2.overwriteAllnodes(RELATIVE_PATH_TO_MINIFAB_MODULE)
+     
+
 
 if __name__ == "__main__":
     main()
