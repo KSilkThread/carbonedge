@@ -20,9 +20,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - working-directory: devices/hmi/app/edge-app
       - run: npm install
+        working-directory: devices/hmi/app/edge-app
       - run: npm run build
+        working-directory: devices/hmi/app/edge-app
       -
         name: Login to Docker Hub
         uses: docker/login-action@v2
