@@ -24,6 +24,7 @@ jobs:
       working-directory: devices/hmi/app/edge-app
     
     - run: ls && pwd && docker build . -t ksilkthread/carbonmeter-webapp:latest
+      working-directory: devices/hmi/app/edge-app
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
