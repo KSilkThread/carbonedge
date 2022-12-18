@@ -41,7 +41,8 @@ def process_dict(d: dict, l: list, addAttribute, addValue, listPOS: int):
         if key == l[listPOS]:
             process_dict(value, l,addAttribute,addValue,listPOS+1)
 
-#This function is only usabel if, identifiedAttribute is using a list that gives the mappings towards place for the addition of the new key:value pair
+#This function is only usabel, if identificationAttribute is using a list 
+# that gives the mappings towards the place for the addition of the new key:value pair
 def addMappingToYaml(yamlChange : yamlChange):
     # Read the YAML file into a Python dictionary
     with open(yamlChange.relativePathToYaml, 'r') as f:
@@ -53,6 +54,3 @@ def addMappingToYaml(yamlChange : yamlChange):
     # Write the modified dictionary back to the YAML file
     with open(yamlChange.relativePathToYaml, 'w') as f:
         yaml.safe_dump(fabric, f)
-
-
-
