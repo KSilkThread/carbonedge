@@ -14,6 +14,16 @@ echo "installing dependencies "
 npm install  ./setup_for_v2.2/package.json
 
 echo "installing dependencies finished" 
+
+echo "Creating new environment and installing modules for python "
+
+sudo apt-get install python3-pip
+pip install --upgrade pip
+
+python3 -m venv minifabric
+source minifabric/bin/activate
+pip install Jinja2
+
 # yq got added now i need the repo for my minifabric and 
 # adjust the serialization of the packages 
 # download current minifabric from our repo or the original, then adjust and overwrite the 
