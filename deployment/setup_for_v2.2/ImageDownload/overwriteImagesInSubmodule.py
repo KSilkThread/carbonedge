@@ -92,11 +92,22 @@ def main():
     yA.addMappingToYaml(changesForARM9)
    
     #playbooks/ops/netup/k8stemplates/allnodes.j2
-     #
-     #.j2 file....;
-     #four further changes 
+    #
+    #.j2 file....;
+    #four further changes, change 9 to 13
+    # Replace the old image with the new images
+    # line 92
+    # line 255
+    # line 366
+    # line 538
+    filterList = []
     
-    j2.overwriteAllnodes(RELATIVE_PATH_TO_MINIFAB_MODULE)
+    filterList.append(('hyperledger/fabric-ca:1.4', 'laughingadversial/fabric-ca:arm64-1.5.5')) 
+    filterList.append(('hyperledger/fabric-orderer:{{ fabric.release }}', 'laughingadversial/fabric-orderer:3.0')) 
+    filterList.append(('hyperledger/fabric-couchdb:latest', 'couchdb:3.2.2')) 
+    filterList.append(('hyperledger/fabric-peer:{{ fabric.release }}', 'laughingadversial/fabric-peer:3.0')) 
+    
+    j2.overwriteAllnodes(RELATIVE_PATH_TO_MINIFAB_MODULE, filterList)
      
 
 
