@@ -23,7 +23,7 @@ jobs:
     - run: npm run build
       working-directory: devices/hmi/app/edge-app
     
-    - run: pwd && docker build . -t ksilkthread/carbonmeter-webapp:latest
+    - run: ls && pwd && docker build . -t ksilkthread/carbonmeter-webapp:latest
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
