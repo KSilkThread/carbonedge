@@ -2,3 +2,6 @@ vars/*
 *.retry
 .vscode
 .DS_Store
+*.deb
+*.bkp
+*.dtmp

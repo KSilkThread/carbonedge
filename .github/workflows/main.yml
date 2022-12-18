@@ -1,0 +1,35 @@
+name: Export draw.io to PNG
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install deps
+        run: sudo apt install x11-xserver-utils
+      - name: Install deps
+        run: sudo apt install xvfb
+      - uses: actions/checkout@v3
+      - name: Install deps
+        run: sudo apt install libappindicator3-1 libnotify4
+      - name: Download draw.io desktop app
+        run: wget
+          https://github.com/jgraph/drawio-desktop/releases/download/v20.3.0/drawio-amd64-20.3.0.deb
+      - name: install draw.io desktop app
+        run: sudo dpkg -i drawio-amd64-20.3.0.deb
+      - name: Export png from xml
+        run: xvfb-run drawio -x -f svg -o ./pictures/ ./ -r --no-sandbox
+      - name: Commit report
+        run: >
+          if [[ `git status --porcelain` ]]; then
+          # Changes
+            git config --global user.name 'KSilkThread'
+            git config --global user.email '12004185+KSilkThread@users.noreply.github.com'
+            git add -A
+            git commit -am "Export process model"
+            git push
+          else
+          # No changes
+            echo No changes...
+          fi
+        
+
