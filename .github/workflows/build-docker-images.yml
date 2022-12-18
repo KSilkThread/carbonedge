@@ -20,7 +20,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: ls && pwd && npm install
+      - run: npm --version && node--version && pwd && npm install
         working-directory: devices/hmi/app/edge-app
       - run: npm run build
         working-directory: devices/hmi/app/edge-app
