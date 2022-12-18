@@ -11,7 +11,7 @@ cd fabric
 #npm install # i need a dependencies json therefore called package.json
 echo "installing dependencies "
 
-npm install  ../"setup for v2.2"/package.json
+npm install  ./setup_for_v2.2/package.json
 
 echo "installing dependencies finished" 
 # yq got added now i need the repo for my minifabric and 
