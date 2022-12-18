@@ -19,11 +19,14 @@ jobs:
         run: pwd
       - 
         name: install webapp
-        working-directory: "devices/hmi/app/edge-app/"
+        working-directory: "devices/hmi/app/edge-app"
         run: npm install
       - 
+        name: test
+        run: cd devices/hmi/app/edge-app && pwd
+      - 
         name: build webapp
-        working-directory: "devices/hmi/app/edge-app/"
+        working-directory: "devices/hmi/app/edge-app"
         run: npm run build
       -
         name: Login to Docker Hub
