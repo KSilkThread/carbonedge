@@ -16,14 +16,11 @@ jobs:
           submodules: true
       - 
         name: test
-        run: pwd
+        run: cd devices/hmi/app/edge-app && ls && pwd
       - 
         name: install webapp
         working-directory: "devices/hmi/app/edge-app"
         run: npm install
-      - 
-        name: test
-        run: cd devices/hmi/app/edge-app && pwd
       - 
         name: build webapp
         working-directory: "devices/hmi/app/edge-app"
