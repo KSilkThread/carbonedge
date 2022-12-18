@@ -2,7 +2,7 @@ module.exports = function(RED){
     
     const hlf = require('fabric-network');
     const fs = require('fs');
-    const libary = require('../fabric-libary/fabric-libary');
+    const library = require('../fabric-library/fabric-library');
 
     function txNode(config){
         RED.nodes.createNode(this, config);
@@ -31,18 +31,18 @@ module.exports = function(RED){
                 node.send(msg);
             }
 
-            const ccp = await libary.loadCCP(node.ccpPath, node);
-            const wallet = await libary.loadFileWallet(node.walletPath, node);
-            const {gateway, network, cc} = await libary.createGateway(ccp, node.userid, wallet, node.chaincode, node.channel, node);
+            const ccp = await library.loadCCP(node.ccpPath, node);
+            const wallet = await library.loadFileWallet(node.walletPath, node);
+            const {gateway, network, cc} = await library.createGateway(ccp, node.userid, wallet, node.chaincode, node.channel, node);
             
             let result;
 
             try {
                 
                 if(node.transactiontype === 'evaluate'){
-                    result = await libary.invokeEvaluateTransaction(cc, node.cmd, msg.args, node);
+                    result = await library.invokeEvaluateTransaction(cc, node.cmd, msg.args, node);
                 } else {
-                    result = await libary.invokeSubmitTransactioncc(cc, node.cmd, msg.args, node);
+                    result = await library.invokeSubmitTransactioncc(cc, node.cmd, msg.args, node);
                 }
 
                 msg.payload = result.toString('utf-8');
