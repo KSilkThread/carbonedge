@@ -1,0 +1,17 @@
+{
+  "name": "fabric-nodered-nodes",
+  "version": "1.0.0",
+  "description": "Node red nodes to invoke chaincode and create Identities to the hyperledger fabric network",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "janzumbier",
+  "license": "MIT",
+  "node-red" : {
+    "nodes": {
+        "txNode": "transaction-node/transaction-node.js",
+        "configNode": "config-node/config-node.js",
+        "addUser": "ca-nodes/ca-nodes.js"
+    }
+  }
+}
