@@ -17,9 +17,9 @@ Copy the folder in the /vars/chaincode section of the minifabric directory and e
 
 The Contract offers the following methods to invoke transaction
 
-An `init()` method to inizialize the contract. The method returns a success response if the contract is correctly initialized.  
+An **init()** method to inizialize the contract. The method returns a success response if the contract is correctly initialized.  
 
-A `pushMonitoringAsset(String sensorid, int data)` method to write a MonitoringAsset to the ledger.
+A **pushMonitoringAsset(String sensorid, int data)** method to write a MonitoringAsset to the ledger.
 In order to prevent data manipulation the sensorid has to match the subject section of the X.509 certificate of the invoking client. So each sensor needs an own identity in the organisation wallet.
 Furthermore the ValidationContract and the CertificateContracts have to be correctly configured and valid. If everything works correctly the methods returns the response `{"status":"200", "response":"MonitoringAsset successfully added!"}`
 
