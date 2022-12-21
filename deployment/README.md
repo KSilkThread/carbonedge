@@ -74,7 +74,9 @@ Verify Golang environment setup by checking ```go env``` and see if GOPATH and G
 
 1. clone the repository into the go-workspace
 
-    ```git clone https://github.com/hyperledger/fabric-ca```
+    ```{}
+    git clone https://github.com/hyperledger/fabric-ca
+    ```
 
 2. afterwards execute following command while in fabric-ca directory
 
