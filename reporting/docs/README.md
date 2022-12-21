@@ -35,14 +35,19 @@ This section gathers general operations, associated with the continuous quality 
 
 ### User obtains available quality assurance operations from the network
 
-<img src="../../pictures/continuous-qa-of-ams-in-operation.svg"/> 
+<img src="../../pictures/continous-qa-of-ams-in-operationv2.svg"/> 
 
 ## 5. Installation, calibration and validation of automated measuring system (AMS)
 ...
+### Phase 1 preperation
 <img src="../../pictures/certification-of-ams-preperation-phase.svg"/>
 ...
+
+### Phase 2 inspection
 <img src="../../pictures/certification-of-ams-inspection-phase.svg"/>
 ...
+
+### Phase 3 confirmation
 <img src="../../pictures/certification-of-ams-confirmation-phase.svg"/>
 ...
 
