@@ -70,10 +70,11 @@ echo -e '\nCreating the channel\n'
 ./minifab profilegen
 
 echo -e '\nInstalling all java chaincodes\n'
-./minifab install -l java
-./minifab approve
-./minifab commit
-./minifab  initialize
+#./minifab install -l java
+#./minifab approve
+#./minifab commit
+#./minifab  initialize
+./minifab ccup -n simple -l java
 
 echo -e '\nChaincode successfully installed!\n'
 
