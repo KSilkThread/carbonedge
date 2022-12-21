@@ -10,7 +10,7 @@ def main():
     # 13 changes needed referenced to https://github.com/LIONS-DLT/minifabric/commit/810fc1177c9d4cf4ef1adf678ee3cf42f1325ea8
 
     #/playbooks/ops/certgen/createcerts.yaml changes
-    changesForARM1 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/certgen/createcerts.yaml","name",'''Use fabric tools container to create channel artifacts''',
+    changesForARM1 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/certgen/createcerts.yaml",["name"],['''Use fabric tools container to create channel artifacts'''],
     "command",'''>-
     docker run --rm --name tools
     -v /var/run/:/host/var/run
@@ -18,20 +18,20 @@ def main():
     laughingadversial/fabric-tools:3.0 /etc/hyperledger/fabric/run/certtxgen.sh''')
    
     #/playbooks/ops/consoleup/apply.yaml changes
-    changesForARM2 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/consoleup/apply.yaml","name","Start configtxlator","command",'''>-
+    changesForARM2 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/consoleup/apply.yaml",["name"],["Start configtxlator"],"command",'''>-
     docker run -d --network {{ NETNAME }} --name configtxlator.{{ NETNAME }} --hostname configtxlator.{{ NETNAME }}
     laughingadversial/fabric-tools:3.0
     /bin/bash -c "/usr/local/bin/configtxlator start --CORS=*" ''')
 
     #/playbooks/ops/netup/dockerapply.yaml changes 
-    changesForARM3 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml","name","Start couchdb nodes if db type is set to couchdb","command",'''>-
+    changesForARM3 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml",["name"],["Start couchdb nodes if db type is set to couchdb"],"command",'''>-
     docker run -d --network {{ NETNAME }} --name {{ item.fullname }} {{ item.portmap }}
     -e COUCHDB_USER=admin -e COUCHDB_PASSWORD={{ item.adminPassword }}
     -v {{ item.fullname }}:/opt/couchdb/data
     {{ container_options }}
     --hostname {{ item.fullname }} couchdb:3.2.2''')
     
-    changesForARM4 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml","name","Start all peer nodes","command",'''>-
+    changesForARM4 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml",["name"],["Start all peer nodes"],"command",'''>-
     docker run -d --network {{ NETNAME }} --name {{ item.fullname }} --hostname {{ item.fullname }}
     --env-file {{ pjroot }}/vars/run/{{ item.fullname }}.env {{ item.portmap }}
     -v /var/run/:/host/var/run
@@ -41,7 +41,7 @@ def main():
     {{ container_options }}
     laughingadversial/fabric-peer:3.0 peer node start''')
 
-    changesForARM5 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml","name","Start all orderer nodes","command",'''>-
+    changesForARM5 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml",["name"],["Start all orderer nodes"],"command",'''>-
     docker run -d --network {{ NETNAME }} --name {{ item.fullname }} --hostname {{ item.fullname }}
     --env-file {{ pjroot }}/vars/run/{{ item.fullname }}.env {{ item.portmap }}
     -v {{ hostroot }}/vars/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
@@ -51,7 +51,7 @@ def main():
     {{ container_options }}
     laughingadversial/fabric-orderer:3.0''')
 
-    changesForARM6 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml","name","Start all ca nodes","command",'''>-
+    changesForARM6 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml",["name"],["Start all ca nodes"],"command",'''>-
     docker run -d --network {{ NETNAME }} --name {{ item.fullname }} --hostname {{ item.fullname }}
     --env-file {{ pjroot }}/vars/run/{{ item.fullname }}.env {{ item.portmap }}
     -v {{ hostroot }}/vars/keyfiles/{{ orgattrs[item.org].certpath }}/{{item.org}}:/certs
@@ -59,7 +59,7 @@ def main():
     {{ container_options }}
     laughingadversial/fabric-ca:arm64-1.5.5 {{ item.command }}''')
 
-    changesForARM7 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml","name","Start cli container for all fabric operations","command",'''>-
+    changesForARM7 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml",["name"],["Start cli container for all fabric operations"],"command",'''>-
     docker run -dit --network {{ NETNAME }} --name {{ CLINAME }} --hostname {{ CLINAME }}
     -v /var/run/docker.sock:/var/run/docker.sock
     -v {{ hostroot }}/vars:/vars
@@ -67,8 +67,9 @@ def main():
     {{ container_options }}
     laughingadversial/fabric-tools:3.0''')
 
-    #/playbooks/ops/netup/k8sapply.yaml changes
-    changesForARM8 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/k8sapply.yaml","name","start cli container","command",'''>-
+    #/playbooks/ops/netup/k8sapply.yaml changes --> another change has to be established because of the nested structure
+    
+    changesForARM8 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/k8sapply.yaml",["name","block","name"],["Start cli container for all fabric operations", None ,"start cli container"],"command",'''>-
       docker run -dit --network {{ NETNAME }} --name {{ CLINAME }} --hostname {{ CLINAME }}
       -v /var/run/docker.sock:/var/run/docker.sock
       -v {{ hostroot }}/vars:/vars
@@ -85,7 +86,7 @@ def main():
     yA.overwriteYAML(changesForARM5)
     yA.overwriteYAML(changesForARM6)
     yA.overwriteYAML(changesForARM7)
-    yA.overwriteYAML(changesForARM8)
+    yA.overwriteYAML(changesForARM8) #another function has to be added i think
 
     #/spec.yaml additions to mapping
     changesForARM9 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/spec.yaml",["fabric","settings","ca"],[],"CORE_CHAINCODE_BUILDER",'''laughingadversial/fabric-ccenv:3.0''')
