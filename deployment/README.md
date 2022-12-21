@@ -1,25 +1,28 @@
 # Build process of used images in minifabric-v2.2-arm on RaspberryPi itself for ARM64 compatibility
 
-Images needed:
-    - fabric-baseos
-    - fabric-peer
-    - fabric-orderer
-    - fabric-tools
-    - fabric-ccenv
-    - fabric-ca
-    - fabric-javaenv
-    - couchdb
+Images needed:  
+
+- fabric-baseos  
+- fabric-peer  
+- fabric-orderer  
+- fabric-tool  
+- fabric-ccenv  
+- fabric-ca  
+- fabric-javaenv  
+- couchdb  
 
 Note: Image from couchdb is going to be managed by couchdb itself therefore no dockerfile is presented to build it.
 
 Systemrequirements:
-    - Git
-    - Curl
-    - Node
-    - Python & pipenv
-    - Java JDK v11 atleast
-    - Docker 18.04 or later and docker compose 1.11 or later
-    - Golang (done with 1.19)
+
+- Git
+- Curl  
+- Node  
+- Python & pipenv  
+- Java JDK v11 atleast  
+- Docker 18.04 or later and docker  
+- compose 1.11 or later  
+- Golang (done with 1.19)
 
 A GO workspace is needed for further steps. After installing dependencies you should create a workspace:
 
