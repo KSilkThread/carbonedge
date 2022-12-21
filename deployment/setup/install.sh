@@ -8,37 +8,39 @@ cd fabric
 
 # Install the repository using any installation instructions provided in the documentation
 # For example, if the repository includes a package.json file:
-#npm install # i need a dependencies json therefore called package.json
+# npm install # i need a dependencies json therefore called package.json
 echo "installing dependencies "
 
-npm install  ./setup_for_v2.2/package.json
+# npm install  ./setup_for_v2.2/package.json
 
-echo "installing dependencies finished" 
+echo -e "installing dependencies finished\n" 
 
 echo "Creating new environment and installing modules for python "
 
 sudo apt-get install python3-pip
 pip install --upgrade pip
-
 python3 -m venv minifabric
 source minifabric/bin/activate
-pip install Jinja2
+#pip install Jinja2
 
-# yq got added now i need the repo for my minifabric and 
-# adjust the serialization of the packages 
-# download current minifabric from our repo or the original, then adjust and overwrite the 
-# nessessary files 
+echo -e "\ndownload of necessary images\n"
 
+#donwloading carbon tracking images 
+./setup/ImageDownload/imagesMinifabricCarbon.sh
 
-echo "download of necessary images"
-
-## Build of docker images ? sudo docker build -t hyperledgerlabs/minifab:latest .
-# examin what system it is $AARCH == ARM64 or amd64 
-# safe system related information 
 ARCH=$(shell go env GOARCH)
+
+if [ "$ARCH" == "arm64" ]; then
+    #download images refering to amd or arm
+    ./setup/ImageDownload/imagesMinifabricARM.sh
+    ./setup/ImageDownload/overwriteImagesInSubmodule.py
+else
+  echo "no specific adjustment needed"
+fi
+
 MARCH=$(shell go env GOOS)-$(shell go env GOARCH)
 
-#download images refering to amd or arm
+
 
 
 

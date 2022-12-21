@@ -8,11 +8,6 @@ echo -e '\nCleaned up!'
 
 echo -e 'Checking all images\n'
 
-# fabric-baseimage not done yet is this needed anylonger
-#docker pull chinyati/fabric-baseimage:arm64-0.4.20
-#docker tag chinyati/fabric-baseimage:arm64-0.4.20 hyperledger/fabric-baseimage:arm64-0.4.20
-#docker tag chinyati/fabric-baseimage:arm64-0.4.20 hyperledger/fabric-baseimage
-
 # fabric-baseos --> peters
 docker pull laughingadversial/fabric-baseos:3.0
 docker tag  laughingadversial/fabric-baseos:3.0 hyperledger/fabric-baseos:arm64-0.4.20
