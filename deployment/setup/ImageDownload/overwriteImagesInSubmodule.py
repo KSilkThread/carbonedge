@@ -21,7 +21,7 @@ def main():
     changesForARM2 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/consoleup/apply.yaml","name","Start configtxlator","command",'''>-
     docker run -d --network {{ NETNAME }} --name configtxlator.{{ NETNAME }} --hostname configtxlator.{{ NETNAME }}
     laughingadversial/fabric-tools:3.0
-    /bin/bash -c "/usr/local/bin/configtxlator start --CORS=*"''')
+    /bin/bash -c "/usr/local/bin/configtxlator start --CORS=*" ''')
 
     #/playbooks/ops/netup/dockerapply.yaml changes 
     changesForARM3 = yA.yamlChange(f"{RELATIVE_PATH_TO_MINIFAB_MODULE}/playbooks/ops/netup/dockerapply.yaml","name","Start couchdb nodes if db type is set to couchdb","command",'''>-
