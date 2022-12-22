@@ -1,6 +1,22 @@
-# Image download for Minifabric
+# Setup Process
 
-This directory is determined to pull the correct images from docker for the usage of Minifabric on ARM64 or other architectures.
+## Remote Setup
+
+The setup process from admin perspective... starting a ansible playbook
+
+## Node Setup
+
+The setup process from node perspective... tasks which are invoked by the admin's ansible playbook
+
+### Operator Node
+
+### Validator Node
+
+### Reporting Organization Node
+
+## Image Download
+
+The directory is determined to pull the correct images from docker for the usage of Minifabric on ARM64 or other architectures.
 
 Therefore a replacement in Minifabric Submodul is written for the correct build process of the necessary image.
 
