@@ -2,6 +2,9 @@ vars/*
 *.retry
 .vscode
 .DS_Store
+bin
+build
+.gradle
 *.deb
 *.bkp
 *.dtmp
