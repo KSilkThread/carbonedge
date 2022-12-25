@@ -1,0 +1,33 @@
+name: build carbonmeter webapp docker image
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    name: Docker
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' }}
+
+    steps:
+    - name: Checkout sources
+      uses: actions/checkout@v3
+    
+    - uses: actions/setup-node@v3
+      with:
+          node-version: 16
+    - run: npm --version && node --version && pwd && npm install --legacy-peer-deps
+      working-directory: devices/hmi/app/edge-app
+    - run: npm run build
+      working-directory: devices/hmi/app/edge-app
+    
+    - run: ls && pwd && docker build . -t ksilkthread/carbonmeter-webapp:latest
+      working-directory: devices/hmi/app/edge-app
+    - name: Login to DockerHub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+    - run: docker push ksilkthread/carbonmeter-webapp:latest

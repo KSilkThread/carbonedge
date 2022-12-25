@@ -3,8 +3,9 @@
 This document gathers the software artifacts of this project and describes the general strategy of software deployment.
 
 1. [Deployment Architecture](#1-deployment-architecture)
-2. [Settings and Software List](#2-settings-and-software-list)
-3. [Container Setup](#3-container-setup)
+2. [Host System Requirements](#2-host-system-requirements)
+3. [Containers](#3-containers)
+4. [Smart Contracts](#4-smart-contracts)
 
 
 
@@ -14,21 +15,43 @@ E.g. our layer model of softwre artifacts...
 
 <img src="../../pictures/deployment-architecture.svg"/> 
 
+## 2. Host System Requirements
 
-## 2. Settings and Software List
 ...
 
-| Software | Version | Link |
-| -------- | ------- | ---- |
-| Windows  | 1.1.1   | x    |
-| Docker   | 5       | x    |
-| x        | 1       | x    |
-| x        | 1       | x    |
-| x        | 1       | x    |
+| Software  | Version | Link                                       | Content |
+| --------- | ------- | ------------------------------------------ | ------- |
+| Docker    | ...     | https://docs.docker.com/engine/install/    | no      |
+| x         | 1       | x                                          |         |
+| x         | 1       | x                                          |         |
+| x         | 1       | x                                          |         |
+| x         | 1       | x                                          |         |
+| x         | 1       | x                                          |         |
 <!--For formating tables in markdown use this vsCode exntension https://marketplace.visualstudio.com/items?itemName=salesforce.sfdocs-markdown-assistant&ref=hackernoon.com -->
 
-## 3. Container Setup
+## 3. Containers
+This project utilizies a set of docker containers to deploy software. Therefore, we rely on officially maintained images, but also build our own images with customization.
+
+### Container List
+| Software           | Version | Link                                                                    | Content                          |
+| ------------------ | ------- | ----------------------------------------------------------------------- | -------------------------------- |
+| node-RED           | x       | https://hub.docker.com/r/nodered/node-red/                              |                                  |
+| grafana            | x       | https://hub.docker.com/r/grafana/grafana                                |                                  |
+| eclipse mosquitto  | x       | https://hub.docker.com/_/eclipse-mosquitto                              |                                  |
+| carbonmeter webapp | x       | https://hub.docker.com/repository/docker/ksilkthread/carbonmeter-webapp | nginx + webapp as static content |
+| fabric-ca          | x       | x                                                                       |                                  |
+| fabric-peer        | x       | x                                                                       |                                  |
+| fabric-orderer     | x       | x                                                                       |                                  |
+| fabric-tools       | x       | x                                                                       |                                  |
+| x                  | x       | x                                                                       |                                  |
+| x                  | x       | x                                                                       |                                  |
+| x                  | x       | x                                                                       |                                  |
+<!--For formating tables in markdown use this vsCode exntension https://marketplace.visualstudio.com/items?itemName=salesforce.sfdocs-markdown-assistant&ref=hackernoon.com -->
+
+### Container Setup
 ...
 A map of the exisiting containers and their settings e.g., port forwarding and relationships
 
 <img src="../../pictures/container-setup.svg"/> 
+
+## 4. Smart Contracts

@@ -25,7 +25,11 @@ This document describes general interaction patterns (e.g., measuring) on implem
 ...
 
 ## 4. Continuous quality assurance of automated measuring system (AMS) in operation
-...
+This section gathers general operations, associated with the continuous quality assurance of a automated measuring system in operation. 
+
+### User obtains available quality assurance operations from the network
+
+<img src="../../pictures/continuous-qa-of-ams-in-operation.svg"/> 
 
 ## 5. Installation, calibration and validation of automated measuring system (AMS)
 ...
