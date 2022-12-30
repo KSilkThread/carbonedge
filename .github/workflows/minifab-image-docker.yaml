@@ -1,7 +1,9 @@
 name: Minifab Image Docker
 
 on:
-  push
+  push:
+    branches:
+      - 'deployment/minifabric/**'
 jobs:
   docker:
     runs-on: ubuntu-latest
