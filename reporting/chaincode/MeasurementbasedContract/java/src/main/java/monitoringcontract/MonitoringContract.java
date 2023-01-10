@@ -1,5 +1,6 @@
 package monitoringcontract;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,6 @@ import org.hyperledger.fabric.contract.annotation.License;
 import org.hyperledger.fabric.contract.annotation.Transaction;
 import org.hyperledger.fabric.shim.ChaincodeStub;
 import org.hyperledger.fabric.shim.Chaincode.Response;
-import org.hyperledger.fabric.shim.Chaincode.Response.Status;
 import org.hyperledger.fabric.shim.ledger.CompositeKey;
 import org.hyperledger.fabric.shim.ledger.KeyValue;
 import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
@@ -25,7 +25,7 @@ import com.google.gson.JsonObject;
         name = "MonitoringContract",
         info = @Info(
                 title = "Monitoring Contract",
-                description = "A simple chaincode with main focus on high throughput",
+                description = "A monitoring contract with main focus on high throughput",
                 version = "0.0.1-Alpha",
                 license = @License(
                         name = "Apache 2.0 License",
@@ -79,10 +79,13 @@ public class MonitoringContract implements ContractInterface {
             return helper.createFailResponse("You do not have the permission to do that");
         }
 
-        Response response = stub.invokeChaincodeWithStringArgs("ValidationContract", List.of("checkCertificates", sensorid, cmspID), stub.getChannelId());  
-            if(response.getStatus()!= Status.SUCCESS){
-                return helper.createFailResponse("Invalid Certificate");
-            }
+        Response response = stub.invokeChaincodeWithStringArgs("ValidationContract", List.of("checkCertificates", sensorid, cmspID), stub.getChannelId());
+
+        String result = new String(response.getPayload(), StandardCharsets.UTF_8);
+        JsonObject jsonresult = helper.parseResponse(result);  
+        if(!jsonresult.get("status").getAsString().equals("200")){
+            return helper.createFailResponse("Invalid Certificate");
+        }
         
         CompositeKey key = stub.createCompositeKey(keyPrefixString, new String[] {cmspID, sensorid, timestamp});
         
