@@ -1,4 +1,4 @@
-package qal2contract;
+package astcontract;
 
 import java.util.Objects;
 
@@ -8,7 +8,7 @@ import org.hyperledger.fabric.contract.annotation.Property;
 import com.google.gson.Gson;
 
 @DataType
-public class Qal2Certificate {
+public class CertificateAsset {
 
     @Property
     private final String sensorid;
@@ -22,11 +22,17 @@ public class Qal2Certificate {
     @Property
     private String inspectororganisation;
 
+    @Property 
+    private String secid;
+
     @Property
     private String expirydate;
 
+    @Property
+    private boolean firstauth = false;
 
-    public Qal2Certificate(String sensorid, String ownerorg, String inspectorcert, String inspectororganisation, String expirydate){
+
+    public CertificateAsset(String sensorid, String ownerorg, String inspectorcert, String inspectororganisation, String expirydate, String secid, boolean firstauth){
         this.sensorid = sensorid;
         this.ownerorg = ownerorg;
         this.inspectorcert = inspectorcert;
@@ -34,12 +40,12 @@ public class Qal2Certificate {
         this.expirydate = expirydate;
     }
 
-    public Qal2Certificate(String sensorid, String ownerorg){
-        this(sensorid, ownerorg, null, null, null);
+    public CertificateAsset(String sensorid, String ownerorg){
+        this(sensorid, ownerorg, null, null, null,null, false);
     }
 
-    public Qal2Certificate(String sensorid, String ownerorg, String inspectorcert, String inspectororganisation){
-        this(sensorid, ownerorg, inspectorcert, inspectororganisation, null);
+    public CertificateAsset(String sensorid, String ownerorg, String inspectorcert, String inspectororganisation){
+        this(sensorid, ownerorg, inspectorcert, inspectororganisation, null, null, false);
     }
 
     
@@ -84,6 +90,22 @@ public class Qal2Certificate {
 
     
     /** 
+     * @return boolean
+     */
+    public boolean getFirstAuth(){
+        return firstauth;
+    }
+
+    
+    /** 
+     * @return String
+     */
+    public String getSecid() {
+        return secid;
+    }
+
+    
+    /** 
      * @param inspectorcert
      */
     public void setInspectorcert(String inspectorcert) {
@@ -108,6 +130,22 @@ public class Qal2Certificate {
 
     
     /** 
+     * @param firstauth
+     */
+    public void setFirstauth(boolean firstauth) {
+        this.firstauth = firstauth;
+    }
+
+    
+    /** 
+     * @param secid
+     */
+    public void setSecid(String secid) {
+        this.secid = secid;
+    }
+
+    
+    /** 
      * @return String
      */
     public String toJson(){
@@ -119,8 +157,8 @@ public class Qal2Certificate {
      * @param jsonstring
      * @return Qal2Certificate
      */
-    public static Qal2Certificate fromJSON(String jsonstring){
-        return new Gson().fromJson(jsonstring, Qal2Certificate.class);
+    public static CertificateAsset fromJSON(String jsonstring){
+        return new Gson().fromJson(jsonstring, CertificateAsset.class);
     }
 
     
@@ -147,10 +185,11 @@ public class Qal2Certificate {
             return false;
         }
 
-        Qal2Certificate other = (Qal2Certificate) obj;
+        CertificateAsset other = (CertificateAsset) obj;
 
-        return Objects.deepEquals(new String[] {this.sensorid, this.ownerorg, this.inspectorcert, this.inspectororganisation, this.expirydate}
-                                 ,new String[] {other.sensorid, other.ownerorg, other.inspectorcert, other.inspectororganisation, other.expirydate});
+        return Objects.deepEquals(new String[] {this.sensorid, this.ownerorg, this.inspectorcert, this.inspectororganisation, this.expirydate, this.secid}
+                                 ,new String[] {other.sensorid, other.ownerorg, other.inspectorcert, other.inspectororganisation, other.expirydate, other.secid})
+                                 && Objects.deepEquals(this.getFirstAuth(), other.getFirstAuth() );
     }
 
     
@@ -159,7 +198,7 @@ public class Qal2Certificate {
      */
     @Override
     public int hashCode() {
-        return Objects.hash(this.sensorid, this.ownerorg, this.inspectorcert, this.inspectororganisation, this.expirydate);
+        return Objects.hash(this.sensorid, this.ownerorg, this.inspectorcert, this.inspectororganisation, this.expirydate, this.secid, this.firstauth);
     }
     
 }

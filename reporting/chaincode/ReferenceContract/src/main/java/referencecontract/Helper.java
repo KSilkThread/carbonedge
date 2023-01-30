@@ -1,11 +1,13 @@
-package qal2contract;
-
-import org.hyperledger.fabric.shim.ledger.CompositeKey;
+package referencecontract;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 public class Helper {
+
+    public Helper(){
+        
+    }
 
     public String createResponse(String status, String msg){
         JsonObject json = new JsonObject();
@@ -39,10 +41,6 @@ public class Helper {
 
     public JsonObject parseJson(String jsonString){
         return new Gson().fromJson(jsonString, JsonObject.class);
-    }
-
-    public CompositeKey createCompositeKey(String keyprefix, String sensorid, String ownerorganisation){
-        return new CompositeKey(keyprefix, new String[] {ownerorganisation, sensorid});
     }
 
     public boolean isSuccess(String response){
