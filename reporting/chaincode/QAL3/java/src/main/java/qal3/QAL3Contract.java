@@ -214,10 +214,10 @@ public class QAL3Contract implements ContractInterface {
      *@param ctx Hyperledger fabric context
      * @param sensorid Organisation wide unique sensor id 
      * @param ownerorg Organisation which owns the sensor
-     * @param dz
-     * @param dr
-     * @param pz
-     * @param pr
+     * @param dz Drift zero point
+     * @param dr Drift reference point
+     * @param pz Precision zero point
+     * @param pr Precision reference point
      */
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public void commitValues(Context ctx, String sensorid, String ownerorg, String dz, String dr, String pz, String pr){
@@ -226,7 +226,7 @@ public class QAL3Contract implements ContractInterface {
         String certjson = getCertificate(ctx, sensorid, ownerorg);
         QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
         try {
-             certificate.appendZeroDrift(helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftzero(), new BigDecimal(dz)));
+            certificate.appendZeroDrift(helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftzero(), new BigDecimal(dz)));
             certificate.appendReferenceDrift(helper.calculateDrift(certificate.getsAmsdrift(), certificate.getDriftreference(), new BigDecimal(dr)));
             certificate.appendZeroPrecision(helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionzero(), new BigDecimal(pz)));
             certificate.appendReferencePrecision(helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionreference(), new BigDecimal(pr)));
@@ -237,6 +237,7 @@ public class QAL3Contract implements ContractInterface {
             helper.createFailureResponse(e.getMessage());
         }
        
+
     }
 
     

@@ -31,6 +31,14 @@ public class Helper {
         return json.toString();
     }
 
+    public String createResponse(String status, double msg){
+        JsonObject json = new JsonObject();
+        json.addProperty("status", status);
+        json.addProperty("response", msg);
+        return json.toString();
+    }
+
+
     public String createSuccessResponse(boolean msg){
         return createResponse("200", msg);
     }

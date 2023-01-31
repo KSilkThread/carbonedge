@@ -69,14 +69,14 @@ public class MonitoringContract implements ContractInterface {
         String timestamp = stub.getTxTimestamp().toString();
         String cmspID = clientIdentity.getMSPID();
 
-        Response response = stub.invokeChaincodeWithStringArgs("ReferenceContract", List.of("getlatest"), stub.getChannelId());
+        Response response = stub.invokeChaincodeWithStringArgs("ref", List.of("getLatest"), stub.getChannelId());
         String result = new String(response.getPayload(), StandardCharsets.UTF_8);
         JsonObject jsonresult = helper.parseResponse(result);  
         if(!jsonresult.get("status").getAsString().equals("200")){
             return helper.createFailureResponse("Model not found!");
         }
         CompositeKey key = stub.createCompositeKey(keyPrefixString, new String[] {cmspID, timestamp});
-        double benchmark = jsonresult.get("response").getAsJsonObject().get("benchmark").getAsDouble();
+        double benchmark = jsonresult.get("response").getAsDouble();
         MonitoringAsset asset = new MonitoringAsset(cmspID, benchmark * amount, timestamp);
         stub.putStringState(key.toString(), asset.toJSON());
         return helper.createSuccessResponse("Asset added successfully");

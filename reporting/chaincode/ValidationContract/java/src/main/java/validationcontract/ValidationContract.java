@@ -161,7 +161,7 @@ public class ValidationContract implements ContractInterface {
     @Transaction(intent = Transaction.TYPE.SUBMIT)
     public String checkCertificates(Context ctx, String sensorid, String ownerorganisation){
 
-        if(helper.isSuccess(assetExists(ctx, sensorid, ownerorganisation))){
+        if(!helper.isSuccess(assetExists(ctx, sensorid, ownerorganisation))){
             return helper.createFailureResponse("Asset does not exist");
         }
 
@@ -172,7 +172,7 @@ public class ValidationContract implements ContractInterface {
             Response response = stub.invokeChaincodeWithStringArgs(chaincode, List.of("isValid", sensorid, ownerorganisation), stub.getChannelId());
             String payload = new String(response.getPayload(), StandardCharsets.UTF_8);
             if(!helper.isSuccess(payload)){
-                return helper.createFailureResponse(helper.parseJson(payload).get("response").getAsString());
+                return helper.createFailureResponse(helper.parseJson(payload).get("response").getAsString() + " " + chaincode);
             }
         }
         

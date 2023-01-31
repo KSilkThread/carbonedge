@@ -59,7 +59,7 @@ public class ReferenceContract implements ContractInterface {
         @Transaction(intent = Transaction.TYPE.SUBMIT)
         public String pushReferenceModel(Context context, int version, double benchmark){
                 if(helper.isSuccess(modelExists(context, version))){
-                        return helper.createFailureResponse("Moidel already exists");
+                        return helper.createFailureResponse("Model already exists");
                 }
                 ChaincodeStub stub = context.getStub();
                 ReferenceModel model = new ReferenceModel(version, benchmark);
@@ -132,7 +132,7 @@ public class ReferenceContract implements ContractInterface {
                 if(latest == null){
                         return helper.createFailureResponse("Models not found");
                 } else {
-                        return helper.createSuccessResponse(latest.toJson());
+                        return helper.createResponse("200", latest.getBenchmark());
                 }
                 
         }
