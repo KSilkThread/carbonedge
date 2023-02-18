@@ -13,13 +13,13 @@ This document describes general interaction patterns (e.g., measuring) on implem
 ## 1. Measurement based methodology
 ...  
 
- <img src="../../pictures/measurement-based-method.svg"/> 
+ <img src="../../../pictures/measurement-based-method.svg"/> 
 
 
 ## 2. Calculation based methodology
 ...
 
-<img src="../../pictures/calculation-based-method.svg"/> 
+<img src="../../../pictures/calculation-based-method.svg"/> 
 
 ## 3. Certification of automated measuring system (AMS)
 ...
@@ -29,7 +29,7 @@ This section gathers general operations, associated with the continuous quality 
 
 ### User obtains available quality assurance operations from the network
 
-<img src="../../pictures/continuous-qa-of-ams-in-operation.svg"/> 
+<img src="../../../pictures/continuous-qa-of-ams-in-operation.svg"/> 
 
 ## 5. Installation, calibration and validation of automated measuring system (AMS)
 ...
