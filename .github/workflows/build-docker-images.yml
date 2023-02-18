@@ -19,12 +19,12 @@ jobs:
       with:
           node-version: 16
     - run: npm --version && node --version && pwd && npm install --legacy-peer-deps
-      working-directory: devices/hmi/app/edge-app
+      working-directory: deployment/images/hmi/app/edge-app
     - run: npm run build
-      working-directory: devices/hmi/app/edge-app
+      working-directory: deployment/images/hmi/app/edge-app
     
     - run: ls && pwd && docker build . -t ksilkthread/carbonmeter-webapp:latest
-      working-directory: devices/hmi/app/edge-app
+      working-directory: deployment/images/hmi/app/edge-app
     - name: Login to DockerHub
       uses: docker/login-action@v2
       with:
