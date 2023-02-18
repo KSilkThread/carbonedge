@@ -1,9 +1,15 @@
 # Carbon Accounting Demonstrator 
 
+
+
+
 This document describes all artefacts for rebuilding the carbon accounting demonstrator of the LIONS research project. The demonstrator consists of five Raspberry Pi's and a pocket pc running as a fully decentralized cluster to operate a Hyperledger Fabric blockchain network. The following picture shows the simplified setup of the cluster.
 
+Concept View             |  Real World View
+:-------------------------:|:-------------------------:
+<img src="./pictures/cluster.png" width="2000"/>  |  <img src="./pictures/demonstrator-hanover-1.png"/>
 
-<a href="https://www.raspberrypi.com/products/raspberry-pi-4-model-b/"> <img src="./pictures/pi-plug-in.gif" width="320" height="230"/><img src="./pictures/cluster.png" width="650" height="350"/></br><font size="1">Animation: https://www.raspberrypi.org/ </font>
+
 
 
 1. [Bill of Materials (BOM)](#bill-of-materials-bom)
