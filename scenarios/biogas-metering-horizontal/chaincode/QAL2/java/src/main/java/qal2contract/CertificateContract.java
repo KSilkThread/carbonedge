@@ -75,7 +75,7 @@ public class CertificateContract implements ContractInterface {
                 }
 
                 if(helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
-                        helper.createFailureResponse("Certificate already exists");
+                       return helper.createFailureResponse("Certificate already exists");
                 }
 
                 CertificateAsset certificate = new CertificateAsset(sensorid, ownerorg);
