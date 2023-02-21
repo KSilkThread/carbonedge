@@ -176,6 +176,13 @@ public class QAL3Certificate {
         this.precisionreference[n] = object;
     }
 
+    public void reset(){
+        appendReferenceDrift(new CusumDrift("0", "0", "0", false, false));
+        appendZeroDrift(new CusumDrift("0", "0", "0", false, false));
+        appendReferencePrecision(new CusumPrecision("0", "0", "0", "0", false));
+        appendZeroPrecision(new CusumPrecision("0", "0", "0", "0", false)); 
+    }
+
     
     /** 
      * @param obj

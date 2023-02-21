@@ -69,7 +69,7 @@ public class MonitoringContract implements ContractInterface {
         String timestamp = stub.getTxTimestamp().toString();
         String cmspID = clientIdentity.getMSPID();
 
-        Response response = stub.invokeChaincodeWithStringArgs("ref", List.of("getLatest"), stub.getChannelId());
+        Response response = stub.invokeChaincodeWithStringArgs("ReferenceModel", List.of("getLatest"), stub.getChannelId());
         String result = new String(response.getPayload(), StandardCharsets.UTF_8);
         JsonObject jsonresult = helper.parseResponse(result);  
         if(!jsonresult.get("status").getAsString().equals("200")){

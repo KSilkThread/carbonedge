@@ -70,12 +70,12 @@ public class CertificateContract implements ContractInterface {
         public String createCertificate(Context ctx, String sensorid, String ownerorg){
                 ChaincodeStub stub = ctx.getStub();
 
-                if(ownerorg == stub.getMspId()){
-                       return helper.createFailureResponse("You are not allowed to create a certificate for yourself");
-                }
+                //if(ownerorg == stub.getMspId()){
+                      // return helper.createFailureResponse("You are not allowed to create a certificate for yourself");
+               // }
 
                 if(helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
-                        helper.createFailureResponse("Certificate already exists");
+                        return helper.createFailureResponse("Certificate already exists");
                 }
 
                 CertificateAsset certificate = new CertificateAsset(sensorid, ownerorg);
@@ -101,9 +101,9 @@ public class CertificateContract implements ContractInterface {
                 String mspid = ctx.getClientIdentity().getMSPID();
                 X509Certificate cert = ctx.getClientIdentity().getX509Certificate();
 
-                if(ownerorg == stub.getMspId()){
-                        return helper.createFailureResponse("You are not allowed to update the inspector");
-                }
+                //if(ownerorg == stub.getMspId()){
+                        //return helper.createFailureResponse("You are not allowed to update the inspector");
+                //}
 
                 if(!helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
                         return helper.createFailureResponse("Certificate does not exist");
@@ -145,9 +145,9 @@ public class CertificateContract implements ContractInterface {
                 String mspid = ctx.getClientIdentity().getMSPID();
                 X509Certificate cert = ctx.getClientIdentity().getX509Certificate();
 
-                if(ownerorg == stub.getMspId()){
-                        return helper.createFailureResponse("You are not allowed to update the inspector");
-                }
+                //if(ownerorg == stub.getMspId()){
+                        //return helper.createFailureResponse("You are not allowed to update the inspector");
+                //}
 
                 if(!helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
                         return helper.createFailureResponse("Certificate does not exist");
@@ -201,9 +201,9 @@ public class CertificateContract implements ContractInterface {
                         return helper.createFailureResponse("The certificate does not exists");
                 }
 
-                if(!cmspID.equals(ownerorg)){
-                        return helper.createFailureResponse("Your organisation is not allowed to certify this device");
-                }
+                //if(!cmspID.equals(ownerorg)){
+                        //return helper.createFailureResponse("Your organisation is not allowed to certify this device");
+                //}
                 
                 
                 CertificateAsset currentcertificate = CertificateAsset.fromJSON(helper.parseJson(getCertificate(ctx, sensorid, ownerorg))
@@ -246,9 +246,9 @@ public class CertificateContract implements ContractInterface {
                 String mspid = ctx.getClientIdentity().getMSPID();
                 X509Certificate cert = ctx.getClientIdentity().getX509Certificate();
 
-                if(ownerorg == stub.getMspId()){
-                        return helper.createFailureResponse("You are not allowed to update the inspector");
-                }
+                //if(ownerorg == stub.getMspId()){
+                        //return helper.createFailureResponse("You are not allowed to update the inspector");
+                //}
 
                 if(!helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
                         return helper.createFailureResponse("Certificate does not exist");
@@ -301,9 +301,9 @@ public class CertificateContract implements ContractInterface {
                 if(!helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
                         return helper.createFailureResponse("Certificate does not exist");
                 }
-                if(ownerorg == stub.getMspId()){
-                        return helper.createFailureResponse("You are not allowed to update the inspector");
-                }
+                //if(ownerorg == stub.getMspId()){
+                        //return helper.createFailureResponse("You are not allowed to update the inspector");
+                //}
                 
                 stub.delState(helper.createCompositeKey(keyprefix, sensorid, ownerorg).toString());
                 return helper.createSuccessResponse("Certificate deleted successfully");

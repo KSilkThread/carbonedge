@@ -69,9 +69,9 @@ public class QAL3Contract implements ContractInterface {
         ChaincodeStub stub = ctx.getStub();
         ClientIdentity clientid = ctx.getClientIdentity();
 
-        if(clientid.getMSPID().equals(ownerorg)){
-            return helper.createFailureResponse("You are not allowed to create a Certificate for yourself");
-        }
+        //if(clientid.getMSPID().equals(ownerorg)){
+            //return helper.createFailureResponse("You are not allowed to create a Certificate for yourself");
+        //}
 
         if(helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
             return helper.createFailureResponse("Certificate already exists");
@@ -95,20 +95,21 @@ public class QAL3Contract implements ContractInterface {
      * @param ownerorg Organisation which owns the sensor
      */
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void deleteCertificate(Context ctx, String sensorid, String ownerorg){
+    public String deleteCertificate(Context ctx, String sensorid, String ownerorg){
         ChaincodeStub stub = ctx.getStub();
         ClientIdentity clientid = ctx.getClientIdentity();
 
-        if(clientid.getMSPID().equals(ownerorg)){
-            helper.createFailureResponse("You can not delete this certificate");
-        }
+        //if(clientid.getMSPID().equals(ownerorg)){
+            //helper.createFailureResponse("You can not delete this certificate");
+        //}
 
         if(!helper.isSuccess(certificateExists(ctx, sensorid, ownerorg))){
-            helper.createFailureResponse("The certificate does not exist");
+            return helper.createFailureResponse("The certificate does not exist");
         }
 
         CompositeKey key = new CompositeKey(kexprefix, new String[] {ownerorg, sensorid});
         stub.delState(key.toString());
+        return helper.createSuccessResponse("Asset deleted");
     }
 
     
@@ -151,7 +152,7 @@ public class QAL3Contract implements ContractInterface {
             return helper.createFailureResponse("The certificate does not exist");
         }
 
-        return helper.createSuccessResponse(stub.getStringState(helper.createCompositeKey(kexprefix, sensorid, ownerorg).toString()));
+        return stub.getStringState(helper.createCompositeKey(kexprefix, sensorid, ownerorg).toString());
     }
     
     /**
@@ -220,7 +221,7 @@ public class QAL3Contract implements ContractInterface {
      * @param pr Precision reference point
      */
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public void commitValues(Context ctx, String sensorid, String ownerorg, String dz, String dr, String pz, String pr){
+    public String commitValues(Context ctx, String sensorid, String ownerorg, String dz, String dr, String pz, String pr){
         ChaincodeStub stub = ctx.getStub();
 
         String certjson = getCertificate(ctx, sensorid, ownerorg);
@@ -232,9 +233,9 @@ public class QAL3Contract implements ContractInterface {
             certificate.appendReferencePrecision(helper.calculatePrecision(certificate.getsAmsprecision(), certificate.getPrecisionreference(), new BigDecimal(pr)));
             certificate.updateExpirydate(stub.getTxTimestamp());
             stub.putStringState(helper.createCompositeKey(kexprefix, sensorid, ownerorg).toString(), certificate.toJSON());
-            helper.createSuccessResponse("Values commited successfully");
+            return helper.createSuccessResponse("Values commited successfully");
         } catch (NumberFormatException e) {
-            helper.createFailureResponse(e.getMessage());
+            return helper.createFailureResponse(e.getMessage());
         }
        
 
@@ -253,7 +254,6 @@ public class QAL3Contract implements ContractInterface {
         if(!helper.isSuccess(isExpired(ctx, sensorid, ownerorg)) 
             && !helper.isSuccess(hasdecreasedPrecision(ctx, sensorid, ownerorg)) 
             && !helper.isSuccess(hasDrift(ctx, sensorid, ownerorg))){
-
             return helper.createSuccessResponse("QAL3 is valid");
         } else {
             return helper.createFailureResponse("QAL3 is invalid");
@@ -269,6 +269,7 @@ public class QAL3Contract implements ContractInterface {
      * @param ownerorg Organisation which owns the sensor
      * @return String response
      */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String hasDrift(Context ctx, String sensorid, String ownerorg) {
         QAL3Certificate cert = QAL3Certificate.fromJSON(getCertificate(ctx, sensorid, ownerorg));
         CusumDrift lastzeropoint = cert.getDriftzero()[cert.getDriftzero().length-1];
@@ -289,6 +290,7 @@ public class QAL3Contract implements ContractInterface {
      * @param ownerorg Organisation which owns the sensor
      * @return String response
      */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String hasdecreasedPrecision(Context ctx, String sensorid, String ownerorg) {
         QAL3Certificate cert = QAL3Certificate.fromJSON(getCertificate(ctx, sensorid, ownerorg));
         CusumPrecision lastzeropoint = cert.getPrecisionzero()[cert.getPrecisionzero().length-1];
@@ -309,12 +311,13 @@ public class QAL3Contract implements ContractInterface {
      * @param ownerorg Organisation which owns the sensor   
      * @return String response
      */
+    @Transaction(intent = Transaction.TYPE.EVALUATE)
     public String isExpired(Context ctx, String sensorid, String ownerorg) {
         QAL3Certificate cert = QAL3Certificate.fromJSON(getCertificate(ctx, sensorid, ownerorg));
         ChaincodeStub stub = ctx.getStub();
 
         if(cert.getExpirydate() == null){
-            helper.createSuccessResponse(true);
+            return helper.createSuccessResponse(true);
         }
         Instant expire = Instant.parse(cert.getExpirydate());
         if(stub.getTxTimestamp().isAfter(expire)){
@@ -322,6 +325,15 @@ public class QAL3Contract implements ContractInterface {
         } else {
             return helper.createFailureResponse(false);
         }
+    }
+
+    @Transaction(intent = Transaction.TYPE.SUBMIT)
+    public void reset(Context ctx, String sensorid, String ownerorg){
+        ChaincodeStub stub = ctx.getStub();
+        String certjson = getCertificate(ctx, sensorid, ownerorg);
+        QAL3Certificate certificate = QAL3Certificate.fromJSON(certjson);
+        certificate.reset();
+        stub.putStringState(helper.createCompositeKey(kexprefix, sensorid, ownerorg).toString(), certificate.toJSON());
     }
     
 }
