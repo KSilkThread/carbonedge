@@ -1,0 +1,20 @@
+[
+    {
+        "id": "f7c93124508f6705",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "fb287e817e352fbc",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Hello ICBC!",
+        "info": "",
+        "x": 510,
+        "y": 140,
+        "wires": []
+    }
+]
