@@ -1,4 +1,4 @@
-package monitoringcontract;
+package measurementcontract;
 
 import java.util.Objects;
 import org.hyperledger.fabric.contract.annotation.DataType;

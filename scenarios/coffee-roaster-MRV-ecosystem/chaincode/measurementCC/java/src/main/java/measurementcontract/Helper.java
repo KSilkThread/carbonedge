@@ -1,4 +1,4 @@
-package monitoringcontract;
+package measurementcontract;
 
 import java.util.ArrayList;
 import java.util.List;

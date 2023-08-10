@@ -1,4 +1,4 @@
-package monitoringcontract;
+package measurementcontract;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ import com.google.gson.JsonObject;
                         name = "janzumbier")))
 
 @Default
-public class MonitoringContract implements ContractInterface {
+public class MeasurementContract implements ContractInterface {
 
     String keyPrefixString = "mspid~sensorid~timestamp";
 
