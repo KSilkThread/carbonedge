@@ -29,12 +29,12 @@ CarbonEdge on the [Festival of the Future](https://festivalderzukunft.com/)  in 
 <img width="400px" src="./pictures/icbc23.png"/>
 
 Karl Seidenfad and Jan Biermann present CarbonEdge on the [5th IEEE International Conference
-on Blockchain and Cryptocurrency (ICBC) in Dubai](https://www.linuxfoundation.org/research/web3-and-sustainability)  - The flagship conference on blockchain technology.
+on Blockchain and Cryptocurrency (ICBC) in Dubai](https://icbc2023.ieee-icbc.org/)  - The flagship conference on blockchain technology.
 
 #### February
 <img width="400px" src="./pictures/linux.jpeg"/>
 
-The LINUX Foundation mentions the work on CarbonEdge in their [Web3 and Sustainability](https://icbc2023.ieee-icbc.org/) report for 2023.
+The LINUX Foundation mentions the work on CarbonEdge in their [Web3 and Sustainability](https://www.linuxfoundation.org/research/web3-and-sustainability) report for 2023.
 
 ### 2022
 
