@@ -4,3 +4,6 @@
 [submodule "scenarios/coffee-roaster-MRV-ecosystem/artisan"]
 	path = scenarios/coffee-roaster-MRV-ecosystem/artisan
 	url = https://github.com/artisan-roaster-scope/artisan
+[submodule "scenarios/coffee-roaster-MRV-ecosystem/artisan-carbonedge"]
+	path = scenarios/coffee-roaster-MRV-ecosystem/artisan-carbonedge
+	url = https://github.com/janzumbier/artisan-carbonedge
