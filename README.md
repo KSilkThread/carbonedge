@@ -13,6 +13,11 @@ CarbonEdge was created in an iterative design process based on the Design Scienc
 
 ### 2023
 
+#### September
+
+<img width="400px" src="./pictures/i4cs-bamberg.jpeg"/>
+
+CarbonEdge was represented by Karl Seidenfad, Maximilian Greiner, Jan Biermann, and Ulrike Lechner at the  [23rd International Conference on Innovations for Community Services (I4CS)](https://www.eah-jena.de/i4cs-conference) at the Otto Friedrich University of Bamberg, Bamberg Germany.
 
 #### July
 
