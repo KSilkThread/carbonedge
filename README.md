@@ -4,9 +4,9 @@ CarbonEdge was created in an iterative design process based on the Design Scienc
 
 | Iteration | Scenario                           | Demonstrator                                            | Architecture |
 |-----------|------------------------------------|---------------------------------------------------------|-------------|
-| 3rd       | The Coffee Roastery Consortium     | <img width="400px" src="./pictures/3-ecosystem.png"/>   |<img width="500px" src="./pictures/3a-ecosystem.png"/>             |
-| 2nd       | The Biogas Plant Consortium        | <img width="250px" src="./pictures/2a-horizontal.png"/> |<img width="500px" src="./pictures/2c-horizontal.png"/>             |
-| 1st       | The Coffee Supply Chain Consortium | <img width="400px" src="./pictures/1b-vertical.png"/>   |<img width="500px" src="./pictures/1c-vertical.png"/>             |
+| 3rd       | The Coffee Roastery Consortium     | <img width="400px" src="./pictures/3-ecosystem.png"/>   | <img width="700px" src="./pictures/advanced-coffee-architecture.png"/>            |
+| 2nd       | The Biogas Plant Consortium        | <img width="250px" src="./pictures/2a-horizontal.png"/> |<img width="700px" src="./pictures/2c-horizontal.png"/>             |
+| 1st       | The Coffee Supply Chain Consortium | <img width="400px" src="./pictures/1b-vertical.png"/>   |<img width="700px" src="./pictures/1c-vertical.png"/>             |
 
 ## CarbonEdge Highlights. :rocket:
 
