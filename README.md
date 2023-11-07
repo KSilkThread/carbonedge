@@ -58,4 +58,4 @@ Prof. Dr. Ulrike Lechner presents the CarbonEdge demonstrator concept to the Min
 #### November
 <img width="400px" src="./pictures/zurich2021.png"/>  
                                                                                                                              
-Karl Seidenfad presents the LIONS project and the first ideation of CarbonEdge on the [International FinTech, InsurTech & Blockchain Forum ](https://www.fintech-forum.org/) in Zurich.
+Karl Seidenfad and Jan B.presents the LIONS project and the first ideation of CarbonEdge on the [International FinTech, InsurTech & Blockchain Forum ](https://www.fintech-forum.org/) in Zurich.
