@@ -218,7 +218,6 @@ public class CertificateContract implements ContractInterface {
                         byte[] hashedsecid = digest.digest(salted.getBytes(StandardCharsets.UTF_8));
 
                         if(new String(hashedsecid, StandardCharsets.UTF_8).equals(currentcertificate.getSecid())){
-                        
                                 currentcertificate.setFirstauth(true);
                                 stub.putStringState(helper.createCompositeKey(keyprefix, sensorid, ownerorg).toString(), currentcertificate.toJson());
                                 return helper.createSuccessResponse("Sensor was certified successfully");

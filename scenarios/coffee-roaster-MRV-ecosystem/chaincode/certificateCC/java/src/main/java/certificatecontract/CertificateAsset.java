@@ -155,7 +155,7 @@ public class CertificateAsset {
     
     /** 
      * @param jsonstring
-     * @return Qal2Certificate
+     * @return CertificateAsset
      */
     public static CertificateAsset fromJSON(String jsonstring){
         return new Gson().fromJson(jsonstring, CertificateAsset.class);
