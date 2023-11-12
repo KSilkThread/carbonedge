@@ -1,0 +1,62 @@
+{
+    "Organisation": "org1",
+    "Sensors": [
+      {
+        "Sensorid": "sensor",
+        "Logs": [
+          {
+            "sensorid": "sensor",
+            "organisation": "org1",
+            "data": 100,
+            "timestamp": "2022-11-08T13:20:07.546119200Z"
+          },
+          {
+            "sensorid": "sensor",
+            "organisation": "org1",
+            "data": 1000,
+            "timestamp": "2022-11-08T13:20:07.546119200Z"
+          },
+          {
+            "sensorid": "sensor",
+            "organisation": "org1",
+            "data": 1020,
+            "timestamp": "2022-11-08T13:20:07.546119200Z"
+          },
+          {
+            "sensorid": "sensor",
+            "organisation": "org1",
+            "data": 1044,
+            "timestamp": "2022-11-08T13:20:07.546119200Z"
+          }
+        ]
+      },
+      {
+        "Sensorid": "sensor1",
+        "Logs": [
+          {
+            "sensorid": "sensor1",
+            "organisation": "org1",
+            "data": 100,
+            "timestamp": "2022-11-08T13:20:07.546119200Z"
+          },
+          {
+            "sensorid": "sensor1",
+            "organisation": "org1",
+            "data": 1033,
+            "timestamp": "2022-11-08T13:20:07.546119200Z"
+          }
+        ]
+      },
+      {
+        "Sensorid": "sensor3",
+        "Logs": [
+          {
+            "sensorid": "sensor3",
+            "organisation": "org1",
+            "data": 160,
+            "timestamp": "2022-11-08T13:20:07.546119200Z"
+          }
+        ]
+      }
+    ]
+  }
