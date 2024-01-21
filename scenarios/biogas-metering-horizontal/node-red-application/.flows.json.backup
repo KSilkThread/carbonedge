@@ -126,9 +126,9 @@
         "userid": "Admin",
         "channel": "mychannel",
         "chaincode": "simple",
-        "cmd": "invoke",
+        "cmd": "query",
         "configurations": "e59a45358b52e49f",
-        "transactiontype": "submit",
+        "transactiontype": "evaluate",
         "x": 710,
         "y": 320,
         "wires": [

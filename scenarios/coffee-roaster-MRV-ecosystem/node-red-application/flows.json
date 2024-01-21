@@ -8,13 +8,6 @@
         "env": []
     },
     {
-        "id": "e59a45358b52e49f",
-        "type": "configNode",
-        "name": "",
-        "ccpPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\mychannel_connection_for_nodesdk.json",
-        "walletPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\wallets\\org0.example.com"
-    },
-    {
         "id": "b313d8b697692341",
         "type": "http in",
         "z": "f7c93124508f6705",
@@ -147,5 +140,12 @@
         "x": 960,
         "y": 320,
         "wires": []
+    },
+    {
+        "id": "e59a45358b52e49f",
+        "type": "configNode",
+        "name": "",
+        "ccpPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\mychannel_connection_for_nodesdk.json",
+        "walletPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\wallets\\org0.example.com"
     }
 ]
