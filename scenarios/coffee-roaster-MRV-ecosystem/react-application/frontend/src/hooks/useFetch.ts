@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-function useFetch(url: any) {
-  const [data, setData] = useState(null);
+function useFetch(url: string) {
+  interface ApiResponse {
+    status: string;
+    response: string;
+  }
+  const [data, setData] = useState<ApiResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
