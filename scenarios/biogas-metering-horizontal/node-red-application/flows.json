@@ -1,6 +1,6 @@
 [
     {
-        "id": "f7c93124508f6705",
+        "id": "f543fa86a629904c",
         "type": "tab",
         "label": "Flow 1",
         "disabled": false,
@@ -8,13 +8,2116 @@
         "env": []
     },
     {
-        "id": "fb287e817e352fbc",
-        "type": "comment",
-        "z": "f7c93124508f6705",
-        "name": "Hello ICBC!",
+        "id": "927b118fcf87d631",
+        "type": "tab",
+        "label": "MQTT Test",
+        "disabled": false,
         "info": "",
+        "env": []
+    },
+    {
+        "id": "5281d76b54b846fe",
+        "type": "tab",
+        "label": "Monitoring (measurement)",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a81354e9a629fa53",
+        "type": "tab",
+        "label": "QAL 2 && AST",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3c848a2f0f83a002",
+        "type": "tab",
+        "label": "AST",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2d03394edd39ec03",
+        "type": "tab",
+        "label": "QAL 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "90f1a2a3023e26b3",
+        "type": "tab",
+        "label": "Sensor Emulator",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "3b312adbe9eb8ef7",
+        "type": "tab",
+        "label": "Monitoring (calculation)",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "91bb298fdb3302ad",
+        "type": "tab",
+        "label": "Enroll Sensor",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "621a88690bca30fc",
+        "type": "tab",
+        "label": "Measurement Flow ",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c7b124cc14855c30",
+        "type": "tab",
+        "label": "Certification Flow Artisan",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a8123b04379b110a",
+        "type": "revpi-server",
+        "host": "localhost",
+        "port": "8000",
+        "user": "",
+        "password": "",
+        "rejectUnauthorized": false,
+        "ca": ""
+    },
+    {
+        "id": "7c3dddc66c82680d",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "localhost",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "adc40283ab4fe733",
+        "type": "configNode",
+        "name": "Operator",
+        "ccpPath": "/home/pi/Desktop/Profile/ccp.json",
+        "walletPath": "/home/pi/Desktop/Profile/wallets/org.operator.com"
+    },
+    {
+        "id": "ce1b70a592afad1e",
+        "type": "inject",
+        "z": "f543fa86a629904c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 40,
+        "wires": [
+            [
+                "e50e4644935cd8f5"
+            ]
+        ]
+    },
+    {
+        "id": "e50e4644935cd8f5",
+        "type": "http request",
+        "z": "f543fa86a629904c",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://192.168.1.104/api/status",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "96da5bc88135e5ee"
+            ]
+        ]
+    },
+    {
+        "id": "96da5bc88135e5ee",
+        "type": "debug",
+        "z": "f543fa86a629904c",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 100,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "349ed5ddb04c42c4",
+        "type": "inject",
+        "z": "927b118fcf87d631",
+        "d": true,
+        "name": "Time Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "30",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "test",
+        "payloadType": "str",
+        "x": 180,
+        "y": 280,
+        "wires": [
+            [
+                "ab4ff9ca6f697c2d"
+            ]
+        ]
+    },
+    {
+        "id": "ab4ff9ca6f697c2d",
+        "type": "mqtt out",
+        "z": "927b118fcf87d631",
+        "name": "",
+        "topic": "test",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7c3dddc66c82680d",
+        "x": 430,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "fd1a050656cf8756",
+        "type": "mqtt in",
+        "z": "927b118fcf87d631",
+        "name": "",
+        "topic": "test",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "7c3dddc66c82680d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 230,
+        "y": 420,
+        "wires": [
+            [
+                "4db17a470c096568"
+            ]
+        ]
+    },
+    {
+        "id": "4db17a470c096568",
+        "type": "debug",
+        "z": "927b118fcf87d631",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "50101e65fd429a98",
+        "type": "mqtt out",
+        "z": "5281d76b54b846fe",
+        "name": "",
+        "topic": "rq1",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7c3dddc66c82680d",
+        "x": 250,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "aa78d1a8ec3c185e",
+        "type": "mqtt in",
+        "z": "5281d76b54b846fe",
+        "name": "",
+        "topic": "a1",
+        "qos": "0",
+        "datatype": "auto-detect",
+        "broker": "7c3dddc66c82680d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 440,
+        "wires": [
+            [
+                "889f769b6c903667"
+            ]
+        ]
+    },
+    {
+        "id": "f8764755ba77861f",
+        "type": "revpi-output",
+        "z": "5281d76b54b846fe",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 920,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "2eb86527411c2986",
+        "type": "revpi-output",
+        "z": "5281d76b54b846fe",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 920,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "4144a5e0d7a66f49",
+        "type": "switch",
+        "z": "5281d76b54b846fe",
+        "name": "Status == 200?",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "200",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 760,
+        "y": 440,
+        "wires": [
+            [
+                "123113b8cc54ba7a",
+                "f8764755ba77861f",
+                "cdc6ec18b22c2e2d"
+            ],
+            [
+                "df42a7e7c5c2ec36",
+                "2eb86527411c2986",
+                "0323d4d08fb57383"
+            ]
+        ]
+    },
+    {
+        "id": "db4f5e4ac6dc4f27",
+        "type": "txNode",
+        "z": "5281d76b54b846fe",
+        "name": "",
+        "userid": "co2sensor",
+        "channel": "mychannel",
+        "chaincode": "MeasurementContract",
+        "cmd": "pushMonitoringAsset",
+        "configurations": "adc40283ab4fe733",
+        "transactiontype": "submit",
+        "x": 450,
+        "y": 440,
+        "wires": [
+            [
+                "62b9cb407af455f6"
+            ]
+        ]
+    },
+    {
+        "id": "889f769b6c903667",
+        "type": "function",
+        "z": "5281d76b54b846fe",
+        "name": "Parse Arguments",
+        "func": "msg.args = msg.payload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 250,
+        "y": 440,
+        "wires": [
+            [
+                "db4f5e4ac6dc4f27"
+            ]
+        ]
+    },
+    {
+        "id": "be41d642af0876a2",
+        "type": "inject",
+        "z": "5281d76b54b846fe",
+        "name": "Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "dummy",
+        "payloadType": "str",
+        "x": 110,
+        "y": 340,
+        "wires": [
+            [
+                "50101e65fd429a98"
+            ]
+        ]
+    },
+    {
+        "id": "62b9cb407af455f6",
+        "type": "json",
+        "z": "5281d76b54b846fe",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 610,
+        "y": 440,
+        "wires": [
+            [
+                "4144a5e0d7a66f49"
+            ]
+        ]
+    },
+    {
+        "id": "123113b8cc54ba7a",
+        "type": "debug",
+        "z": "5281d76b54b846fe",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "df42a7e7c5c2ec36",
+        "type": "debug",
+        "z": "5281d76b54b846fe",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 920,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "cdc6ec18b22c2e2d",
+        "type": "revpi-output",
+        "z": "5281d76b54b846fe",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 960,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "0323d4d08fb57383",
+        "type": "revpi-output",
+        "z": "5281d76b54b846fe",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 960,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "79377c3aa6a00e84",
+        "type": "function",
+        "z": "a81354e9a629fa53",
+        "name": "Parse Args",
+        "func": "const secid = msg.payload\nconst args = [\"mysensor1234\", \"org-operator-com\", secid]\nmsg.args = args\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 520,
+        "wires": [
+            [
+                "0518f72175911dfd"
+            ]
+        ]
+    },
+    {
+        "id": "bf546b614c50a3af",
+        "type": "function",
+        "z": "a81354e9a629fa53",
+        "name": "Parse Args",
+        "func": "const secid = msg.payload\nconst args = [\"dummy\", \"org-operator-com\", secid]\nmsg.args = args\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 150,
+        "y": 600,
+        "wires": [
+            [
+                "7fbad9cae6a57f99"
+            ]
+        ]
+    },
+    {
+        "id": "1a78e148d8a925f3",
+        "type": "revpi-output",
+        "z": "a81354e9a629fa53",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 740,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "c0ad51460efb8b14",
+        "type": "revpi-output",
+        "z": "a81354e9a629fa53",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 760,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "8b4bb17db93ef498",
+        "type": "switch",
+        "z": "a81354e9a629fa53",
+        "name": "Status == 200?",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "400",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 680,
+        "y": 560,
+        "wires": [
+            [
+                "1a78e148d8a925f3",
+                "6c1e6e19c13efe19",
+                "58efc486d13df88e"
+            ],
+            [
+                "c0ad51460efb8b14",
+                "7243799834b2ec4e",
+                "733e33a0866f74c2"
+            ]
+        ]
+    },
+    {
+        "id": "b18f360148a91ff9",
+        "type": "switch",
+        "z": "a81354e9a629fa53",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 190,
+        "y": 140,
+        "wires": [
+            [
+                "af00b277a0d0be10"
+            ]
+        ]
+    },
+    {
+        "id": "0518f72175911dfd",
+        "type": "txNode",
+        "z": "a81354e9a629fa53",
+        "name": "",
+        "userid": "co2sensor",
+        "channel": "mychannel",
+        "chaincode": "QAL2",
+        "cmd": "certify",
+        "configurations": "adc40283ab4fe733",
+        "transactiontype": "submit",
+        "x": 430,
+        "y": 520,
+        "wires": [
+            [
+                "b4b04df0711bd69c"
+            ]
+        ]
+    },
+    {
+        "id": "7fbad9cae6a57f99",
+        "type": "txNode",
+        "z": "a81354e9a629fa53",
+        "name": "",
+        "userid": "co2sensor",
+        "channel": "mychannel",
+        "chaincode": "AST",
+        "cmd": "certify",
+        "configurations": "adc40283ab4fe733",
+        "transactiontype": "submit",
+        "x": 430,
+        "y": 600,
+        "wires": [
+            [
+                "b4b04df0711bd69c"
+            ]
+        ]
+    },
+    {
+        "id": "308e81e15d66e05f",
+        "type": "revpi-single-input",
+        "z": "a81354e9a629fa53",
+        "server": "a8123b04379b110a",
+        "inputpin": "I_1",
+        "topic": "",
+        "x": 70,
+        "y": 140,
+        "wires": [
+            [
+                "b18f360148a91ff9"
+            ]
+        ]
+    },
+    {
+        "id": "af00b277a0d0be10",
+        "type": "http request",
+        "z": "a81354e9a629fa53",
+        "name": "Read Secret",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://193.168.2.102:443/api/transponder",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "bearer",
+        "senderr": false,
+        "headers": [],
+        "x": 230,
+        "y": 220,
+        "wires": [
+            [
+                "31299d3b315f280d"
+            ]
+        ]
+    },
+    {
+        "id": "31299d3b315f280d",
+        "type": "json",
+        "z": "a81354e9a629fa53",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 370,
+        "y": 220,
+        "wires": [
+            [
+                "3ad42a2e51e49315"
+            ]
+        ]
+    },
+    {
+        "id": "3ad42a2e51e49315",
+        "type": "function",
+        "z": "a81354e9a629fa53",
+        "name": "function 1",
+        "func": "msg.payload = msg.payload.securityId\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 220,
+        "wires": [
+            [
+                "3da86b439f06b9f8"
+            ]
+        ]
+    },
+    {
+        "id": "3da86b439f06b9f8",
+        "type": "switch",
+        "z": "a81354e9a629fa53",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "613E5C3323300608",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "42C726118E96BF2C",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 630,
+        "y": 220,
+        "wires": [
+            [
+                "79377c3aa6a00e84"
+            ],
+            [
+                "bf546b614c50a3af"
+            ],
+            [
+                "8116ab48e5c4e449",
+                "8696789ee7eee0a5"
+            ]
+        ]
+    },
+    {
+        "id": "8116ab48e5c4e449",
+        "type": "revpi-output",
+        "z": "a81354e9a629fa53",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 800,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "8696789ee7eee0a5",
+        "type": "revpi-output",
+        "z": "a81354e9a629fa53",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 800,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "b4b04df0711bd69c",
+        "type": "json",
+        "z": "a81354e9a629fa53",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 510,
+        "y": 560,
+        "wires": [
+            [
+                "8b4bb17db93ef498"
+            ]
+        ]
+    },
+    {
+        "id": "7243799834b2ec4e",
+        "type": "revpi-output",
+        "z": "a81354e9a629fa53",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 860,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "6c1e6e19c13efe19",
+        "type": "revpi-output",
+        "z": "a81354e9a629fa53",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 860,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "58efc486d13df88e",
+        "type": "debug",
+        "z": "a81354e9a629fa53",
+        "name": "debug 9",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "733e33a0866f74c2",
+        "type": "debug",
+        "z": "a81354e9a629fa53",
+        "name": "debug 10",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 900,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "ae02338968e56777",
+        "type": "mqtt out",
+        "z": "2d03394edd39ec03",
+        "name": "",
+        "topic": "rQAL3",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7c3dddc66c82680d",
+        "x": 310,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "6ace327962e49ad7",
+        "type": "mqtt in",
+        "z": "2d03394edd39ec03",
+        "name": "",
+        "topic": "aQAL3",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7c3dddc66c82680d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 400,
+        "wires": [
+            [
+                "79c05a9674423c08"
+            ]
+        ]
+    },
+    {
+        "id": "79c05a9674423c08",
+        "type": "function",
+        "z": "2d03394edd39ec03",
+        "name": "parse Arguments",
+        "func": "msg.args = msg.payload\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 400,
+        "wires": [
+            [
+                "aa7cc7c67e5e6219"
+            ]
+        ]
+    },
+    {
+        "id": "b931dc781b4bb167",
+        "type": "revpi-output",
+        "z": "2d03394edd39ec03",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 660,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "ae96d276abd0b531",
+        "type": "revpi-output",
+        "z": "2d03394edd39ec03",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 660,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "7fd78314b50bc654",
+        "type": "switch",
+        "z": "2d03394edd39ec03",
+        "name": "Status == 200?",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "400",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 240,
+        "y": 560,
+        "wires": [
+            [
+                "b931dc781b4bb167",
+                "b07c4826a31aa6ce",
+                "bd26a29c5aef90a8"
+            ],
+            [
+                "ae96d276abd0b531",
+                "a36084ce03f568b4",
+                "fa1d6dcaf56c93b8"
+            ]
+        ]
+    },
+    {
+        "id": "aa7cc7c67e5e6219",
+        "type": "txNode",
+        "z": "2d03394edd39ec03",
+        "name": "",
+        "userid": "co2sensor",
+        "channel": "mychannel",
+        "chaincode": "QAL3",
+        "cmd": "commitValues",
+        "configurations": "adc40283ab4fe733",
+        "transactiontype": "submit",
+        "x": 550,
+        "y": 400,
+        "wires": [
+            [
+                "474af7080efc3948"
+            ]
+        ]
+    },
+    {
+        "id": "5fd12b6a02f281ac",
+        "type": "inject",
+        "z": "2d03394edd39ec03",
+        "name": "Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "x",
+        "payloadType": "str",
+        "x": 170,
+        "y": 320,
+        "wires": [
+            [
+                "ae02338968e56777"
+            ]
+        ]
+    },
+    {
+        "id": "bd26a29c5aef90a8",
+        "type": "debug",
+        "z": "2d03394edd39ec03",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "fa1d6dcaf56c93b8",
+        "type": "debug",
+        "z": "2d03394edd39ec03",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "b07c4826a31aa6ce",
+        "type": "revpi-output",
+        "z": "2d03394edd39ec03",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 660,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "a36084ce03f568b4",
+        "type": "revpi-output",
+        "z": "2d03394edd39ec03",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 660,
+        "y": 700,
+        "wires": []
+    },
+    {
+        "id": "474af7080efc3948",
+        "type": "json",
+        "z": "2d03394edd39ec03",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 750,
+        "y": 400,
+        "wires": [
+            [
+                "7fd78314b50bc654"
+            ]
+        ]
+    },
+    {
+        "id": "ae22a33ccfd0c608",
+        "type": "mqtt in",
+        "z": "90f1a2a3023e26b3",
+        "name": "",
+        "topic": "rq1",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7c3dddc66c82680d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 90,
+        "y": 80,
+        "wires": [
+            [
+                "6d574b0cf2070778"
+            ]
+        ]
+    },
+    {
+        "id": "6d574b0cf2070778",
+        "type": "function",
+        "z": "90f1a2a3023e26b3",
+        "name": "Generate data",
+        "func": "const measurements = [\"co2sensor\",100]\nmsg.payload = measurements;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 80,
+        "wires": [
+            [
+                "acb81be79a4d2294"
+            ]
+        ]
+    },
+    {
+        "id": "acb81be79a4d2294",
+        "type": "mqtt out",
+        "z": "90f1a2a3023e26b3",
+        "name": "",
+        "topic": "a1",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7c3dddc66c82680d",
+        "x": 610,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "e7a112aa7d856610",
+        "type": "mqtt in",
+        "z": "90f1a2a3023e26b3",
+        "name": "",
+        "topic": "rQAL3",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7c3dddc66c82680d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 130,
+        "y": 180,
+        "wires": [
+            [
+                "6f7ac1f6b242643f"
+            ]
+        ]
+    },
+    {
+        "id": "6f7ac1f6b242643f",
+        "type": "function",
+        "z": "90f1a2a3023e26b3",
+        "name": "Generate data",
+        "func": "const m = [\"co2sensor\",\"org-operator-com\",\"1\",\"1\",\"1\",\"1\"];\nmsg.payload = m\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 180,
+        "wires": [
+            [
+                "3bdabf377deedb2d"
+            ]
+        ]
+    },
+    {
+        "id": "3bdabf377deedb2d",
+        "type": "mqtt out",
+        "z": "90f1a2a3023e26b3",
+        "name": "",
+        "topic": "aQAL3",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7c3dddc66c82680d",
+        "x": 480,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "ae7a0cfaf0981340",
+        "type": "inject",
+        "z": "3b312adbe9eb8ef7",
+        "name": "Trigger",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 110,
+        "y": 180,
+        "wires": [
+            [
+                "11f1c8728857c484"
+            ]
+        ]
+    },
+    {
+        "id": "11f1c8728857c484",
+        "type": "mqtt out",
+        "z": "3b312adbe9eb8ef7",
+        "name": "",
+        "topic": "requestproduction",
+        "qos": "2",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7c3dddc66c82680d",
+        "x": 310,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "aa65421c9cae01c4",
+        "type": "mqtt in",
+        "z": "3b312adbe9eb8ef7",
+        "name": "",
+        "topic": "answerproduction",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7c3dddc66c82680d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 150,
+        "y": 260,
+        "wires": [
+            [
+                "b09dc71990a33977"
+            ]
+        ]
+    },
+    {
+        "id": "b09dc71990a33977",
+        "type": "function",
+        "z": "3b312adbe9eb8ef7",
+        "name": "parse Data",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 260,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "00697c4e12972c6f",
+        "type": "function",
+        "z": "3b312adbe9eb8ef7",
+        "name": "process response",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 650,
+        "y": 380,
+        "wires": [
+            [
+                "9fb1bafa0cd24ecc"
+            ]
+        ]
+    },
+    {
+        "id": "b0ac6887a3f228bf",
+        "type": "revpi-output",
+        "z": "3b312adbe9eb8ef7",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_1",
+        "overwritevalue": false,
+        "outputvalue": "",
+        "x": 860,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "9fb1bafa0cd24ecc",
+        "type": "switch",
+        "z": "3b312adbe9eb8ef7",
+        "name": "Status == 200?",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 840,
+        "y": 380,
+        "wires": [
+            [
+                "b0ac6887a3f228bf"
+            ],
+            [
+                "854502778c289a56"
+            ]
+        ]
+    },
+    {
+        "id": "854502778c289a56",
+        "type": "revpi-output",
+        "z": "3b312adbe9eb8ef7",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": false,
+        "outputvalue": "",
+        "x": 860,
+        "y": 460,
+        "wires": []
+    },
+    {
+        "id": "2e25e1548cbb0559",
+        "type": "inject",
+        "z": "91bb298fdb3302ad",
+        "name": "Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 280,
+        "wires": [
+            [
+                "e7d44a66fa2db185"
+            ]
+        ]
+    },
+    {
+        "id": "e7d44a66fa2db185",
+        "type": "enrollAdmin",
+        "z": "91bb298fdb3302ad",
+        "name": "",
+        "adminid": "admin",
+        "adminsecret": "adminpw",
+        "caAddress": "ca1.org.operator.com",
+        "mspId": "org-operator-com",
+        "configurations": "adc40283ab4fe733",
+        "x": 370,
+        "y": 280,
+        "wires": [
+            [
+                "a477f95a1d7c3265"
+            ]
+        ]
+    },
+    {
+        "id": "35dac0dbb6507c79",
+        "type": "addUser",
+        "z": "91bb298fdb3302ad",
+        "name": "",
+        "enrollmentId": "co2sensor",
+        "caAddress": "ca1.org.operator.com",
+        "role": "client",
+        "mspId": "org-operator-com",
+        "configurations": "adc40283ab4fe733",
+        "x": 380,
+        "y": 400,
+        "wires": [
+            [
+                "5e4de59baf097e5f"
+            ]
+        ]
+    },
+    {
+        "id": "a477f95a1d7c3265",
+        "type": "debug",
+        "z": "91bb298fdb3302ad",
+        "name": "debug 11",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "0f0232dba8adc557",
+        "type": "inject",
+        "z": "91bb298fdb3302ad",
+        "name": "Trigger",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "str",
+        "x": 170,
+        "y": 400,
+        "wires": [
+            [
+                "35dac0dbb6507c79"
+            ]
+        ]
+    },
+    {
+        "id": "5e4de59baf097e5f",
+        "type": "debug",
+        "z": "91bb298fdb3302ad",
+        "name": "debug 12",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "090bb8169335fc4b",
+        "type": "inject",
+        "z": "621a88690bca30fc",
+        "name": "Trigger",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 350,
+        "y": 100,
+        "wires": [
+            [
+                "4e481bc993970d8f"
+            ]
+        ]
+    },
+    {
+        "id": "4e481bc993970d8f",
+        "type": "http request",
+        "z": "621a88690bca30fc",
+        "name": "Request Artisan",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 440,
+        "y": 220,
+        "wires": [
+            [
+                "a701e3dcd877122a"
+            ]
+        ]
+    },
+    {
+        "id": "89acfb765bcf2102",
+        "type": "function",
+        "z": "621a88690bca30fc",
+        "name": "Parse arguments",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 140,
+        "wires": [
+            [
+                "e2cf35d91b1f9143"
+            ]
+        ]
+    },
+    {
+        "id": "e2cf35d91b1f9143",
+        "type": "txNode",
+        "z": "621a88690bca30fc",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "simple",
+        "cmd": "query",
+        "configurations": "adc40283ab4fe733",
+        "transactiontype": "submit",
+        "x": 710,
+        "y": 220,
+        "wires": [
+            [
+                "8ba37b6f4799781d"
+            ]
+        ]
+    },
+    {
+        "id": "f1df994158318bf1",
+        "type": "revpi-output",
+        "z": "621a88690bca30fc",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 1180,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6176b9244e489304",
+        "type": "revpi-output",
+        "z": "621a88690bca30fc",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 1180,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "074dd378cb492b7f",
+        "type": "switch",
+        "z": "621a88690bca30fc",
+        "name": "Status == 200?",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "neq",
+                "v": "200",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1020,
+        "y": 220,
+        "wires": [
+            [
+                "ca35e95d69e6bcc0",
+                "f1df994158318bf1",
+                "eb9e56486df28023"
+            ],
+            [
+                "8353452eaaf0a54a",
+                "6176b9244e489304",
+                "8a935c1e39950102"
+            ]
+        ]
+    },
+    {
+        "id": "ca35e95d69e6bcc0",
+        "type": "debug",
+        "z": "621a88690bca30fc",
+        "name": "debug 13",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "8353452eaaf0a54a",
+        "type": "debug",
+        "z": "621a88690bca30fc",
+        "name": "debug 14",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1180,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "eb9e56486df28023",
+        "type": "revpi-output",
+        "z": "621a88690bca30fc",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 1220,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8a935c1e39950102",
+        "type": "revpi-output",
+        "z": "621a88690bca30fc",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 1220,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "8ba37b6f4799781d",
+        "type": "json",
+        "z": "621a88690bca30fc",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 870,
+        "y": 220,
+        "wires": [
+            [
+                "074dd378cb492b7f"
+            ]
+        ]
+    },
+    {
+        "id": "a701e3dcd877122a",
+        "type": "json",
+        "z": "621a88690bca30fc",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
         "x": 510,
         "y": 140,
+        "wires": [
+            [
+                "89acfb765bcf2102"
+            ]
+        ]
+    },
+    {
+        "id": "72b741e46995018e",
+        "type": "mqtt out",
+        "z": "c7b124cc14855c30",
+        "name": "",
+        "topic": "inspection",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "7c3dddc66c82680d",
+        "x": 360,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "8a2ec02477b82f06",
+        "type": "function",
+        "z": "c7b124cc14855c30",
+        "name": "Parse Args",
+        "func": "const secid = msg.payload\nconst args = [\"dummy\", \"org-operator-com\", secid]\nmsg.args = args\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 170,
+        "y": 440,
+        "wires": [
+            [
+                "f462fd8e3bd8702d"
+            ]
+        ]
+    },
+    {
+        "id": "831e07bae752dd10",
+        "type": "revpi-output",
+        "z": "c7b124cc14855c30",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 940,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e877038136702bfb",
+        "type": "revpi-output",
+        "z": "c7b124cc14855c30",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 940,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "886afb973fb47f55",
+        "type": "switch",
+        "z": "c7b124cc14855c30",
+        "name": "Status == 200?",
+        "property": "payload.status",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "400",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 760,
+        "y": 440,
+        "wires": [
+            [
+                "831e07bae752dd10",
+                "c7a32520017cb14c",
+                "54ce5bff1674b0c3"
+            ],
+            [
+                "e877038136702bfb",
+                "370597d10e7822d8",
+                "9d161902f2ba543b"
+            ]
+        ]
+    },
+    {
+        "id": "435ac52ccef7e5af",
+        "type": "switch",
+        "z": "c7b124cc14855c30",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 230,
+        "y": 80,
+        "wires": [
+            [
+                "72b741e46995018e"
+            ]
+        ]
+    },
+    {
+        "id": "f462fd8e3bd8702d",
+        "type": "txNode",
+        "z": "c7b124cc14855c30",
+        "name": "",
+        "userid": "co2sensor",
+        "channel": "mychannel",
+        "chaincode": "AST",
+        "cmd": "certify",
+        "configurations": "adc40283ab4fe733",
+        "transactiontype": "submit",
+        "x": 390,
+        "y": 440,
+        "wires": [
+            [
+                "88809f0be42632ab"
+            ]
+        ]
+    },
+    {
+        "id": "c06671787a6f115a",
+        "type": "revpi-single-input",
+        "z": "c7b124cc14855c30",
+        "server": "a8123b04379b110a",
+        "inputpin": "I_2",
+        "topic": "",
+        "x": 110,
+        "y": 80,
+        "wires": [
+            [
+                "435ac52ccef7e5af"
+            ]
+        ]
+    },
+    {
+        "id": "3edca41dddc4ee69",
+        "type": "http request",
+        "z": "c7b124cc14855c30",
+        "name": "Read Secret",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://193.168.1.102:443/api/transponder",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "bearer",
+        "senderr": false,
+        "headers": [],
+        "x": 270,
+        "y": 160,
+        "wires": [
+            [
+                "5db3a6d14ae96eea"
+            ]
+        ]
+    },
+    {
+        "id": "5db3a6d14ae96eea",
+        "type": "json",
+        "z": "c7b124cc14855c30",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 410,
+        "y": 160,
+        "wires": [
+            [
+                "27ac460a29698fc7"
+            ]
+        ]
+    },
+    {
+        "id": "27ac460a29698fc7",
+        "type": "function",
+        "z": "c7b124cc14855c30",
+        "name": "function 2",
+        "func": "msg.payload = msg.payload.securityId\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 160,
+        "wires": [
+            [
+                "55e982339a5314fb"
+            ]
+        ]
+    },
+    {
+        "id": "85981d8fda61f6ae",
+        "type": "mqtt in",
+        "z": "c7b124cc14855c30",
+        "name": "",
+        "topic": "inspection",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "7c3dddc66c82680d",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "3edca41dddc4ee69"
+            ]
+        ]
+    },
+    {
+        "id": "55e982339a5314fb",
+        "type": "switch",
+        "z": "c7b124cc14855c30",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "613E5C3323300608",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "42C726118E96BF2C",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 670,
+        "y": 160,
+        "wires": [
+            [],
+            [
+                "8a2ec02477b82f06"
+            ],
+            [
+                "ca13ab12f2af79a2",
+                "20b70c96a66ed94f"
+            ]
+        ]
+    },
+    {
+        "id": "ca13ab12f2af79a2",
+        "type": "revpi-output",
+        "z": "c7b124cc14855c30",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 920,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "20b70c96a66ed94f",
+        "type": "revpi-output",
+        "z": "c7b124cc14855c30",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "0",
+        "x": 920,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "88809f0be42632ab",
+        "type": "json",
+        "z": "c7b124cc14855c30",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 590,
+        "y": 440,
+        "wires": [
+            [
+                "886afb973fb47f55"
+            ]
+        ]
+    },
+    {
+        "id": "370597d10e7822d8",
+        "type": "revpi-output",
+        "z": "c7b124cc14855c30",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_4",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 940,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "c7a32520017cb14c",
+        "type": "revpi-output",
+        "z": "c7b124cc14855c30",
+        "server": "a8123b04379b110a",
+        "outputpin": "O_2",
+        "overwritevalue": true,
+        "outputvalue": "1",
+        "x": 940,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "54ce5bff1674b0c3",
+        "type": "debug",
+        "z": "c7b124cc14855c30",
+        "name": "debug 15",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "9d161902f2ba543b",
+        "type": "debug",
+        "z": "c7b124cc14855c30",
+        "name": "debug 16",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 940,
+        "y": 540,
         "wires": []
     }
 ]
