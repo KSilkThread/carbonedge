@@ -36,7 +36,7 @@
         "type": "function",
         "z": "f7c93124508f6705",
         "name": "Extract Sensor and Org",
-        "func": "\nmsg.args = [msg.payload.sensor, msg.payload.org]; // Extract the string from msg.payload.party\nconsole.log(msg);\nreturn msg; // Return the modified msg object\n",
+        "func": "\nmsg.args = [msg.payload.sensor, msg.payload.org];\nconsole.log(msg);\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -146,6 +146,73 @@
         "headers": {},
         "x": 960,
         "y": 320,
+        "wires": []
+    },
+    {
+        "id": "3c91dd9cb2e0fbc3",
+        "type": "http in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "url": "/getCertificate",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 120,
+        "wires": [
+            [
+                "43ff31d47f8b98c3"
+            ]
+        ]
+    },
+    {
+        "id": "43ff31d47f8b98c3",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "Extract Sensor and Org",
+        "func": "msg.args = [msg.req.query.sensor, msg.req.query.org];\nconsole.log(msg);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 120,
+        "wires": [
+            [
+                "e79bbd0539c23f7e"
+            ]
+        ]
+    },
+    {
+        "id": "e79bbd0539c23f7e",
+        "type": "txNode",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "certificateCC",
+        "cmd": "getCertificate",
+        "configurations": "e59a45358b52e49f",
+        "transactiontype": "evaluate",
+        "x": 810,
+        "y": 120,
+        "wires": [
+            [
+                "07522e151960a7ba"
+            ]
+        ]
+    },
+    {
+        "id": "07522e151960a7ba",
+        "type": "http response",
+        "z": "f7c93124508f6705",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1080,
+        "y": 120,
         "wires": []
     }
 ]

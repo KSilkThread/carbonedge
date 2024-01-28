@@ -1,0 +1,16 @@
+title Status of Recalibration of Sensor Process
+
+actor User
+participant "React Frontend" as RF
+participant "Node-RED Backend" as NRB
+participant "Blockchain" as HFB
+
+note over User, HFB: Authentication process assumed to have been completed
+
+User->RF: Open dashboard
+RF->NRB: HTTP GET request for calibration timer
+NRB->HFB: Invoke measurementCC Smart Contract
+HFB-->NRB: Return calibration timer value
+NRB-->RF: Send calibration timer value
+RF-->User: Update color indicator state
+note right of RF: Color states:\nRed - Time ended\nYellow - Time soon to end\nGreen - Sufficient time

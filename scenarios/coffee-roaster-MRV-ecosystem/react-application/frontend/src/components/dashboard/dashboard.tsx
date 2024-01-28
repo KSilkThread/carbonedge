@@ -62,9 +62,9 @@ const options = {
   };
 
   const url = "http://127.0.0.1:1880/getCertificate?sensor=sensor3&org=org0-example-com";
-  const { data, loading, error } = useFetch(url);
+  const { data, loading, error } = useFetch(url); //testable
 
-  const getCircleColor = () => {
+  const getCircleColor = () => { //testable
     if (loading) return 'transparent';
     if (error) return 'grey';
     const parsedData = data ? JSON.parse(data.response) as CertificateData : null;
@@ -87,7 +87,7 @@ const options = {
                     Logout
                 </Button>
             </Box>
-            <Grid container spacing={8}>
+            <Grid container spacing={1}>
             <Grid item xs={6}>
                 <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column',  minHeight: "200px" }}>
                     <Typography variant="h6">Calibration Status</Typography>

@@ -1,0 +1,23 @@
+title Calibration by Inspector Process
+
+actor User
+participant "React Frontend" as RF
+participant "Node-RED Backend" as NRB
+participant "Blockchain" as HFB
+
+note over User, HFB: Authentication and Status of Sensor Process completed
+
+User->RF: Press button to start calibration
+RF-->User: Blink color indicator yellow
+RF->NRB: Send start calibration request
+note right of User: User holds button for 3 seconds
+
+User->RF: Press and hold button
+RF-->User: Change indicator to static yellow
+RF->NRB: Send calibration finished request
+NRB->HFB: Invoke calibrationCC Smart Contract
+HFB-->NRB: Return calibration status
+NRB-->RF: Update color indicator to green
+RF-->User: Display updated color indicator
+note right of RF: Calibration process completed
+
