@@ -62,7 +62,7 @@ Verify Golang environment setup by checking ```go env``` and see if GOPATH and G
     ARCH=`uname -m | sed 's|i686|386|' | sed 's|x86_64|amd64|' | sed 's|aarch64|arm64|'`
     ```
 
-    Further, all instances of goland- "version" has to be replaced with your actual golang-"version"
+    Further, all instances of golang- "version" has to be replaced with your actual golang-"version"
 
 4. For initiating the building process you have to execute, while in hyperledgerfabric directory
 
