@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # Based on https://github.com/apache/couchdb-docker/blob/master/2.1.1/Dockerfile
 
-FROM debian:stretch-20190910-slim
+FROM arm64v8/debian:buster
 
 # Add CouchDB user account
 RUN groupadd -g 5984 -r couchdb && useradd -u 5984 -d /opt/couchdb -g couchdb couchdb
@@ -12,8 +12,7 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     curl \
     erlang-nox \
     erlang-reltool \
-    libicu57 \
-    libmozjs185-1.0 \
+    libicu63 \
     openssl \
     dirmngr \
     gnupg \
