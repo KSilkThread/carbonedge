@@ -16,6 +16,12 @@ RUN apt-get update -y && apt-get install -y --no-install-recommends \
     openssl \
     dirmngr \
     gnupg \
+    && wget http://launchpadlibrarian.net/309343840/libmozjs185-1.0_1.8.5-1.0.0+dfsg-7_arm64.deb \
+    && dpkg --force-depends -i libmozjs185-1.0_1.8.5-1.0.0+dfsg-7_arm64.deb || true \
+    && wget http://launchpadlibrarian.net/309343841/libmozjs185-dev_1.8.5-1.0.0+dfsg-7_arm64.deb \
+    && dpkg --force-depends -i libmozjs185-dev_1.8.5-1.0.0+dfsg-7_arm64.deb || true \
+    # Attempt to fix any broken dependencies, which might include installing libffi6 or the appropriate version
+    && apt-get install -f -y \
     && rm -rf /var/lib/apt/lists/*
 
 # grab gosu for easy step-down from root and tini for signal handling
@@ -98,10 +104,11 @@ RUN buildDeps=' \
     erlang-dev \
     libcurl4-openssl-dev \
     libicu-dev \
-    libmozjs185-dev \
     make \
     ' \
     && apt-get update -y -qq && apt-get install -y --no-install-recommends $buildDeps \
+    && curl -fSL http://launchpadlibrarian.net/309343841/libmozjs185-dev_1.8.5-1.0.0+dfsg-7_arm64.deb -o libmozjs185-dev_1.8.5-1.0.0+dfsg-7_arm64.deb \
+    && dpkg -i libmozjs185-dev_1.8.5-1.0.0+dfsg-7_arm64.deb || apt-get install -f -y \
     # Acquire CouchDB source code
     && cd /usr/src && mkdir couchdb \
     && curl -fSL https://archive.apache.org/dist/couchdb/source/$COUCHDB_VERSION/apache-couchdb-$COUCHDB_VERSION.tar.gz -o couchdb.tar.gz \
