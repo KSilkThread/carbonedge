@@ -12,7 +12,13 @@
         "type": "configNode",
         "name": "",
         "ccpPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\mychannel_connection_for_nodesdk.json",
-        "walletPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\wallets\\org0.example.com"
+        "walletPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet"
+    },
+    {
+        "id": "12fed2b4f392671f",
+        "type": "websocket-listener",
+        "path": "/ws/loginstatus",
+        "wholemsg": "false"
     },
     {
         "id": "b313d8b697692341",
@@ -23,8 +29,8 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 150,
-        "y": 440,
+        "x": 130,
+        "y": 1260,
         "wires": [
             [
                 "f2ecdf54542f3fed"
@@ -43,8 +49,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 530,
-        "y": 440,
+        "x": 510,
+        "y": 1260,
         "wires": [
             [
                 "ebee72571f4009c1"
@@ -62,8 +68,8 @@
         "cmd": "getCertificate",
         "configurations": "e59a45358b52e49f",
         "transactiontype": "evaluate",
-        "x": 810,
-        "y": 440,
+        "x": 790,
+        "y": 1260,
         "wires": [
             [
                 "ddc0d2db65de179e"
@@ -77,8 +83,8 @@
         "name": "Response",
         "statusCode": "",
         "headers": {},
-        "x": 1080,
-        "y": 440,
+        "x": 1060,
+        "y": 1260,
         "wires": []
     },
     {
@@ -90,8 +96,8 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 130,
-        "y": 560,
+        "x": 110,
+        "y": 1380,
         "wires": [
             [
                 "e2b3fd7229d5db5e"
@@ -110,8 +116,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 490,
-        "y": 560,
+        "x": 470,
+        "y": 1380,
         "wires": [
             [
                 "bf39ba2d488d283e"
@@ -129,8 +135,8 @@
         "cmd": "invoke",
         "configurations": "e59a45358b52e49f",
         "transactiontype": "submit",
-        "x": 710,
-        "y": 560,
+        "x": 690,
+        "y": 1380,
         "wires": [
             [
                 "eeeef68165675f5e"
@@ -144,8 +150,8 @@
         "name": "Response",
         "statusCode": "",
         "headers": {},
-        "x": 960,
-        "y": 560,
+        "x": 940,
+        "y": 1380,
         "wires": []
     },
     {
@@ -158,7 +164,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 150,
-        "y": 120,
+        "y": 480,
         "wires": [
             [
                 "43ff31d47f8b98c3"
@@ -178,7 +184,7 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 120,
+        "y": 480,
         "wires": [
             [
                 "e79bbd0539c23f7e"
@@ -197,7 +203,7 @@
         "configurations": "e59a45358b52e49f",
         "transactiontype": "evaluate",
         "x": 810,
-        "y": 120,
+        "y": 480,
         "wires": [
             [
                 "07522e151960a7ba"
@@ -212,7 +218,326 @@
         "statusCode": "",
         "headers": {},
         "x": 1080,
-        "y": 120,
+        "y": 480,
         "wires": []
+    },
+    {
+        "id": "8ee46d73ec82cdba",
+        "type": "inject",
+        "z": "f7c93124508f6705",
+        "name": "Start reading of cert",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "e0f523da768240c8"
+            ]
+        ]
+    },
+    {
+        "id": "e0f523da768240c8",
+        "type": "http request",
+        "z": "f7c93124508f6705",
+        "name": "Query Transponder API",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/api/transponder",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 120,
+        "wires": [
+            [
+                "ea91208865a3da38"
+            ]
+        ]
+    },
+    {
+        "id": "ea91208865a3da38",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "Extract securityID",
+        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\n\nvar loginStatus = securityID !== \"\";\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 120,
+        "wires": [
+            [
+                "93ba1f490255dac2"
+            ],
+            [
+                "0e4043ae1b4c7689"
+            ]
+        ]
+    },
+    {
+        "id": "93ba1f490255dac2",
+        "type": "file",
+        "z": "f7c93124508f6705",
+        "name": "SaveToFile",
+        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 950,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "18526c976eb59e2a",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Exposed HTTP Endpoints",
+        "info": "",
+        "x": 170,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "48194c0321a07fbe",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Zertifikat für Sensor einlesen und sensorID beziehen",
+        "info": "",
+        "x": 430,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "0e4043ae1b4c7689",
+        "type": "websocket out",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "server": "12fed2b4f392671f",
+        "client": "",
+        "x": 950,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "143d50f61ab9cd91",
+        "type": "http in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "url": "/startCertification",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 560,
+        "wires": [
+            [
+                "17ca9a2e85a5916c"
+            ]
+        ]
+    },
+    {
+        "id": "17ca9a2e85a5916c",
+        "type": "debug",
+        "z": "f7c93124508f6705",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "b3ac0ee0649388f1",
+        "type": "http in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "url": "/endCertification",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 640,
+        "wires": [
+            [
+                "24066b09ccf81248"
+            ]
+        ]
+    },
+    {
+        "id": "24066b09ccf81248",
+        "type": "debug",
+        "z": "f7c93124508f6705",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 440,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "c6a9ea60627f6887",
+        "type": "http in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "url": "/getEmissionData",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 720,
+        "wires": [
+            [
+                "694d2f0c3c6ab0ad"
+            ]
+        ]
+    },
+    {
+        "id": "694d2f0c3c6ab0ad",
+        "type": "http request",
+        "z": "f7c93124508f6705",
+        "name": "Query Artisan API",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/emissions",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 550,
+        "y": 720,
+        "wires": [
+            [
+                "66a06926c34df3e4"
+            ]
+        ]
+    },
+    {
+        "id": "66a06926c34df3e4",
+        "type": "http response",
+        "z": "f7c93124508f6705",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 880,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "eaf92dbf20ef73c4",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Deprecated",
+        "info": "",
+        "x": 110,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "afee76c24cbb9665",
+        "type": "http in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "url": "/getEmissionDataTest",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 800,
+        "wires": [
+            [
+                "4bf9ce117e6d4e65"
+            ]
+        ]
+    },
+    {
+        "id": "74c08b749d603851",
+        "type": "http response",
+        "z": "f7c93124508f6705",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 880,
+        "y": 800,
+        "wires": []
+    },
+    {
+        "id": "4bf9ce117e6d4e65",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "Return Test data",
+        "func": "console.log(msg);\nmsg.payload = {\n    \"BTU_batch\": 239123.388,\n    \"BTU_batch_per_green_kg\": 11956.169,\n    \"CO2_batch\": 15999.225,\n    \"BTU_preheat\": 0,\n    \"CO2_preheat\": 0,\n    \"BTU_bbp\": 0,\n    \"CO2_bbp\": 0,\n    \"BTU_cooling\": 0,\n    \"CO2_cooling\": 0,\n    \"BTU_roast\": 239123.388,\n    \"BTU_roast_per_green_kg\": 11956.169,\n    \"CO2_roast\": 15999.225,\n    \"CO2_batch_per_green_kg\": 799.961,\n    \"CO2_roast_per_green_kg\": 799.961,\n    \"BTU_LPG\": 234998.917,\n    \"BTU_NG\": 0,\n    \"BTU_ELEC\": 4124.471,\n    \"KWH_batch_per_green_kg\": 3.504,\n    \"KWH_roast_per_green_kg\": 3.504,\n}\nconsole.log(msg);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 800,
+        "wires": [
+            [
+                "74c08b749d603851"
+            ]
+        ]
+    },
+    {
+        "id": "bd6e6e7a1b6f2c28",
+        "type": "file in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "filename": "",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 140,
+        "y": 260,
+        "wires": [
+            []
+        ]
     }
 ]
