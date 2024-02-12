@@ -6,9 +6,11 @@ export default function Timer({ loading, error, data }: any) {
   const expiryDate = parsedData ? new Date(parsedData.expirydate) : new Date();
 
   function calculateTimeUntilExpiry(): string {
-    if (!expiryDate) return "N/A";
+    if (!parsedData || isNaN(expiryDate.getTime())) return "No Data";
 
     const difference = expiryDate.getTime() - today.getTime();
+    if (difference < 0) return "Expired";
+
     const days = Math.floor(difference / (1000 * 60 * 60 * 24));
 
     return `${days} days`;

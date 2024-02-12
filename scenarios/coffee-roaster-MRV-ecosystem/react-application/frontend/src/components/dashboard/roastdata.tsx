@@ -44,11 +44,7 @@ interface EmissionData {
   KWH_roast_per_green_kg: number;
 }
 
-export default function Roastdata() {
-  const { data, loading, error } = useFetch(
-    "http://127.0.0.1:1880/getEmissionDataTest"
-  );
-
+export default function Roastdata({ data, error, loading }: any) {
   const emissionData: EmissionData | null = data as EmissionData | null;
 
   const labels = ["Preheat", "Roast", "BBP", "Cooling"];

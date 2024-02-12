@@ -5,7 +5,6 @@ import Indicator from "./indicator";
 import Energysources from "./energysources";
 import Timer from "./timer";
 import Roastdata from "./roastdata";
-//import usePost from '../../hooks/usePost';
 
 export default function Dashboard() {
   interface CertificateData {
@@ -18,8 +17,12 @@ export default function Dashboard() {
 
   const { data, loading, error } = useFetch(
     "http://127.0.0.1:1880/getCertificate?sensor=sensor3&org=org0-example-com"
-  ); //testable
-
+  );
+  const {
+    data: emissionData,
+    loading: emissionLoading,
+    error: emissionError,
+  } = useFetch("http://127.0.0.1:1880/getEmissionDataTest");
   return (
     <Box sx={{ flexGrow: 1, paddingX: 4 }}>
       <Box
@@ -84,14 +87,22 @@ export default function Dashboard() {
                 minHeight: "200px",
               }}
             >
-              <Energysources />
+              <Energysources
+                data={emissionData}
+                error={emissionError}
+                loading={emissionLoading}
+              />
             </Paper>
           </Fade>
         </Grid>
 
         <Grid item xs={6}>
           <Paper sx={{ p: 2, minHeight: "150px" }}>
-            <Roastdata />
+            <Roastdata
+              data={emissionData}
+              error={emissionError}
+              loading={emissionLoading}
+            />
           </Paper>
         </Grid>
       </Grid>

@@ -1,4 +1,10 @@
-import { Box, Typography, Button, CircularProgress } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  CircularProgress,
+  LinearProgress,
+} from "@mui/material";
 import { useState, useEffect } from "react";
 import usePost from "../../hooks/usePost";
 
@@ -60,7 +66,7 @@ export default function Indicator({ loading, error, data }: any) {
         setCircleColor((prevColor) =>
           prevColor === "yellow" ? "gray" : "yellow"
         );
-      }, 500);
+      }, 500) as any;
     }
 
     return () => {
@@ -97,6 +103,7 @@ export default function Indicator({ loading, error, data }: any) {
 
     await post(url, body);
   };
+  const normalise = (value: number) => ((value - 0) * 100) / (3000 - 0);
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 2 }}>
@@ -115,6 +122,7 @@ export default function Indicator({ loading, error, data }: any) {
       <Box>
         <Typography variant="h6">{statusText}</Typography>
         <Button
+          fullWidth
           variant="contained"
           style={{ backgroundColor: "#FD6916" }}
           onMouseDown={handleCalibratePress}
@@ -124,6 +132,10 @@ export default function Indicator({ loading, error, data }: any) {
         >
           Calibrate
         </Button>
+        <LinearProgress
+          variant="determinate"
+          value={normalise(buttonPressedTime)}
+        />
       </Box>
     </Box>
   );

@@ -330,8 +330,8 @@
         "z": "f7c93124508f6705",
         "name": "Zertifikat für Sensor einlesen und sensorID beziehen",
         "info": "",
-        "x": 430,
-        "y": 260,
+        "x": 410,
+        "y": 360,
         "wires": []
     },
     {
@@ -366,7 +366,7 @@
         "id": "17ca9a2e85a5916c",
         "type": "debug",
         "z": "f7c93124508f6705",
-        "name": "debug 1",
+        "name": "Certification Started",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -375,7 +375,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 440,
+        "x": 470,
         "y": 560,
         "wires": []
     },
@@ -400,15 +400,16 @@
         "id": "24066b09ccf81248",
         "type": "debug",
         "z": "f7c93124508f6705",
-        "name": "debug 2",
+        "name": "Certification Ended",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 440,
+        "x": 470,
         "y": 640,
         "wires": []
     },
@@ -534,10 +535,42 @@
         "sendError": false,
         "encoding": "none",
         "allProps": false,
-        "x": 140,
-        "y": 260,
+        "x": 120,
+        "y": 360,
         "wires": [
             []
         ]
+    },
+    {
+        "id": "f4b07ad56b01e7f2",
+        "type": "catch",
+        "z": "f7c93124508f6705",
+        "name": "Error Catching",
+        "scope": null,
+        "uncaught": false,
+        "x": 790,
+        "y": 540,
+        "wires": [
+            [
+                "6f78b6b2ca562f41"
+            ]
+        ]
+    },
+    {
+        "id": "6f78b6b2ca562f41",
+        "type": "debug",
+        "z": "f7c93124508f6705",
+        "name": "ErrorDebug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 990,
+        "y": 540,
+        "wires": []
     }
 ]
