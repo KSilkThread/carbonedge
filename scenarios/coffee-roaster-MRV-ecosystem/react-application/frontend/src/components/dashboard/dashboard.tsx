@@ -5,16 +5,13 @@ import Indicator from "./indicator";
 import Energysources from "./energysources";
 import Timer from "./timer";
 import Roastdata from "./roastdata";
-
+import { useLogin } from "../../context/LoginContext";
+import Counter from "./counter";
 export default function Dashboard() {
-  interface CertificateData {
-    sensorid: string;
-    ownerorg: string;
-    inspectororganisation: string;
-    expirydate: string;
-    firstauth: boolean;
+  const { loginStatus } = useLogin();
+  function refresh() {
+    window.location.reload();
   }
-
   const { data, loading, error } = useFetch(
     "http://127.0.0.1:1880/getCertificate?sensor=sensor3&org=org0-example-com"
   );
@@ -36,8 +33,12 @@ export default function Dashboard() {
         <Typography variant="h2" sx={{ fontWeight: 800 }}>
           Carbon<span style={{ color: "#FD6916" }}>Edge</span> Dashboard
         </Typography>
-        <Button variant="contained" style={{ backgroundColor: "#FD6916" }}>
-          Logout
+        <Button
+          variant="contained"
+          onClick={refresh}
+          style={{ backgroundColor: "#FD6916" }}
+        >
+          Refresh
         </Button>
       </Box>
       <Grid container spacing={1}>
@@ -52,7 +53,12 @@ export default function Dashboard() {
               }}
             >
               <Typography variant="h6">Calibration</Typography>
-              <Indicator loading={loading} data={data} error={error} />
+              <Indicator
+                loading={loading}
+                data={data}
+                error={error}
+                login={loginStatus}
+              />
             </Paper>
           </Fade>
         </Grid>
@@ -66,16 +72,30 @@ export default function Dashboard() {
         <Grid item xs={3}>
           <Fade in={true} timeout={1000}>
             <Paper sx={{ p: 2, minHeight: "150px" }}>
-              <Typography variant="h6">CO2 Amount</Typography>
-              <Typography variant="h3">123 kg</Typography>
+              <Counter
+                headline={"Batch CO2 Emissions"}
+                fieldname={"CO2_batch"}
+                loading={emissionLoading}
+                data={emissionData}
+                error={emissionError}
+                unit={"kg"}
+                fn={(x) => Math.round(x / 1000)}
+              />
             </Paper>
           </Fade>
         </Grid>
         <Grid item xs={3}>
           <Fade in={true} timeout={1000}>
             <Paper sx={{ p: 2, minHeight: "150px" }}>
-              <Typography variant="h6">CO2 Amount</Typography>
-              <Typography variant="h3">123 kg</Typography>
+              <Counter
+                headline={"Batch Energy Consumtion"}
+                fieldname={"BTU_batch"}
+                loading={emissionLoading}
+                data={emissionData}
+                error={emissionError}
+                unit={"BTU"}
+                fn={(x) => Math.round(x)}
+              />
             </Paper>
           </Fade>
         </Grid>

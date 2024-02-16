@@ -33,7 +33,13 @@ describe("Energysources Component", () => {
   });
 
   it("displays error message when there is an error", () => {
-    render(<Energysources loading={false} error="Network Error" data={null} />);
+    render(
+      <Energysources
+        loading={false}
+        error={{ message: "Network Error" }}
+        data={null}
+      />
+    );
     const errorText = screen.getByText(/Error:/);
     expect(errorText).toBeInTheDocument();
     expect(errorText).toHaveTextContent("Network Error");

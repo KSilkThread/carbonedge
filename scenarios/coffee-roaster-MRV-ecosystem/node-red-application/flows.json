@@ -279,7 +279,7 @@
         "type": "function",
         "z": "f7c93124508f6705",
         "name": "Extract securityID",
-        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\n\nvar loginStatus = securityID !== \"\";\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
+        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === \"org0-example-com\"){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === \"org1-example-com\"){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"nobody\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -341,8 +341,8 @@
         "name": "",
         "server": "12fed2b4f392671f",
         "client": "",
-        "x": 950,
-        "y": 200,
+        "x": 970,
+        "y": 160,
         "wires": []
     },
     {
@@ -508,7 +508,7 @@
         "type": "function",
         "z": "f7c93124508f6705",
         "name": "Return Test data",
-        "func": "console.log(msg);\nmsg.payload = {\n    \"BTU_batch\": 239123.388,\n    \"BTU_batch_per_green_kg\": 11956.169,\n    \"CO2_batch\": 15999.225,\n    \"BTU_preheat\": 0,\n    \"CO2_preheat\": 0,\n    \"BTU_bbp\": 0,\n    \"CO2_bbp\": 0,\n    \"BTU_cooling\": 0,\n    \"CO2_cooling\": 0,\n    \"BTU_roast\": 239123.388,\n    \"BTU_roast_per_green_kg\": 11956.169,\n    \"CO2_roast\": 15999.225,\n    \"CO2_batch_per_green_kg\": 799.961,\n    \"CO2_roast_per_green_kg\": 799.961,\n    \"BTU_LPG\": 234998.917,\n    \"BTU_NG\": 0,\n    \"BTU_ELEC\": 4124.471,\n    \"KWH_batch_per_green_kg\": 3.504,\n    \"KWH_roast_per_green_kg\": 3.504,\n}\nconsole.log(msg);\nreturn msg;",
+        "func": "console.log(msg);\nmsg.payload = {\n    \"BTU_batch\": 239123.388,\n    \"BTU_batch_per_green_kg\": 11956.169,\n    \"CO2_batch\": 15999.225,\n    \"BTU_preheat\": 209123.388,\n    \"CO2_preheat\": 13999,\n    \"BTU_bbp\": 97000,\n    \"CO2_bbp\": 7000,\n    \"BTU_cooling\": 17000,\n    \"CO2_cooling\": 2000,\n    \"BTU_roast\": 239123.388,\n    \"BTU_roast_per_green_kg\": 11956.169,\n    \"CO2_roast\": 15999.225,\n    \"CO2_batch_per_green_kg\": 799.961,\n    \"CO2_roast_per_green_kg\": 799.961,\n    \"BTU_LPG\": 234998.917,\n    \"BTU_NG\": 0,\n    \"BTU_ELEC\": 4124.471,\n    \"KWH_batch_per_green_kg\": 3.504,\n    \"KWH_roast_per_green_kg\": 3.504,\n}\nconsole.log(msg);\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -571,6 +571,16 @@
         "statusType": "auto",
         "x": 990,
         "y": 540,
+        "wires": []
+    },
+    {
+        "id": "bb6bc4ae41794c99",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Bedeutung der Daten",
+        "info": "The Artisan Energy Calculator provides estimates for energy consumption and CO2 emission across four phases of the roasting process,\nPre-Heating at the start of the roast session, Between Batches (BBP), the Roast batch itself and the roaster Cooling at the end of the session.\n\nBTU = British Thermal Units\nKWH = Kilowattstunden\nCO2 = Kohlenstoffdioxid\n\nEnergie verbraucht durch Gasbrenner oder elektrische Heizelemente. Gasbrenner verursachen Co2 Emissionen. Schätzung des CO2 durch Gasart und Power Rating des Brenners. \nCo2 des Stroms wird ebenfalls ausgegeben, dafür kann in Artisan die zusammensetzung der Energieerzeugung aus der vorangegangenen Energiesupplychain eingstellt werden. Daher errechnet sich der Wert.\n",
+        "x": 620,
+        "y": 880,
         "wires": []
     }
 ]

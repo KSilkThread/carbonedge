@@ -1,0 +1,27 @@
+/* .button {
+    border: none;
+    background: #009578;
+    color: #ffffff;
+    padding: 10px 16px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 5px;
+    min-width: 125px;
+  }
+
+  .button__text {
+    position: relative;
+  }
+  
+   */
+  .button__progress {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    top: 0;
+    left: 0;
+    background: rgba(255,255,255,0.8);
+    /*transition: width 0.3s;*/
+  }
+  

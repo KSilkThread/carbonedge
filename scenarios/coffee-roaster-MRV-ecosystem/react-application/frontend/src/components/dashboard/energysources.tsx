@@ -1,29 +1,9 @@
 import { Typography, Box } from "@mui/material";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
-
+import { EmissionData } from "../../types/emissionData";
 ChartJS.register(ArcElement, Tooltip, Legend);
-interface EmissionData {
-  BTU_batch: number;
-  BTU_batch_per_green_kg: number;
-  CO2_batch: number;
-  BTU_preheat: number;
-  CO2_preheat: number;
-  BTU_bbp: number;
-  CO2_bbp: number;
-  BTU_cooling: number;
-  CO2_cooling: number;
-  BTU_roast: number;
-  BTU_roast_per_green_kg: number;
-  CO2_roast: number;
-  CO2_batch_per_green_kg: number;
-  CO2_roast_per_green_kg: number;
-  BTU_LPG: number;
-  BTU_NG: number;
-  BTU_ELEC: number;
-  KWH_batch_per_green_kg: number;
-  KWH_roast_per_green_kg: number;
-}
+
 export default function Energysources({ data, error, loading }: any) {
   const emissionData: EmissionData | null = data as EmissionData | null;
   const dataSet = emissionData
@@ -56,7 +36,7 @@ export default function Energysources({ data, error, loading }: any) {
     },
   };
   if (loading) return <Typography>Loading...</Typography>;
-  if (error) return <Typography>Error: {error}</Typography>;
+  if (error) return <Typography>Error: {error.message}</Typography>;
   return (
     <>
       <Typography variant="h6">Energy used (in BTU)</Typography>
