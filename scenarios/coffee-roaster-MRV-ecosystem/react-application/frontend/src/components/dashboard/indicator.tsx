@@ -11,12 +11,7 @@ export default function Indicator({ loading, error, data, login }: any) {
   const [buttonPressedTime, setButtonPressedTime] = useState<number>(0);
   const [progressValue, setProgressValue] = useState(0);
 
-  const {
-    data: postData,
-    error: postError,
-    loading: postLoading,
-    post,
-  } = usePost();
+  const { post } = usePost();
 
   /* This useEffect sets the circle color and status text to the respective state
     if data is loading: transparent circle, Loading text
@@ -162,7 +157,7 @@ export default function Indicator({ loading, error, data, login }: any) {
     if (pressDuration >= 3000 && isCalibrating) {
       setIsCalibrating(false);
       setCircleColor("yellow");
-      setStatusText("Calibration finished");
+      setStatusText("Finished");
       handleCalibrationEndRequest();
     }
   };
@@ -190,21 +185,23 @@ export default function Indicator({ loading, error, data, login }: any) {
   };
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 2 }}>
-      {loading ? (
-        <CircularProgress />
-      ) : (
-        <Box
-          sx={{
-            width: 70,
-            height: 70,
-            borderRadius: "50%",
-            backgroundColor: circleColor,
-          }}
-        />
-      )}
-      <Box>
-        <Typography variant="h6">{statusText}</Typography>
+    <>
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2, my: 2 }}>
+        {loading ? (
+          <CircularProgress />
+        ) : (
+          <Box
+            sx={{
+              width: "50px",
+              height: "50px",
+              borderRadius: "50%",
+              backgroundColor: circleColor,
+            }}
+          />
+        )}
+        <Box>
+          <Typography variant="h6">{statusText}</Typography>
+        </Box>
       </Box>
       {login === "inspector" && (
         <Button
@@ -226,6 +223,6 @@ export default function Indicator({ loading, error, data, login }: any) {
           )}
         </Button>
       )}
-    </Box>
+    </>
   );
 }

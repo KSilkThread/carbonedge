@@ -52,7 +52,7 @@ export default function Roastdata({ data, error, loading }: any) {
 
   const emissionData: EmissionData | null = data as EmissionData | null;
 
-  const labels = ["Preheat", "Roast", "BBP", "Cooling"];
+  const labels = ["Preheat", "BBP", "Roast", "Cooling"];
   const dataSet = emissionData
     ? {
         labels,
@@ -63,8 +63,8 @@ export default function Roastdata({ data, error, loading }: any) {
             backgroundColor: "#FD6916",
             data: [
               emissionData.BTU_preheat,
-              emissionData.BTU_roast,
               emissionData.BTU_bbp,
+              emissionData.BTU_roast,
               emissionData.BTU_cooling,
             ],
             yAxisID: "y",
@@ -74,8 +74,8 @@ export default function Roastdata({ data, error, loading }: any) {
             label: "CO2 Emissions",
             data: [
               emissionData.CO2_preheat,
-              emissionData.CO2_roast,
               emissionData.CO2_bbp,
+              emissionData.CO2_roast,
               emissionData.CO2_cooling,
             ],
             borderColor: "#16AAFD",

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Typography, Box, Container } from "@mui/material";
 import loginImage from "../../assets/icons8-hand-einsteckkarte-96.png";
