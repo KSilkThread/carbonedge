@@ -164,7 +164,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 150,
-        "y": 480,
+        "y": 700,
         "wires": [
             [
                 "43ff31d47f8b98c3"
@@ -184,7 +184,7 @@
         "finalize": "",
         "libs": [],
         "x": 530,
-        "y": 480,
+        "y": 700,
         "wires": [
             [
                 "e79bbd0539c23f7e"
@@ -203,7 +203,7 @@
         "configurations": "e59a45358b52e49f",
         "transactiontype": "evaluate",
         "x": 810,
-        "y": 480,
+        "y": 700,
         "wires": [
             [
                 "07522e151960a7ba"
@@ -218,7 +218,7 @@
         "statusCode": "",
         "headers": {},
         "x": 1080,
-        "y": 480,
+        "y": 700,
         "wires": []
     },
     {
@@ -279,7 +279,7 @@
         "type": "function",
         "z": "f7c93124508f6705",
         "name": "Extract securityID",
-        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === \"org0-example-com\"){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === \"org1-example-com\"){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"none\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
+        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === \"org0-example-com\"){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === \"org1-example-com\"){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"nobody\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
@@ -321,7 +321,7 @@
         "name": "Exposed HTTP Endpoints",
         "info": "",
         "x": 170,
-        "y": 420,
+        "y": 640,
         "wires": []
     },
     {
@@ -331,7 +331,7 @@
         "name": "Zertifikat für Sensor einlesen und sensorID beziehen",
         "info": "",
         "x": 410,
-        "y": 360,
+        "y": 560,
         "wires": []
     },
     {
@@ -355,7 +355,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 160,
-        "y": 560,
+        "y": 780,
         "wires": [
             [
                 "17ca9a2e85a5916c"
@@ -376,7 +376,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 470,
-        "y": 560,
+        "y": 780,
         "wires": []
     },
     {
@@ -389,7 +389,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 160,
-        "y": 640,
+        "y": 860,
         "wires": [
             [
                 "24066b09ccf81248"
@@ -410,7 +410,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 470,
-        "y": 640,
+        "y": 860,
         "wires": []
     },
     {
@@ -423,7 +423,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 160,
-        "y": 720,
+        "y": 940,
         "wires": [
             [
                 "694d2f0c3c6ab0ad"
@@ -447,7 +447,7 @@
         "senderr": false,
         "headers": [],
         "x": 550,
-        "y": 720,
+        "y": 940,
         "wires": [
             [
                 "66a06926c34df3e4"
@@ -462,7 +462,7 @@
         "statusCode": "",
         "headers": {},
         "x": 880,
-        "y": 720,
+        "y": 940,
         "wires": []
     },
     {
@@ -485,7 +485,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 170,
-        "y": 800,
+        "y": 1020,
         "wires": [
             [
                 "4bf9ce117e6d4e65"
@@ -500,7 +500,7 @@
         "statusCode": "",
         "headers": {},
         "x": 880,
-        "y": 800,
+        "y": 1020,
         "wires": []
     },
     {
@@ -516,7 +516,7 @@
         "finalize": "",
         "libs": [],
         "x": 500,
-        "y": 800,
+        "y": 1020,
         "wires": [
             [
                 "74c08b749d603851"
@@ -536,7 +536,7 @@
         "encoding": "none",
         "allProps": false,
         "x": 120,
-        "y": 360,
+        "y": 560,
         "wires": [
             []
         ]
@@ -549,7 +549,7 @@
         "scope": null,
         "uncaught": false,
         "x": 790,
-        "y": 540,
+        "y": 760,
         "wires": [
             [
                 "6f78b6b2ca562f41"
@@ -570,7 +570,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 990,
-        "y": 540,
+        "y": 760,
         "wires": []
     },
     {
@@ -580,7 +580,250 @@
         "name": "Bedeutung der Daten",
         "info": "The Artisan Energy Calculator provides estimates for energy consumption and CO2 emission across four phases of the roasting process,\nPre-Heating at the start of the roast session, Between Batches (BBP), the Roast batch itself and the roaster Cooling at the end of the session.\n\nBTU = British Thermal Units\nKWH = Kilowattstunden\nCO2 = Kohlenstoffdioxid\n\nEnergie verbraucht durch Gasbrenner oder elektrische Heizelemente. Gasbrenner verursachen Co2 Emissionen. Schätzung des CO2 durch Gasart und Power Rating des Brenners. \nCo2 des Stroms wird ebenfalls ausgegeben, dafür kann in Artisan die zusammensetzung der Energieerzeugung aus der vorangegangenen Energiesupplychain eingstellt werden. Daher errechnet sich der Wert.\n",
         "x": 620,
-        "y": 880,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "a9634d7a4ea3a2c9",
+        "type": "inject",
+        "z": "f7c93124508f6705",
+        "name": "logout",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 240,
+        "wires": [
+            [
+                "8a2cd92d909fb5d0"
+            ]
+        ]
+    },
+    {
+        "id": "3a98235534e3bcc0",
+        "type": "websocket out",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "server": "12fed2b4f392671f",
+        "client": "",
+        "x": 970,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "b4f52e46ea6404fc",
+        "type": "file",
+        "z": "f7c93124508f6705",
+        "name": "DeleteCert",
+        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 950,
+        "y": 220,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "8a2cd92d909fb5d0",
+        "type": "http request",
+        "z": "f7c93124508f6705",
+        "name": "Logout Transponder API",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/logout",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 240,
+        "wires": [
+            [
+                "0a6069c8238cf21c"
+            ]
+        ]
+    },
+    {
+        "id": "0a6069c8238cf21c",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "modify file and loginstatus ",
+        "func": "\nmsg.payload = \"\";\nvar wsMessage = JSON.stringify({ loggedIn: \"nobody\" });\nvar wsMsg = { payload: wsMessage };\n\nreturn [msg, wsMsg];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 240,
+        "wires": [
+            [
+                "b4f52e46ea6404fc"
+            ],
+            [
+                "3a98235534e3bcc0"
+            ]
+        ]
+    },
+    {
+        "id": "b8db02d9988c0be8",
+        "type": "inject",
+        "z": "f7c93124508f6705",
+        "name": "login ORG0",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 340,
+        "wires": [
+            [
+                "0cc8b047ed548dce"
+            ]
+        ]
+    },
+    {
+        "id": "89f7ed868be265b0",
+        "type": "inject",
+        "z": "f7c93124508f6705",
+        "name": "login ORG1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 420,
+        "wires": [
+            [
+                "727595fd806ead3c"
+            ]
+        ]
+    },
+    {
+        "id": "0cc8b047ed548dce",
+        "type": "http request",
+        "z": "f7c93124508f6705",
+        "name": "Login Transponder API",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/login/org0",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 360,
+        "y": 340,
+        "wires": [
+            [
+                "adf85ecad483266c"
+            ]
+        ]
+    },
+    {
+        "id": "727595fd806ead3c",
+        "type": "http request",
+        "z": "f7c93124508f6705",
+        "name": "Login Transponder API",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/login/org1",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 360,
+        "y": 420,
+        "wires": [
+            [
+                "3d3371ac3f0e2ef7"
+            ]
+        ]
+    },
+    {
+        "id": "adf85ecad483266c",
+        "type": "debug",
+        "z": "f7c93124508f6705",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "3d3371ac3f0e2ef7",
+        "type": "debug",
+        "z": "f7c93124508f6705",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 420,
         "wires": []
     }
 ]

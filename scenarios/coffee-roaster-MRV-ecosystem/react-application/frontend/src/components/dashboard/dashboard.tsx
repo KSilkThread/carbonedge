@@ -1,5 +1,6 @@
 import { Box, Typography, Button, Grid, Paper, Fade } from "@mui/material";
-
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import Indicator from "./indicator";
 import Energysources from "./energysources";
@@ -7,19 +8,29 @@ import Timer from "./timer";
 import Roastdata from "./roastdata";
 import { useLogin } from "../../context/LoginContext";
 import Counter from "./counter";
+
 export default function Dashboard() {
+  const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
   const { loginStatus } = useLogin();
+  const navigate = useNavigate();
   function refresh() {
     window.location.reload();
   }
   const { data, loading, error } = useFetch(
-    "http://127.0.0.1:1880/getCertificate?sensor=sensor3&org=org0-example-com"
+    `${apiUrl}/getCertificate?sensor=sensor3&org=org0-example-com`
   );
   const {
     data: emissionData,
     loading: emissionLoading,
     error: emissionError,
-  } = useFetch("http://127.0.0.1:1880/getEmissionDataTest");
+  } = useFetch(`${apiUrl}/getEmissionDataTest`);
+
+  useEffect(() => {
+    if (loginStatus === "nobody") {
+      navigate("/");
+    }
+  }, [loginStatus, navigate]);
+
   return (
     <Box sx={{ flexGrow: 1, paddingX: 4 }}>
       <Box

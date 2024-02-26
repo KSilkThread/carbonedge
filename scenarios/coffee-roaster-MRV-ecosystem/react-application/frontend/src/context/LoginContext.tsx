@@ -5,7 +5,6 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-
 type LoginStatus = "nobody" | "owner" | "inspector";
 type LoginContextType = {
   loginStatus: LoginStatus;
@@ -31,13 +30,14 @@ export const LoginProvider: React.FC<LoginProviderProps> = ({ children }) => {
     (localStorage.getItem("loginStatus") as LoginStatus) || "nobody"
   );
   const [socket, setSocket] = useState<WebSocket | null>(null);
+  const wsUrl = import.meta.env.VITE_BACKEND_WS_URL;
 
   useEffect(() => {
     const connectWebSocket = () => {
       if (socket) {
         socket.close();
       }
-      const newSocket = new WebSocket("ws://127.0.0.1:1880/ws/loginstatus");
+      const newSocket = new WebSocket(`${wsUrl}/ws/loginstatus`);
 
       newSocket.onmessage = (event) => {
         const data = JSON.parse(event.data);

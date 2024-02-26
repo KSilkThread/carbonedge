@@ -17,6 +17,11 @@ app.post('/login/:org', (req, res) => {
     res.send(`Logged in as ${org} successfully!`);
 });
 
+app.post('/logout', (req, res) => {
+    loggedInOrg = null;
+    res.send(`Logout successful!`);
+});
+
 app.get('/api/transponder', (req, res) => {
     if (!loggedInOrg) {
         res.json({ securityID: "" });

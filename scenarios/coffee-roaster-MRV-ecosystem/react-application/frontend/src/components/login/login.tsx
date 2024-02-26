@@ -6,7 +6,7 @@ import loginSuccessImage from "../../assets/loginsuccess.png";
 import { useLogin } from "../../context/LoginContext";
 
 export default function Login() {
-  const { loginStatus } = useLogin(); // Use the context
+  const { loginStatus } = useLogin();
   const navigate = useNavigate();
 
   useEffect(() => {

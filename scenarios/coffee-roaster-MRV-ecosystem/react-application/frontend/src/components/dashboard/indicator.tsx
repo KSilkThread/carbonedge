@@ -4,6 +4,7 @@ import usePost from "../../hooks/usePost";
 import Progressbutton from "../shared/progressbutton";
 
 export default function Indicator({ loading, error, data, login }: any) {
+  const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
   const [circleColor, setCircleColor] = useState<string>("transparent");
   const [isCalibrating, setIsCalibrating] = useState<boolean>(false);
   const [isPressing, setIsPressing] = useState<boolean>(false); // Track if the button is currently being pressed
@@ -167,7 +168,7 @@ export default function Indicator({ loading, error, data, login }: any) {
   is implemented.
   */
   const handleCalibrationStartRequest = async () => {
-    const url = "http://127.0.0.1:1880/startCertification";
+    const url = `${apiUrl}/startCertification`;
     const body = {};
 
     await post(url, body);
@@ -178,7 +179,7 @@ export default function Indicator({ loading, error, data, login }: any) {
   is implemented.
   */
   const handleCalibrationEndRequest = async () => {
-    const url = "http://127.0.0.1:1880/endCertification";
+    const url = `${apiUrl}/endCertification`;
     const body = {};
 
     await post(url, body);
