@@ -11,13 +11,15 @@ import Counter from "./counter";
 
 export default function Dashboard() {
   const apiUrl = import.meta.env.VITE_BACKEND_API_URL;
+  const sensorId = import.meta.env.VITE_SENSOR_ID;
+  const ownerOrg = import.meta.env.VITE_OWNER_ORG;
   const { loginStatus } = useLogin();
   const navigate = useNavigate();
   function refresh() {
     window.location.reload();
   }
   const { data, loading, error } = useFetch(
-    `${apiUrl}/getCertificate?sensor=sensor3&org=org0-example-com`
+    `${apiUrl}/getCertificate?sensor=${sensorId}&org=${ownerOrg}`
   );
   const {
     data: emissionData,
