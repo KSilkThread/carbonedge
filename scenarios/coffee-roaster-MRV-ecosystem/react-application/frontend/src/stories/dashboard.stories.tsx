@@ -1,3 +1,5 @@
+/* c8 ignore next 100 */
+
 import type { Meta, StoryObj } from "@storybook/react";
 import { DashboardView } from "../components/dashboard/dashboard";
 

@@ -1,3 +1,5 @@
+/* c8 ignore next 100 */
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 

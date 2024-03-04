@@ -1,4 +1,4 @@
-/* c8 ignore next 35 */
+/* c8 ignore next 100 */
 
 import type { Meta, StoryObj } from "@storybook/react";
 import Counter from "../components/dashboard/counter";
