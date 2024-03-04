@@ -1,3 +1,4 @@
+ /* c8 ignore next 23 */
  interface EmissionData {
     BTU_batch: number;
     BTU_batch_per_green_kg: number;

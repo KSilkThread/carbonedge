@@ -1,19 +1,15 @@
-/* c8 ignore next 35 */
-
 import type { Meta, StoryObj } from "@storybook/react";
-import Counter from "../components/dashboard/counter";
+import Roastdata from "../components/dashboard/roastdata";
 
-const meta: Meta<typeof Counter> = {
-  component: Counter,
+const meta: Meta<typeof Roastdata> = {
+  component: Roastdata,
 };
 
 export default meta;
-type Story = StoryObj<typeof Counter>;
+type Story = StoryObj<typeof Roastdata>;
 
 export const Primary: Story = {
   args: {
-    headline: "Batch CO2 Emissions",
-    fieldname: "CO2_batch",
     loading: false,
     data: {
       BTU_batch: 239123.388,
@@ -37,18 +33,8 @@ export const Primary: Story = {
       KWH_roast_per_green_kg: 3.504,
     },
     error: null,
-    unit: "kg",
-    fn: (x) => Math.round(x / 1000),
   },
-  render: ({ loading, data, error, headline, fieldname, fn, unit }) => (
-    <Counter
-      headline={headline}
-      fieldname={fieldname}
-      loading={loading}
-      data={data}
-      error={error}
-      unit={unit}
-      fn={fn}
-    />
+  render: ({ loading, data, error }) => (
+    <Roastdata loading={loading} data={data} error={error} />
   ),
 };

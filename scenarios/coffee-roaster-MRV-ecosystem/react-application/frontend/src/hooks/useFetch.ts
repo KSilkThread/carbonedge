@@ -6,7 +6,7 @@ function useFetch(url: string) {
     status: string;
     response: string;
   }
-  const [data, setData] = useState<ApiResponse | null>(null);
+  const [data, setData] = useState<ApiResponse | null | any>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 

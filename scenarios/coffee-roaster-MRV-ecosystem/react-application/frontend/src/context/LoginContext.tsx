@@ -11,7 +11,9 @@ type LoginContextType = {
   setLoginStatus: React.Dispatch<React.SetStateAction<LoginStatus>>;
 };
 
-const LoginContext = createContext<LoginContextType | undefined>(undefined);
+export const LoginContext = createContext<LoginContextType | undefined>(
+  undefined
+);
 
 export const useLogin = (): LoginContextType => {
   const context = useContext(LoginContext);

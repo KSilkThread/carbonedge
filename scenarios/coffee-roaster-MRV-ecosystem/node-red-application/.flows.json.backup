@@ -21,140 +21,6 @@
         "wholemsg": "false"
     },
     {
-        "id": "b313d8b697692341",
-        "type": "http in",
-        "z": "f7c93124508f6705",
-        "name": "",
-        "url": "/getCertificate",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 130,
-        "y": 1260,
-        "wires": [
-            [
-                "f2ecdf54542f3fed"
-            ]
-        ]
-    },
-    {
-        "id": "f2ecdf54542f3fed",
-        "type": "function",
-        "z": "f7c93124508f6705",
-        "name": "Extract Sensor and Org",
-        "func": "\nmsg.args = [msg.payload.sensor, msg.payload.org];\nconsole.log(msg);\nreturn msg;\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 510,
-        "y": 1260,
-        "wires": [
-            [
-                "ebee72571f4009c1"
-            ]
-        ]
-    },
-    {
-        "id": "ebee72571f4009c1",
-        "type": "txNode",
-        "z": "f7c93124508f6705",
-        "name": "",
-        "userid": "Admin",
-        "channel": "mychannel",
-        "chaincode": "certificateCC",
-        "cmd": "getCertificate",
-        "configurations": "e59a45358b52e49f",
-        "transactiontype": "evaluate",
-        "x": 790,
-        "y": 1260,
-        "wires": [
-            [
-                "ddc0d2db65de179e"
-            ]
-        ]
-    },
-    {
-        "id": "ddc0d2db65de179e",
-        "type": "http response",
-        "z": "f7c93124508f6705",
-        "name": "Response",
-        "statusCode": "",
-        "headers": {},
-        "x": 1060,
-        "y": 1260,
-        "wires": []
-    },
-    {
-        "id": "ce34ab3ae9853874",
-        "type": "http in",
-        "z": "f7c93124508f6705",
-        "name": "",
-        "url": "/send",
-        "method": "post",
-        "upload": false,
-        "swaggerDoc": "",
-        "x": 110,
-        "y": 1380,
-        "wires": [
-            [
-                "e2b3fd7229d5db5e"
-            ]
-        ]
-    },
-    {
-        "id": "e2b3fd7229d5db5e",
-        "type": "function",
-        "z": "f7c93124508f6705",
-        "name": "Extract Party",
-        "func": "\nmsg.args = [msg.payload.sender, msg.payload.receiver, msg.payload.amount]; // Extract the string from msg.payload.party\nconsole.log(msg);\nreturn msg; // Return the modified msg object\n",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 470,
-        "y": 1380,
-        "wires": [
-            [
-                "bf39ba2d488d283e"
-            ]
-        ]
-    },
-    {
-        "id": "bf39ba2d488d283e",
-        "type": "txNode",
-        "z": "f7c93124508f6705",
-        "name": "",
-        "userid": "Admin",
-        "channel": "mychannel",
-        "chaincode": "simple",
-        "cmd": "invoke",
-        "configurations": "e59a45358b52e49f",
-        "transactiontype": "submit",
-        "x": 690,
-        "y": 1380,
-        "wires": [
-            [
-                "eeeef68165675f5e"
-            ]
-        ]
-    },
-    {
-        "id": "eeeef68165675f5e",
-        "type": "http response",
-        "z": "f7c93124508f6705",
-        "name": "Response",
-        "statusCode": "",
-        "headers": {},
-        "x": 940,
-        "y": 1380,
-        "wires": []
-    },
-    {
         "id": "3c91dd9cb2e0fbc3",
         "type": "http in",
         "z": "f7c93124508f6705",
@@ -187,7 +53,7 @@
         "y": 700,
         "wires": [
             [
-                "e79bbd0539c23f7e"
+                "07522e151960a7ba"
             ]
         ]
     },
@@ -202,11 +68,11 @@
         "cmd": "getCertificate",
         "configurations": "e59a45358b52e49f",
         "transactiontype": "evaluate",
-        "x": 810,
-        "y": 700,
+        "x": 830,
+        "y": 600,
         "wires": [
             [
-                "07522e151960a7ba"
+                "8a0902029c7bade7"
             ]
         ]
     },
@@ -322,16 +188,6 @@
         "info": "",
         "x": 170,
         "y": 640,
-        "wires": []
-    },
-    {
-        "id": "48194c0321a07fbe",
-        "type": "comment",
-        "z": "f7c93124508f6705",
-        "name": "Zertifikat für Sensor einlesen und sensorID beziehen",
-        "info": "",
-        "x": 410,
-        "y": 560,
         "wires": []
     },
     {
@@ -466,16 +322,6 @@
         "wires": []
     },
     {
-        "id": "eaf92dbf20ef73c4",
-        "type": "comment",
-        "z": "f7c93124508f6705",
-        "name": "Deprecated",
-        "info": "",
-        "x": 110,
-        "y": 1180,
-        "wires": []
-    },
-    {
         "id": "afee76c24cbb9665",
         "type": "http in",
         "z": "f7c93124508f6705",
@@ -524,24 +370,6 @@
         ]
     },
     {
-        "id": "bd6e6e7a1b6f2c28",
-        "type": "file in",
-        "z": "f7c93124508f6705",
-        "name": "",
-        "filename": "",
-        "filenameType": "str",
-        "format": "utf8",
-        "chunk": false,
-        "sendError": false,
-        "encoding": "none",
-        "allProps": false,
-        "x": 120,
-        "y": 560,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "f4b07ad56b01e7f2",
         "type": "catch",
         "z": "f7c93124508f6705",
@@ -579,8 +407,8 @@
         "z": "f7c93124508f6705",
         "name": "Bedeutung der Daten",
         "info": "The Artisan Energy Calculator provides estimates for energy consumption and CO2 emission across four phases of the roasting process,\nPre-Heating at the start of the roast session, Between Batches (BBP), the Roast batch itself and the roaster Cooling at the end of the session.\n\nBTU = British Thermal Units\nKWH = Kilowattstunden\nCO2 = Kohlenstoffdioxid\n\nEnergie verbraucht durch Gasbrenner oder elektrische Heizelemente. Gasbrenner verursachen Co2 Emissionen. Schätzung des CO2 durch Gasart und Power Rating des Brenners. \nCo2 des Stroms wird ebenfalls ausgegeben, dafür kann in Artisan die zusammensetzung der Energieerzeugung aus der vorangegangenen Energiesupplychain eingstellt werden. Daher errechnet sich der Wert.\n",
-        "x": 620,
-        "y": 1100,
+        "x": 720,
+        "y": 860,
         "wires": []
     },
     {
@@ -708,7 +536,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
+        "x": 150,
         "y": 340,
         "wires": [
             [
@@ -737,7 +565,7 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
+        "x": 150,
         "y": 420,
         "wires": [
             [
@@ -761,7 +589,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 360,
+        "x": 380,
         "y": 340,
         "wires": [
             [
@@ -785,7 +613,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 360,
+        "x": 380,
         "y": 420,
         "wires": [
             [
@@ -806,7 +634,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 580,
+        "x": 600,
         "y": 340,
         "wires": []
     },
@@ -822,8 +650,74 @@
         "complete": "false",
         "statusVal": "",
         "statusType": "auto",
-        "x": 580,
+        "x": 600,
         "y": 420,
         "wires": []
+    },
+    {
+        "id": "57135e73c9b8dac8",
+        "type": "inject",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 480,
+        "y": 600,
+        "wires": [
+            [
+                "1948d4c5f3faa110"
+            ]
+        ]
+    },
+    {
+        "id": "8a0902029c7bade7",
+        "type": "debug",
+        "z": "f7c93124508f6705",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "1948d4c5f3faa110",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "function 1",
+        "func": "msg.args = [\"sensor3\", \"org0-example-com\"];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 600,
+        "wires": [
+            [
+                "e79bbd0539c23f7e"
+            ]
+        ]
     }
 ]

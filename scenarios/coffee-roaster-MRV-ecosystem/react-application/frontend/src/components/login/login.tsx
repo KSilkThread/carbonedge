@@ -28,7 +28,7 @@ export default function Login() {
           height: "100%",
         }}
       >
-        <Typography component="h1" variant="h1" sx={{ fontWeight: 800 }}>
+        <Typography component="h2" variant="h2" sx={{ fontWeight: 800 }}>
           Carbon<span style={{ color: "#FD6916" }}>Edge</span> Dashboard
         </Typography>
         <Typography component="h3" variant="h3" sx={{ mt: 1, fontWeight: 500 }}>
