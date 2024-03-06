@@ -1,4 +1,31 @@
-# React + TypeScript + Vite
+# Carbon Edge Dashboard - React Application
+
+## Installation
+
+1. Clone this git repository
+2. cd into the frontend folder with: `cd frontend`
+3. run `npm install`
+4. copy the example .env file to a real .env file with `cp .env.example .env`
+5. configure all values in the .env file as needed. (The Sensor ID must be same as in the Blockchain, so does the Organisation ID)
+6. run `npm run dev` for a local environment with Hot Module Replacement (HMR)
+
+## Testing
+
+### Unit Tests
+
+Run `npm run test`, it will automatically include a coverage report for unit tests
+
+### Storybook
+
+Run `npm run storybook` it opens storybook in the browser to manually test the components
+
+### Visual Regression Testing
+
+Install and open docker (desktop)
+
+Run `npx loki test` to test changes against the reference images created by loki.
+
+# Default Readme for Reference
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
@@ -17,12 +44,12 @@ If you are developing a production application, we recommend updating the config
 export default {
   // other rules...
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: ["./tsconfig.json", "./tsconfig.node.json"],
     tsconfigRootDir: __dirname,
   },
-}
+};
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
