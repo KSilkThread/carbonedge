@@ -20,7 +20,7 @@
     Step 2: Do configurations here. Per default Admin, mychannel, certificateCC, getCertificate and Evaluate Transaction dont need to be changed, unless your network is configured otherwise
     ![Open Config Node](documentation/editConfigNode.PNG "Open Config Node")
     Step 3: Click here to Open the Config Node
-    ![Open Config Node](documentation/ConfigNode.PNG "Open Config Node")
+    ![Open Config Node](documentation/configNode.PNG "Open Config Node")
     Step 4: Change the absolute paths here.
 
 ccpPath needs to point to the file `your mychannel_connection_for_nodesdk.json`
