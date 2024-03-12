@@ -722,7 +722,7 @@
         "type": "function",
         "z": "f7c93124508f6705",
         "name": "Mock return",
-        "func": "const responseObject = {\n    \"status\": \"200\",\n    \"response\": JSON.stringify({\n        \"sensorid\": \"sensor3\",\n        \"ownerorg\": \"org0-example-com\",\n        \"inspectororganisation\": \"org1-example-com\",\n        \"expirydate\": \"2025-03-12T14:37:59.731234799Z\",\n        \"firstauth\": false\n    })\n};\n\nmsg.payload = responseObject;\n\nreturn msg;\n",
+        "func": "const responseObject = {\n    \"status\": \"200\",\n    \"response\": JSON.stringify({\n        \"sensorid\": \"sensor3\",\n        \"ownerorg\": \"org0-example-com\",\n        \"inspectororganisation\": \"org1-example-com\",\n        \"expirydate\": \"2024-03-22T14:37:59.731234799Z\",\n        \"firstauth\": false\n    })\n};\n\nmsg.payload = responseObject;\n\nreturn msg;\n",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -876,8 +876,8 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 150,
-        "y": 660,
+        "x": 130,
+        "y": 560,
         "wires": [
             [
                 "3db11221822ba118"
@@ -896,30 +896,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 510,
-        "y": 660,
+        "x": 490,
+        "y": 560,
         "wires": [
             [
                 "da0ef539665784a0"
-            ]
-        ]
-    },
-    {
-        "id": "444d26878c0b6dbe",
-        "type": "txNode",
-        "z": "5f5a5798a0ea7bb3",
-        "name": "",
-        "userid": "Admin",
-        "channel": "mychannel",
-        "chaincode": "certificateCC",
-        "cmd": "getCertificate",
-        "configurations": "e59a45358b52e49f",
-        "transactiontype": "evaluate",
-        "x": 510,
-        "y": 520,
-        "wires": [
-            [
-                "ee88a632487322c5"
             ]
         ]
     },
@@ -930,12 +911,60 @@
         "name": "Response",
         "statusCode": "",
         "headers": {},
-        "x": 1080,
-        "y": 660,
+        "x": 1060,
+        "y": 560,
         "wires": []
     },
     {
-        "id": "840dc721893dfb1c",
+        "id": "9b74cd5fd94317ca",
+        "type": "comment",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Exposed HTTP Endpoints",
+        "info": "",
+        "x": 150,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "da0ef539665784a0",
+        "type": "txNode",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "certificateCC",
+        "cmd": "getCertificate",
+        "configurations": "e59a45358b52e49f",
+        "transactiontype": "evaluate",
+        "x": 770,
+        "y": 560,
+        "wires": [
+            [
+                "70e635a3bd50d4ec"
+            ]
+        ]
+    },
+    {
+        "id": "5684206a4d174de5",
+        "type": "txNode",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "certificateCC",
+        "cmd": "getCertificate",
+        "configurations": "e59a45358b52e49f",
+        "transactiontype": "evaluate",
+        "x": 510,
+        "y": 1120,
+        "wires": [
+            [
+                "96f2490fb007601a"
+            ]
+        ]
+    },
+    {
+        "id": "538889d88b6a3712",
         "type": "inject",
         "z": "5f5a5798a0ea7bb3",
         "name": "Start reading of cert",
@@ -955,23 +984,23 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 170,
-        "y": 80,
+        "x": 150,
+        "y": 120,
         "wires": [
             [
-                "869a230c26082733"
+                "c79dd831d0e37f95"
             ]
         ]
     },
     {
-        "id": "869a230c26082733",
+        "id": "5813818f2dc09e81",
         "type": "http request",
         "z": "5f5a5798a0ea7bb3",
         "name": "Query Transponder API",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/api/transponder",
+        "url": "{{{PITREADER_URL}}}/api/transponder",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -979,77 +1008,67 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 410,
-        "y": 80,
+        "x": 630,
+        "y": 120,
         "wires": [
             [
-                "4462b0333a62dd00"
+                "a35f30606283bc85"
             ]
         ]
     },
     {
-        "id": "4462b0333a62dd00",
+        "id": "a35f30606283bc85",
         "type": "function",
         "z": "5f5a5798a0ea7bb3",
         "name": "Extract securityID",
-        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === \"org0-example-com\"){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === \"org1-example-com\"){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"nobody\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
+        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === msg.OWNER_ORG_ID){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === msg.INSPECTOR_ORG_ID){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"nobody\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 690,
-        "y": 80,
+        "x": 910,
+        "y": 120,
         "wires": [
             [
-                "9a9445188e729a69"
+                "3a4433dea71bd32f"
             ],
             [
-                "c34919cddb303f20"
+                "6c624c76436dda52"
             ]
         ]
     },
     {
-        "id": "9a9445188e729a69",
+        "id": "3a4433dea71bd32f",
         "type": "file",
         "z": "5f5a5798a0ea7bb3",
         "name": "SaveToFile",
-        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filename": "{{{ADMIN_ID_FILE_PATH}}}",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": false,
         "overwriteFile": "true",
         "encoding": "utf8",
-        "x": 950,
-        "y": 20,
+        "x": 1170,
+        "y": 60,
         "wires": [
             []
         ]
     },
     {
-        "id": "9b74cd5fd94317ca",
-        "type": "comment",
-        "z": "5f5a5798a0ea7bb3",
-        "name": "Exposed HTTP Endpoints",
-        "info": "",
-        "x": 170,
-        "y": 600,
-        "wires": []
-    },
-    {
-        "id": "c34919cddb303f20",
+        "id": "6c624c76436dda52",
         "type": "websocket out",
         "z": "5f5a5798a0ea7bb3",
         "name": "",
         "server": "12fed2b4f392671f",
         "client": "",
-        "x": 970,
-        "y": 120,
+        "x": 1190,
+        "y": 160,
         "wires": []
     },
     {
-        "id": "58ee0d0e5afc7e45",
+        "id": "474f97bd33c91543",
         "type": "http in",
         "z": "5f5a5798a0ea7bb3",
         "name": "",
@@ -1057,16 +1076,16 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
-        "y": 740,
+        "x": 140,
+        "y": 640,
         "wires": [
             [
-                "729cc2a7e6dddb06"
+                "cf84f73a28284494"
             ]
         ]
     },
     {
-        "id": "729cc2a7e6dddb06",
+        "id": "cf84f73a28284494",
         "type": "debug",
         "z": "5f5a5798a0ea7bb3",
         "name": "Certification Started",
@@ -1078,12 +1097,12 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 470,
-        "y": 740,
+        "x": 450,
+        "y": 640,
         "wires": []
     },
     {
-        "id": "1622404b03761331",
+        "id": "2397142957a0d2aa",
         "type": "http in",
         "z": "5f5a5798a0ea7bb3",
         "name": "",
@@ -1091,16 +1110,16 @@
         "method": "post",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
-        "y": 820,
+        "x": 140,
+        "y": 720,
         "wires": [
             [
-                "e831e9e8a1de95be"
+                "8dba7a13b14ff926"
             ]
         ]
     },
     {
-        "id": "e831e9e8a1de95be",
+        "id": "8dba7a13b14ff926",
         "type": "debug",
         "z": "5f5a5798a0ea7bb3",
         "name": "Certification Ended",
@@ -1112,12 +1131,12 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 470,
-        "y": 820,
+        "x": 450,
+        "y": 720,
         "wires": []
     },
     {
-        "id": "16804b50acf4f1f3",
+        "id": "a7d5d4cc8f8bae92",
         "type": "http in",
         "z": "5f5a5798a0ea7bb3",
         "name": "",
@@ -1125,23 +1144,23 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 160,
-        "y": 900,
+        "x": 140,
+        "y": 800,
         "wires": [
             [
-                "62bb286aad2d4ba6"
+                "9eb1b31e807da86c"
             ]
         ]
     },
     {
-        "id": "62bb286aad2d4ba6",
+        "id": "3c342c296918255c",
         "type": "http request",
         "z": "5f5a5798a0ea7bb3",
         "name": "Query Artisan API",
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:8080/emissions",
+        "url": "{{{ARTISAN_URL}}}/emissions",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1149,27 +1168,27 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 510,
-        "y": 900,
+        "x": 630,
+        "y": 800,
         "wires": [
             [
-                "dde2ed0ee99d823a"
+                "a29eaec449d47437"
             ]
         ]
     },
     {
-        "id": "dde2ed0ee99d823a",
+        "id": "a29eaec449d47437",
         "type": "http response",
         "z": "5f5a5798a0ea7bb3",
         "name": "Response",
         "statusCode": "",
         "headers": {},
-        "x": 880,
-        "y": 900,
+        "x": 860,
+        "y": 800,
         "wires": []
     },
     {
-        "id": "49abee41bc78242e",
+        "id": "7fb6e32c7bb6f5e5",
         "type": "http in",
         "z": "5f5a5798a0ea7bb3",
         "name": "",
@@ -1177,27 +1196,27 @@
         "method": "get",
         "upload": false,
         "swaggerDoc": "",
-        "x": 170,
-        "y": 980,
+        "x": 150,
+        "y": 880,
         "wires": [
             [
-                "b5a51ef69ce38cdc"
+                "ce68484214120c48"
             ]
         ]
     },
     {
-        "id": "0a24d57acb4a0e3a",
+        "id": "b9a864d89d0f8f54",
         "type": "http response",
         "z": "5f5a5798a0ea7bb3",
         "name": "Response",
         "statusCode": "",
         "headers": {},
-        "x": 880,
-        "y": 980,
+        "x": 860,
+        "y": 880,
         "wires": []
     },
     {
-        "id": "b5a51ef69ce38cdc",
+        "id": "ce68484214120c48",
         "type": "function",
         "z": "5f5a5798a0ea7bb3",
         "name": "Return Test data",
@@ -1208,31 +1227,31 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 500,
-        "y": 980,
+        "x": 480,
+        "y": 880,
         "wires": [
             [
-                "0a24d57acb4a0e3a"
+                "b9a864d89d0f8f54"
             ]
         ]
     },
     {
-        "id": "fc64843dcaf300ea",
+        "id": "45641f07affa6ea7",
         "type": "catch",
         "z": "5f5a5798a0ea7bb3",
         "name": "Error Catching",
         "scope": null,
         "uncaught": false,
-        "x": 130,
-        "y": 1040,
+        "x": 110,
+        "y": 1000,
         "wires": [
             [
-                "f84a3b12f799517e"
+                "2d8264d25afda114"
             ]
         ]
     },
     {
-        "id": "f84a3b12f799517e",
+        "id": "2d8264d25afda114",
         "type": "debug",
         "z": "5f5a5798a0ea7bb3",
         "name": "ErrorDebug",
@@ -1244,22 +1263,22 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 330,
-        "y": 1040,
+        "x": 310,
+        "y": 1000,
         "wires": []
     },
     {
-        "id": "27b41aa5cadb54f6",
+        "id": "bf93391717facfaa",
         "type": "comment",
         "z": "5f5a5798a0ea7bb3",
         "name": "Bedeutung der Daten",
         "info": "The Artisan Energy Calculator provides estimates for energy consumption and CO2 emission across four phases of the roasting process,\nPre-Heating at the start of the roast session, Between Batches (BBP), the Roast batch itself and the roaster Cooling at the end of the session.\n\nBTU = British Thermal Units\nKWH = Kilowattstunden\nCO2 = Kohlenstoffdioxid\n\nEnergie verbraucht durch Gasbrenner oder elektrische Heizelemente. Gasbrenner verursachen Co2 Emissionen. Schätzung des CO2 durch Gasart und Power Rating des Brenners. \nCo2 des Stroms wird ebenfalls ausgegeben, dafür kann in Artisan die zusammensetzung der Energieerzeugung aus der vorangegangenen Energiesupplychain eingstellt werden. Daher errechnet sich der Wert.\n",
-        "x": 700,
-        "y": 940,
+        "x": 680,
+        "y": 840,
         "wires": []
     },
     {
-        "id": "14a77c6a343b9f26",
+        "id": "00914260ce14210a",
         "type": "inject",
         "z": "5f5a5798a0ea7bb3",
         "name": "logout",
@@ -1279,51 +1298,51 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 130,
-        "y": 200,
+        "x": 110,
+        "y": 240,
         "wires": [
             [
-                "7ff32a36030b7e0a"
+                "7b4c780c59a7c09e"
             ]
         ]
     },
     {
-        "id": "fb846928da6e71d5",
+        "id": "8b27424c5c5d2b40",
         "type": "websocket out",
         "z": "5f5a5798a0ea7bb3",
         "name": "",
         "server": "12fed2b4f392671f",
         "client": "",
-        "x": 970,
-        "y": 280,
+        "x": 1190,
+        "y": 320,
         "wires": []
     },
     {
-        "id": "864ee20da9754afe",
+        "id": "a735497cb6378a43",
         "type": "file",
         "z": "5f5a5798a0ea7bb3",
         "name": "DeleteCert",
-        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filename": "{{{ADMIN_ID_FILE_PATH}}}",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": false,
         "overwriteFile": "true",
         "encoding": "utf8",
-        "x": 950,
-        "y": 180,
+        "x": 1170,
+        "y": 220,
         "wires": [
             []
         ]
     },
     {
-        "id": "7ff32a36030b7e0a",
+        "id": "f3ceccb06e991e91",
         "type": "http request",
         "z": "5f5a5798a0ea7bb3",
         "name": "Logout Transponder API",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/logout",
+        "url": "{{{PITREADER_URL}}}/logout",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1331,16 +1350,16 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 370,
-        "y": 200,
+        "x": 590,
+        "y": 240,
         "wires": [
             [
-                "2d35f30e8eda8b23"
+                "6b8a53b102cf15dd"
             ]
         ]
     },
     {
-        "id": "2d35f30e8eda8b23",
+        "id": "6b8a53b102cf15dd",
         "type": "function",
         "z": "5f5a5798a0ea7bb3",
         "name": "modify file and loginstatus ",
@@ -1351,19 +1370,19 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 200,
+        "x": 850,
+        "y": 240,
         "wires": [
             [
-                "864ee20da9754afe"
+                "a735497cb6378a43"
             ],
             [
-                "fb846928da6e71d5"
+                "8b27424c5c5d2b40"
             ]
         ]
     },
     {
-        "id": "a2d7bc58a9daa79c",
+        "id": "eaaffa98e76d48e4",
         "type": "inject",
         "z": "5f5a5798a0ea7bb3",
         "name": "login ORG0",
@@ -1383,16 +1402,16 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 300,
+        "x": 130,
+        "y": 340,
         "wires": [
             [
-                "7e7a4bbd19a11533"
+                "9a8813c70f5be9b4"
             ]
         ]
     },
     {
-        "id": "2138f6878cbde02a",
+        "id": "5252ac36ef61a7ef",
         "type": "inject",
         "z": "5f5a5798a0ea7bb3",
         "name": "login ORG1",
@@ -1412,23 +1431,23 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 150,
-        "y": 380,
+        "x": 130,
+        "y": 420,
         "wires": [
             [
-                "4a28829275bc4a8f"
+                "e8bc87fe440eb463"
             ]
         ]
     },
     {
-        "id": "7e7a4bbd19a11533",
+        "id": "487a52b3ba96d994",
         "type": "http request",
         "z": "5f5a5798a0ea7bb3",
         "name": "Login Transponder API",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/login/org0",
+        "url": "{{{PITREADER_URL}}}/login/org0",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1436,23 +1455,23 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 380,
-        "y": 300,
+        "x": 580,
+        "y": 340,
         "wires": [
             [
-                "6411f682bd1dd197"
+                "e4affa3b1d2946de"
             ]
         ]
     },
     {
-        "id": "4a28829275bc4a8f",
+        "id": "de2487718350146d",
         "type": "http request",
         "z": "5f5a5798a0ea7bb3",
         "name": "Login Transponder API",
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/login/org1",
+        "url": "{{{PITREADER_URL}}}/login/org1",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -1460,19 +1479,19 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 380,
-        "y": 380,
+        "x": 580,
+        "y": 420,
         "wires": [
             [
-                "28f1087f3a125894"
+                "02ea06cbb9d7c8a7"
             ]
         ]
     },
     {
-        "id": "6411f682bd1dd197",
+        "id": "e4affa3b1d2946de",
         "type": "debug",
         "z": "5f5a5798a0ea7bb3",
-        "name": "debug 4",
+        "name": "debug login org0",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1481,15 +1500,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 600,
-        "y": 300,
+        "x": 830,
+        "y": 340,
         "wires": []
     },
     {
-        "id": "28f1087f3a125894",
+        "id": "02ea06cbb9d7c8a7",
         "type": "debug",
         "z": "5f5a5798a0ea7bb3",
-        "name": "debug 5",
+        "name": "debug login org1",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1498,12 +1517,12 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 600,
-        "y": 380,
+        "x": 830,
+        "y": 420,
         "wires": []
     },
     {
-        "id": "9d1c58258e5ee2b9",
+        "id": "7703ab25d8ff766e",
         "type": "inject",
         "z": "5f5a5798a0ea7bb3",
         "name": "",
@@ -1524,18 +1543,18 @@
         "payload": "",
         "payloadType": "date",
         "x": 140,
-        "y": 520,
+        "y": 1120,
         "wires": [
             [
-                "52453bfe3635d55f"
+                "4c7615fc7b96ef89"
             ]
         ]
     },
     {
-        "id": "ee88a632487322c5",
+        "id": "96f2490fb007601a",
         "type": "debug",
         "z": "5f5a5798a0ea7bb3",
-        "name": "debug 6",
+        "name": "debug 4",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1545,11 +1564,11 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 700,
-        "y": 520,
+        "y": 1120,
         "wires": []
     },
     {
-        "id": "52453bfe3635d55f",
+        "id": "4c7615fc7b96ef89",
         "type": "function",
         "z": "5f5a5798a0ea7bb3",
         "name": "function 2",
@@ -1561,29 +1580,140 @@
         "finalize": "",
         "libs": [],
         "x": 300,
-        "y": 520,
+        "y": 1120,
         "wires": [
             [
-                "444d26878c0b6dbe"
+                "5684206a4d174de5"
             ]
         ]
     },
     {
-        "id": "da0ef539665784a0",
-        "type": "txNode",
+        "id": "c79dd831d0e37f95",
+        "type": "function",
         "z": "5f5a5798a0ea7bb3",
-        "name": "",
-        "userid": "Admin",
-        "channel": "mychannel",
-        "chaincode": "certificateCC",
-        "cmd": "getCertificate",
-        "configurations": "e59a45358b52e49f",
-        "transactiontype": "evaluate",
-        "x": 790,
-        "y": 660,
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\nlet ADMIN_ID_FILE_PATH = env_variables.get(\"ADMIN_ID_FILE_PATH\");\nmsg.ADMIN_ID_FILE_PATH = ADMIN_ID_FILE_PATH;\nlet OWNER_ORG_ID = env_variables.get(\"OWNER_ORG_ID\");\nmsg.OWNER_ORG_ID = OWNER_ORG_ID;\nlet INSPECTOR_ORG_ID = env_variables.get(\"INSPECTOR_ORG_ID\");\nmsg.INSPECTOR_ORG_ID = INSPECTOR_ORG_ID;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 120,
         "wires": [
             [
-                "70e635a3bd50d4ec"
+                "5813818f2dc09e81"
+            ]
+        ]
+    },
+    {
+        "id": "7b4c780c59a7c09e",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\nlet ADMIN_ID_FILE_PATH = env_variables.get(\"ADMIN_ID_FILE_PATH\");\nmsg.ADMIN_ID_FILE_PATH = ADMIN_ID_FILE_PATH;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 240,
+        "wires": [
+            [
+                "f3ceccb06e991e91"
+            ]
+        ]
+    },
+    {
+        "id": "9a8813c70f5be9b4",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 340,
+        "wires": [
+            [
+                "487a52b3ba96d994"
+            ]
+        ]
+    },
+    {
+        "id": "e8bc87fe440eb463",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "de2487718350146d"
+            ]
+        ]
+    },
+    {
+        "id": "0efd18f2dc943de1",
+        "type": "comment",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Manual Blockchain Testing",
+        "info": "",
+        "x": 150,
+        "y": 1060,
+        "wires": []
+    },
+    {
+        "id": "cf07b897c152bfdf",
+        "type": "comment",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Errors",
+        "info": "",
+        "x": 90,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "a16f6aa22b1f7346",
+        "type": "comment",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Authentication",
+        "info": "",
+        "x": 110,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "9eb1b31e807da86c",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet ARTISAN_URL = env_variables.get(\"ARTISAN_URL\");\nmsg.ARTISAN_URL = ARTISAN_URL;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 800,
+        "wires": [
+            [
+                "3c342c296918255c"
             ]
         ]
     },
