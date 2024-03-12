@@ -2,7 +2,23 @@
     {
         "id": "f7c93124508f6705",
         "type": "tab",
-        "label": "TestTransaction",
+        "label": "Dev Environment (No Blockchain or Artisan)",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5f5a5798a0ea7bb3",
+        "type": "tab",
+        "label": "Production",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "6fc5657fcf45c9de",
+        "type": "tab",
+        "label": "Please Configurate the Environment Variables",
         "disabled": false,
         "info": "",
         "env": []
@@ -11,7 +27,7 @@
         "id": "e59a45358b52e49f",
         "type": "configNode",
         "name": "",
-        "ccpPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\mychannel_connection_for_nodesdk.json",
+        "ccpPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\channel\\mychannel_connection_for_nodesdk.json",
         "walletPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet"
     },
     {
@@ -33,27 +49,7 @@
         "y": 700,
         "wires": [
             [
-                "43ff31d47f8b98c3"
-            ]
-        ]
-    },
-    {
-        "id": "43ff31d47f8b98c3",
-        "type": "function",
-        "z": "f7c93124508f6705",
-        "name": "Extract Sensor and Org",
-        "func": "msg.args = [msg.req.query.sensor, msg.req.query.org];\nconsole.log(msg);\nreturn msg;",
-        "outputs": 1,
-        "timeout": 0,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 530,
-        "y": 700,
-        "wires": [
-            [
-                "07522e151960a7ba"
+                "8c068f060b26806c"
             ]
         ]
     },
@@ -68,8 +64,8 @@
         "cmd": "getCertificate",
         "configurations": "e59a45358b52e49f",
         "transactiontype": "evaluate",
-        "x": 830,
-        "y": 600,
+        "x": 530,
+        "y": 1260,
         "wires": [
             [
                 "8a0902029c7bade7"
@@ -109,10 +105,10 @@
         "payload": "",
         "payloadType": "date",
         "x": 170,
-        "y": 120,
+        "y": 260,
         "wires": [
             [
-                "e0f523da768240c8"
+                "2c0d3cb1f9a765a8"
             ]
         ]
     },
@@ -124,7 +120,7 @@
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/api/transponder",
+        "url": "{{{PITREADER_URL}}}/api/transponder",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -132,8 +128,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 410,
-        "y": 120,
+        "x": 650,
+        "y": 260,
         "wires": [
             [
                 "ea91208865a3da38"
@@ -145,15 +141,15 @@
         "type": "function",
         "z": "f7c93124508f6705",
         "name": "Extract securityID",
-        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === \"org0-example-com\"){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === \"org1-example-com\"){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"nobody\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
+        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === msg.OWNER_ORG_ID){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === msg.INSPECTOR_ORG_ID){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"nobody\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
         "outputs": 2,
         "timeout": 0,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 690,
-        "y": 120,
+        "x": 930,
+        "y": 260,
         "wires": [
             [
                 "93ba1f490255dac2"
@@ -168,14 +164,14 @@
         "type": "file",
         "z": "f7c93124508f6705",
         "name": "SaveToFile",
-        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filename": "{{{ADMIN_ID_FILE_PATH}}}",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": false,
         "overwriteFile": "true",
         "encoding": "utf8",
-        "x": 950,
-        "y": 60,
+        "x": 1190,
+        "y": 200,
         "wires": [
             []
         ]
@@ -197,8 +193,8 @@
         "name": "",
         "server": "12fed2b4f392671f",
         "client": "",
-        "x": 970,
-        "y": 160,
+        "x": 1210,
+        "y": 300,
         "wires": []
     },
     {
@@ -282,7 +278,7 @@
         "y": 940,
         "wires": [
             [
-                "694d2f0c3c6ab0ad"
+                "f4c119d4116616fd"
             ]
         ]
     },
@@ -294,7 +290,7 @@
         "method": "GET",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:8080/emissions",
+        "url": "{{{ARTISAN_URL}}}/emissions",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -302,7 +298,7 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 550,
+        "x": 650,
         "y": 940,
         "wires": [
             [
@@ -376,8 +372,8 @@
         "name": "Error Catching",
         "scope": null,
         "uncaught": false,
-        "x": 790,
-        "y": 760,
+        "x": 130,
+        "y": 1140,
         "wires": [
             [
                 "6f78b6b2ca562f41"
@@ -397,8 +393,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 990,
-        "y": 760,
+        "x": 330,
+        "y": 1140,
         "wires": []
     },
     {
@@ -407,8 +403,8 @@
         "z": "f7c93124508f6705",
         "name": "Bedeutung der Daten",
         "info": "The Artisan Energy Calculator provides estimates for energy consumption and CO2 emission across four phases of the roasting process,\nPre-Heating at the start of the roast session, Between Batches (BBP), the Roast batch itself and the roaster Cooling at the end of the session.\n\nBTU = British Thermal Units\nKWH = Kilowattstunden\nCO2 = Kohlenstoffdioxid\n\nEnergie verbraucht durch Gasbrenner oder elektrische Heizelemente. Gasbrenner verursachen Co2 Emissionen. Schätzung des CO2 durch Gasart und Power Rating des Brenners. \nCo2 des Stroms wird ebenfalls ausgegeben, dafür kann in Artisan die zusammensetzung der Energieerzeugung aus der vorangegangenen Energiesupplychain eingstellt werden. Daher errechnet sich der Wert.\n",
-        "x": 720,
-        "y": 860,
+        "x": 700,
+        "y": 980,
         "wires": []
     },
     {
@@ -433,10 +429,10 @@
         "payload": "",
         "payloadType": "date",
         "x": 130,
-        "y": 240,
+        "y": 380,
         "wires": [
             [
-                "8a2cd92d909fb5d0"
+                "67b31270787cf956"
             ]
         ]
     },
@@ -447,8 +443,8 @@
         "name": "",
         "server": "12fed2b4f392671f",
         "client": "",
-        "x": 970,
-        "y": 320,
+        "x": 1210,
+        "y": 460,
         "wires": []
     },
     {
@@ -456,14 +452,14 @@
         "type": "file",
         "z": "f7c93124508f6705",
         "name": "DeleteCert",
-        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filename": "{{{ADMIN_ID_FILE_PATH}}}",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": false,
         "overwriteFile": "true",
         "encoding": "utf8",
-        "x": 950,
-        "y": 220,
+        "x": 1190,
+        "y": 360,
         "wires": [
             []
         ]
@@ -476,7 +472,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/logout",
+        "url": "{{{PITREADER_URL}}}/logout",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -484,8 +480,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 370,
-        "y": 240,
+        "x": 610,
+        "y": 380,
         "wires": [
             [
                 "0a6069c8238cf21c"
@@ -504,8 +500,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 630,
-        "y": 240,
+        "x": 870,
+        "y": 380,
         "wires": [
             [
                 "b4f52e46ea6404fc"
@@ -537,10 +533,10 @@
         "payload": "",
         "payloadType": "date",
         "x": 150,
-        "y": 340,
+        "y": 480,
         "wires": [
             [
-                "0cc8b047ed548dce"
+                "bd016f147d988da2"
             ]
         ]
     },
@@ -566,10 +562,10 @@
         "payload": "",
         "payloadType": "date",
         "x": 150,
-        "y": 420,
+        "y": 560,
         "wires": [
             [
-                "727595fd806ead3c"
+                "4e756c5fd34faec9"
             ]
         ]
     },
@@ -581,7 +577,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/login/org0",
+        "url": "{{{PITREADER_URL}}}/login/org0",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -589,8 +585,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 380,
-        "y": 340,
+        "x": 600,
+        "y": 480,
         "wires": [
             [
                 "adf85ecad483266c"
@@ -605,7 +601,7 @@
         "method": "POST",
         "ret": "txt",
         "paytoqs": "ignore",
-        "url": "http://127.0.0.1:3000/login/org1",
+        "url": "{{{PITREADER_URL}}}/login/org1",
         "tls": "",
         "persist": false,
         "proxy": "",
@@ -613,8 +609,8 @@
         "authType": "",
         "senderr": false,
         "headers": [],
-        "x": 380,
-        "y": 420,
+        "x": 600,
+        "y": 560,
         "wires": [
             [
                 "3d3371ac3f0e2ef7"
@@ -625,7 +621,7 @@
         "id": "adf85ecad483266c",
         "type": "debug",
         "z": "f7c93124508f6705",
-        "name": "debug 1",
+        "name": "debug login org0",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -634,24 +630,25 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 600,
-        "y": 340,
+        "x": 850,
+        "y": 480,
         "wires": []
     },
     {
         "id": "3d3371ac3f0e2ef7",
         "type": "debug",
         "z": "f7c93124508f6705",
-        "name": "debug 2",
+        "name": "debug login org1",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "false",
+        "complete": "payload",
+        "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 600,
-        "y": 420,
+        "x": 850,
+        "y": 560,
         "wires": []
     },
     {
@@ -675,8 +672,8 @@
         "topic": "",
         "payload": "",
         "payloadType": "date",
-        "x": 480,
-        "y": 600,
+        "x": 160,
+        "y": 1260,
         "wires": [
             [
                 "1948d4c5f3faa110"
@@ -696,8 +693,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1040,
-        "y": 600,
+        "x": 720,
+        "y": 1260,
         "wires": []
     },
     {
@@ -712,12 +709,988 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 640,
-        "y": 600,
+        "x": 320,
+        "y": 1260,
         "wires": [
             [
                 "e79bbd0539c23f7e"
             ]
         ]
+    },
+    {
+        "id": "8c068f060b26806c",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "Mock return",
+        "func": "const responseObject = {\n    \"status\": \"200\",\n    \"response\": JSON.stringify({\n        \"sensorid\": \"sensor3\",\n        \"ownerorg\": \"org0-example-com\",\n        \"inspectororganisation\": \"org1-example-com\",\n        \"expirydate\": \"2025-03-12T14:37:59.731234799Z\",\n        \"firstauth\": false\n    })\n};\n\nmsg.payload = responseObject;\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 590,
+        "y": 700,
+        "wires": [
+            [
+                "07522e151960a7ba"
+            ]
+        ]
+    },
+    {
+        "id": "2c0d3cb1f9a765a8",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\nlet ADMIN_ID_FILE_PATH = env_variables.get(\"ADMIN_ID_FILE_PATH\");\nmsg.ADMIN_ID_FILE_PATH = ADMIN_ID_FILE_PATH;\nlet OWNER_ORG_ID = env_variables.get(\"OWNER_ORG_ID\");\nmsg.OWNER_ORG_ID = OWNER_ORG_ID;\nlet INSPECTOR_ORG_ID = env_variables.get(\"INSPECTOR_ORG_ID\");\nmsg.INSPECTOR_ORG_ID = INSPECTOR_ORG_ID;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 260,
+        "wires": [
+            [
+                "e0f523da768240c8"
+            ]
+        ]
+    },
+    {
+        "id": "67b31270787cf956",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\nlet ADMIN_ID_FILE_PATH = env_variables.get(\"ADMIN_ID_FILE_PATH\");\nmsg.ADMIN_ID_FILE_PATH = ADMIN_ID_FILE_PATH;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 380,
+        "wires": [
+            [
+                "8a2cd92d909fb5d0"
+            ]
+        ]
+    },
+    {
+        "id": "bd016f147d988da2",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 480,
+        "wires": [
+            [
+                "0cc8b047ed548dce"
+            ]
+        ]
+    },
+    {
+        "id": "4e756c5fd34faec9",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.PITREADER_URL = PITREADER_URL;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 350,
+        "y": 560,
+        "wires": [
+            [
+                "727595fd806ead3c"
+            ]
+        ]
+    },
+    {
+        "id": "b5c4ae805e08eacf",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Manual Blockchain Testing",
+        "info": "",
+        "x": 170,
+        "y": 1200,
+        "wires": []
+    },
+    {
+        "id": "cb2e3e0ad33be28f",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Errors",
+        "info": "",
+        "x": 110,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "18e52459bc1b4c68",
+        "type": "comment",
+        "z": "f7c93124508f6705",
+        "name": "Authentication",
+        "info": "",
+        "x": 130,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "f4c119d4116616fd",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "get env variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet ARTISAN_URL = env_variables.get(\"ARTISAN_URL\");\nmsg.ARTISAN_URL = ARTISAN_URL;\n\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 940,
+        "wires": [
+            [
+                "694d2f0c3c6ab0ad"
+            ]
+        ]
+    },
+    {
+        "id": "ef2f417b0c0949fb",
+        "type": "http in",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "url": "/getCertificate",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 660,
+        "wires": [
+            [
+                "3db11221822ba118"
+            ]
+        ]
+    },
+    {
+        "id": "3db11221822ba118",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Extract Sensor and Org",
+        "func": "msg.args = [msg.req.query.sensor, msg.req.query.org];\nconsole.log(msg);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 660,
+        "wires": [
+            [
+                "da0ef539665784a0"
+            ]
+        ]
+    },
+    {
+        "id": "444d26878c0b6dbe",
+        "type": "txNode",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "certificateCC",
+        "cmd": "getCertificate",
+        "configurations": "e59a45358b52e49f",
+        "transactiontype": "evaluate",
+        "x": 510,
+        "y": 520,
+        "wires": [
+            [
+                "ee88a632487322c5"
+            ]
+        ]
+    },
+    {
+        "id": "70e635a3bd50d4ec",
+        "type": "http response",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 1080,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "840dc721893dfb1c",
+        "type": "inject",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Start reading of cert",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "869a230c26082733"
+            ]
+        ]
+    },
+    {
+        "id": "869a230c26082733",
+        "type": "http request",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Query Transponder API",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/api/transponder",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 410,
+        "y": 80,
+        "wires": [
+            [
+                "4462b0333a62dd00"
+            ]
+        ]
+    },
+    {
+        "id": "4462b0333a62dd00",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Extract securityID",
+        "func": "var data = JSON.parse(msg.payload);\nvar securityID = data.securityID;\nvar securityIDObject = JSON.parse(securityID);\nvar mspId = securityIDObject.mspId;\nvar loginStatus = \"\";\nif (securityID !== \"\" && mspId === \"org0-example-com\"){\n    loginStatus = \"owner\";\n} else if (securityID !== \"\" && mspId === \"org1-example-com\"){\n    loginStatus = \"inspector\";\n}else{\n    loginStatus = \"nobody\";\n}\n\ntry {\n    securityID = JSON.parse(securityID);\n    msg.payload = JSON.stringify(securityID, null, 2);\n} catch (e) {\n    msg.payload = securityID;\n}\n\nvar wsMessage = JSON.stringify({ loggedIn: loginStatus });\n\nvar wsMsg = { payload: wsMessage };\nconsole.log(msg);\nreturn [msg, wsMsg];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 690,
+        "y": 80,
+        "wires": [
+            [
+                "9a9445188e729a69"
+            ],
+            [
+                "c34919cddb303f20"
+            ]
+        ]
+    },
+    {
+        "id": "9a9445188e729a69",
+        "type": "file",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "SaveToFile",
+        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 950,
+        "y": 20,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b74cd5fd94317ca",
+        "type": "comment",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Exposed HTTP Endpoints",
+        "info": "",
+        "x": 170,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "c34919cddb303f20",
+        "type": "websocket out",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "server": "12fed2b4f392671f",
+        "client": "",
+        "x": 970,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "58ee0d0e5afc7e45",
+        "type": "http in",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "url": "/startCertification",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 740,
+        "wires": [
+            [
+                "729cc2a7e6dddb06"
+            ]
+        ]
+    },
+    {
+        "id": "729cc2a7e6dddb06",
+        "type": "debug",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Certification Started",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "1622404b03761331",
+        "type": "http in",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "url": "/endCertification",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 820,
+        "wires": [
+            [
+                "e831e9e8a1de95be"
+            ]
+        ]
+    },
+    {
+        "id": "e831e9e8a1de95be",
+        "type": "debug",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Certification Ended",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 820,
+        "wires": []
+    },
+    {
+        "id": "16804b50acf4f1f3",
+        "type": "http in",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "url": "/getEmissionData",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 160,
+        "y": 900,
+        "wires": [
+            [
+                "62bb286aad2d4ba6"
+            ]
+        ]
+    },
+    {
+        "id": "62bb286aad2d4ba6",
+        "type": "http request",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Query Artisan API",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:8080/emissions",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 510,
+        "y": 900,
+        "wires": [
+            [
+                "dde2ed0ee99d823a"
+            ]
+        ]
+    },
+    {
+        "id": "dde2ed0ee99d823a",
+        "type": "http response",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 880,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "49abee41bc78242e",
+        "type": "http in",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "url": "/getEmissionDataTest",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 170,
+        "y": 980,
+        "wires": [
+            [
+                "b5a51ef69ce38cdc"
+            ]
+        ]
+    },
+    {
+        "id": "0a24d57acb4a0e3a",
+        "type": "http response",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 880,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "b5a51ef69ce38cdc",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Return Test data",
+        "func": "console.log(msg);\nmsg.payload = {\n    \"BTU_batch\": 239123.388,\n    \"BTU_batch_per_green_kg\": 11956.169,\n    \"CO2_batch\": 15999.225,\n    \"BTU_preheat\": 209123.388,\n    \"CO2_preheat\": 13999,\n    \"BTU_bbp\": 97000,\n    \"CO2_bbp\": 7000,\n    \"BTU_cooling\": 17000,\n    \"CO2_cooling\": 2000,\n    \"BTU_roast\": 239123.388,\n    \"BTU_roast_per_green_kg\": 11956.169,\n    \"CO2_roast\": 15999.225,\n    \"CO2_batch_per_green_kg\": 799.961,\n    \"CO2_roast_per_green_kg\": 799.961,\n    \"BTU_LPG\": 234998.917,\n    \"BTU_NG\": 0,\n    \"BTU_ELEC\": 4124.471,\n    \"KWH_batch_per_green_kg\": 3.504,\n    \"KWH_roast_per_green_kg\": 3.504,\n}\nconsole.log(msg);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 500,
+        "y": 980,
+        "wires": [
+            [
+                "0a24d57acb4a0e3a"
+            ]
+        ]
+    },
+    {
+        "id": "fc64843dcaf300ea",
+        "type": "catch",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Error Catching",
+        "scope": null,
+        "uncaught": false,
+        "x": 130,
+        "y": 1040,
+        "wires": [
+            [
+                "f84a3b12f799517e"
+            ]
+        ]
+    },
+    {
+        "id": "f84a3b12f799517e",
+        "type": "debug",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "ErrorDebug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 330,
+        "y": 1040,
+        "wires": []
+    },
+    {
+        "id": "27b41aa5cadb54f6",
+        "type": "comment",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Bedeutung der Daten",
+        "info": "The Artisan Energy Calculator provides estimates for energy consumption and CO2 emission across four phases of the roasting process,\nPre-Heating at the start of the roast session, Between Batches (BBP), the Roast batch itself and the roaster Cooling at the end of the session.\n\nBTU = British Thermal Units\nKWH = Kilowattstunden\nCO2 = Kohlenstoffdioxid\n\nEnergie verbraucht durch Gasbrenner oder elektrische Heizelemente. Gasbrenner verursachen Co2 Emissionen. Schätzung des CO2 durch Gasart und Power Rating des Brenners. \nCo2 des Stroms wird ebenfalls ausgegeben, dafür kann in Artisan die zusammensetzung der Energieerzeugung aus der vorangegangenen Energiesupplychain eingstellt werden. Daher errechnet sich der Wert.\n",
+        "x": 700,
+        "y": 940,
+        "wires": []
+    },
+    {
+        "id": "14a77c6a343b9f26",
+        "type": "inject",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "logout",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 200,
+        "wires": [
+            [
+                "7ff32a36030b7e0a"
+            ]
+        ]
+    },
+    {
+        "id": "fb846928da6e71d5",
+        "type": "websocket out",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "server": "12fed2b4f392671f",
+        "client": "",
+        "x": 970,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "864ee20da9754afe",
+        "type": "file",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "DeleteCert",
+        "filename": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 950,
+        "y": 180,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7ff32a36030b7e0a",
+        "type": "http request",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Logout Transponder API",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/logout",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "2d35f30e8eda8b23"
+            ]
+        ]
+    },
+    {
+        "id": "2d35f30e8eda8b23",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "modify file and loginstatus ",
+        "func": "\nmsg.payload = \"\";\nvar wsMessage = JSON.stringify({ loggedIn: \"nobody\" });\nvar wsMsg = { payload: wsMessage };\n\nreturn [msg, wsMsg];\n",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 200,
+        "wires": [
+            [
+                "864ee20da9754afe"
+            ],
+            [
+                "fb846928da6e71d5"
+            ]
+        ]
+    },
+    {
+        "id": "a2d7bc58a9daa79c",
+        "type": "inject",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "login ORG0",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 300,
+        "wires": [
+            [
+                "7e7a4bbd19a11533"
+            ]
+        ]
+    },
+    {
+        "id": "2138f6878cbde02a",
+        "type": "inject",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "login ORG1",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 150,
+        "y": 380,
+        "wires": [
+            [
+                "4a28829275bc4a8f"
+            ]
+        ]
+    },
+    {
+        "id": "7e7a4bbd19a11533",
+        "type": "http request",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Login Transponder API",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/login/org0",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 380,
+        "y": 300,
+        "wires": [
+            [
+                "6411f682bd1dd197"
+            ]
+        ]
+    },
+    {
+        "id": "4a28829275bc4a8f",
+        "type": "http request",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "Login Transponder API",
+        "method": "POST",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://127.0.0.1:3000/login/org1",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 380,
+        "y": 380,
+        "wires": [
+            [
+                "28f1087f3a125894"
+            ]
+        ]
+    },
+    {
+        "id": "6411f682bd1dd197",
+        "type": "debug",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "28f1087f3a125894",
+        "type": "debug",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "debug 5",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "9d1c58258e5ee2b9",
+        "type": "inject",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 520,
+        "wires": [
+            [
+                "52453bfe3635d55f"
+            ]
+        ]
+    },
+    {
+        "id": "ee88a632487322c5",
+        "type": "debug",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "debug 6",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 700,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "52453bfe3635d55f",
+        "type": "function",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "function 2",
+        "func": "msg.args = [\"sensor3\", \"org0-example-com\"];\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 520,
+        "wires": [
+            [
+                "444d26878c0b6dbe"
+            ]
+        ]
+    },
+    {
+        "id": "da0ef539665784a0",
+        "type": "txNode",
+        "z": "5f5a5798a0ea7bb3",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "certificateCC",
+        "cmd": "getCertificate",
+        "configurations": "e59a45358b52e49f",
+        "transactiontype": "evaluate",
+        "x": 790,
+        "y": 660,
+        "wires": [
+            [
+                "70e635a3bd50d4ec"
+            ]
+        ]
+    },
+    {
+        "id": "65d1fdac69a23e1e",
+        "type": "debug",
+        "z": "6fc5657fcf45c9de",
+        "name": "debugging env",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1060,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "34426f1fa962459b",
+        "type": "inject",
+        "z": "6fc5657fcf45c9de",
+        "name": "Click here to save environment variables",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 200,
+        "y": 200,
+        "wires": [
+            [
+                "d56bc8547225dd82"
+            ]
+        ]
+    },
+    {
+        "id": "d56bc8547225dd82",
+        "type": "function",
+        "z": "6fc5657fcf45c9de",
+        "name": "set environment variables",
+        "func": "const ENV_VARIABLES = new Map();\n\n//change your configurations here\n\n//PITREADER / RFID Auth API URL including full protocol prefix and port at the end http(s)://url:port\nENV_VARIABLES.set(\"PITREADER_URL\", \"http://127.0.0.1:3000\");\n//Full absolute Path to Admin.id File (including the file name and ending at the end)\nENV_VARIABLES.set(\"ADMIN_ID_FILE_PATH\", \"C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\Repository\\carbonedge\\scenarios\\coffee-roaster-MRV-ecosystem\\node-red-application\\wallet\\Admin.id\");\n//Organisation ID for owner org\nENV_VARIABLES.set(\"OWNER_ORG_ID\", \"org0-example-com\");\n//Organisation ID for inspector org\nENV_VARIABLES.set(\"INSPECTOR_ORG_ID\", \"org1-example-com\");\n//Artisan API URL including full protocol prefix and port at the end http(s)://url:port\nENV_VARIABLES.set(\"ARTISAN_URL\", \"http://127.0.0.1:8080\");\n\n\nglobal.set(\"envVariables\", ENV_VARIABLES);\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 200,
+        "wires": [
+            [
+                "8c4cdfd5c69295b8"
+            ]
+        ]
+    },
+    {
+        "id": "8c4cdfd5c69295b8",
+        "type": "function",
+        "z": "6fc5657fcf45c9de",
+        "name": "Confirm Variables",
+        "func": "let env_variables = global.get(\"envVariables\");\n\nlet PITREADER_URL = env_variables.get(\"PITREADER_URL\");\nmsg.payload = PITREADER_URL;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 810,
+        "y": 200,
+        "wires": [
+            [
+                "65d1fdac69a23e1e"
+            ]
+        ]
+    },
+    {
+        "id": "9a3561baea711da8",
+        "type": "comment",
+        "z": "6fc5657fcf45c9de",
+        "name": "THIS NODE RED APP NEEDS CONFIG HERE",
+        "info": "Please change the values in the \"set environment variables\" function accordingly",
+        "x": 440,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "e0388c3df231667e",
+        "type": "comment",
+        "z": "6fc5657fcf45c9de",
+        "name": "Then press the inject node here",
+        "info": "Please change the values in the \"set environment variables\" function accordingly",
+        "x": 150,
+        "y": 280,
+        "wires": []
     }
 ]
