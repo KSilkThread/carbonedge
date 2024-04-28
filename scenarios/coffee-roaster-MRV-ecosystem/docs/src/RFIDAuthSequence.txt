@@ -1,0 +1,32 @@
+title RFID Authentication and Blockchain Access
+
+actor User
+participant "RFID-Reader" as RFID
+participant "React Frontend" as Frontend
+participant "Node-RED Backend" as Backend
+participant Blockchain
+
+note right of User: User approaches with an Auth-Chip
+RFID->Backend: Chip Activation
+
+
+alt Chip Detected
+    note over RFID,Backend: Chip is detected by RFID-Reader
+    Backend->RFID:Request Certificate
+    RFID-->Backend: Send Certificate
+    note right of Backend: Uses Certificate for Authentication
+    Backend->Blockchain: Authenticate via Hyperledger Fabric SDK
+    activate Blockchain
+    Blockchain-->Backend: Gateway Established
+    deactivate Blockchain
+
+    loop Polling for Authentication
+        Frontend->Backend: Check Authentication
+        Backend-->Frontend: Auth Status
+    end
+
+    note over Frontend: Authentication Confirmed
+    Frontend->Frontend: Switch to Dashboard Screen
+end
+
+note over User,Frontend: Process ends as User views dashboard

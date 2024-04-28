@@ -1,0 +1,20 @@
+title Show Emission Data
+
+actor "User/Inspector" as User
+participant "React Frontend" as RF
+participant "Node-RED Backend" as NRB
+participant "Artisan" as HFB
+
+note over User, HFB: Authentication and Status of Sensor Process completed
+
+User->RF: Open Dashboard
+RF->NRB: Send Emission Data GET-Request
+NRB->HFB: Query EmissionData Contract
+HFB-->NRB: Return Emission Data
+NRB-->RF: Return Emission Data
+note right of RF: Update State Variables
+RF-->User: Display Data in Graphs and Stats
+
+
+
+

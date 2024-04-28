@@ -1,0 +1,151 @@
+[
+    {
+        "id": "f7c93124508f6705",
+        "type": "tab",
+        "label": "TestTransaction",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e59a45358b52e49f",
+        "type": "configNode",
+        "name": "",
+        "ccpPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\mychannel_connection_for_nodesdk.json",
+        "walletPath": "C:\\Users\\David\\Desktop\\Uni\\Projektstudium Master\\BlockchainTest\\connections\\wallets\\org0.example.com"
+    },
+    {
+        "id": "b313d8b697692341",
+        "type": "http in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "url": "/checkBalance",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "f2ecdf54542f3fed"
+            ]
+        ]
+    },
+    {
+        "id": "f2ecdf54542f3fed",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "Extract Party",
+        "func": "\nmsg.args = [msg.payload.party]; // Extract the string from msg.payload.party\nconsole.log(msg);\nreturn msg; // Return the modified msg object\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 200,
+        "wires": [
+            [
+                "ebee72571f4009c1"
+            ]
+        ]
+    },
+    {
+        "id": "ebee72571f4009c1",
+        "type": "txNode",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "simple",
+        "cmd": "query",
+        "configurations": "e59a45358b52e49f",
+        "transactiontype": "evaluate",
+        "x": 710,
+        "y": 200,
+        "wires": [
+            [
+                "ddc0d2db65de179e"
+            ]
+        ]
+    },
+    {
+        "id": "ddc0d2db65de179e",
+        "type": "http response",
+        "z": "f7c93124508f6705",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 960,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ce34ab3ae9853874",
+        "type": "http in",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "url": "/send",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 130,
+        "y": 320,
+        "wires": [
+            [
+                "e2b3fd7229d5db5e"
+            ]
+        ]
+    },
+    {
+        "id": "e2b3fd7229d5db5e",
+        "type": "function",
+        "z": "f7c93124508f6705",
+        "name": "Extract Party",
+        "func": "\nmsg.args = [msg.payload.sender, msg.payload.receiver, msg.payload.amount]; // Extract the string from msg.payload.party\nconsole.log(msg);\nreturn msg; // Return the modified msg object\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 490,
+        "y": 320,
+        "wires": [
+            [
+                "bf39ba2d488d283e"
+            ]
+        ]
+    },
+    {
+        "id": "bf39ba2d488d283e",
+        "type": "txNode",
+        "z": "f7c93124508f6705",
+        "name": "",
+        "userid": "Admin",
+        "channel": "mychannel",
+        "chaincode": "simple",
+        "cmd": "query",
+        "configurations": "e59a45358b52e49f",
+        "transactiontype": "evaluate",
+        "x": 710,
+        "y": 320,
+        "wires": [
+            [
+                "eeeef68165675f5e"
+            ]
+        ]
+    },
+    {
+        "id": "eeeef68165675f5e",
+        "type": "http response",
+        "z": "f7c93124508f6705",
+        "name": "Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 960,
+        "y": 320,
+        "wires": []
+    }
+]
