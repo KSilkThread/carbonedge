@@ -10,6 +10,15 @@ CarbonEdge was created in an iterative design process based on the Design Scienc
 
 ## CarbonEdge Highlights. :rocket:
 
+### 2024
+
+#### January
+
+<img width="400px" src="./pictures/sii-vietnam.jpeg"/>
+
+CarbonEdge was represented by Karl Seidenfad, Maximilian Greiner, Jan Biermann, and Ulrike Lechner at the  [2024 IEEE/SICE International Symposium on System Integration
+Ha Long, Vietnam 8-11th January, 2024](https://sice-si.org/SII2024/index.html).
+
 
 ### 2023
 
