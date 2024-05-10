@@ -1,4 +1,4 @@
-package flowcontract.models;
+package mrvversioningcontract.models;
 
 public enum InspectorOrganisations {
     org0("org0-example-com");

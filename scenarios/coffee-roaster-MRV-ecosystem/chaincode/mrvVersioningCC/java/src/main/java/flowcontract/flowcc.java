@@ -1,4 +1,4 @@
-package flowcontract;
+package mrvversioningcontract;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -19,13 +19,13 @@ import org.hyperledger.fabric.shim.ledger.CompositeKey;
 
 import com.google.gson.JsonObject;
 
-import flowcontract.models.InspectorOrganisations;
+import mrvversioningcontract.models.InspectorOrganisations;
 
 
 @Contract(
-        name = "FlowContract",
+        name = "MRVVersioningContract",
         info = @Info(
-                title = "FlowContract",
+                title = "MRVVersioningContract",
                 description = "This contract saves, checks and manages the flows",
                 version = "0.0.1-Alpha",
                 license = @License(
@@ -56,7 +56,7 @@ public class flowcc implements ContractInterface {
 
     //insert
     @Transaction(intent = Transaction.TYPE.SUBMIT)
-    public String insert(final Context context, final String organisation, final String flow){
+    public String pushApplicationHash(final Context context, final String organisation, final String flow){
 
         ChaincodeStub stub = context.getStub();
         String mspid = context.getClientIdentity().getMSPID();
@@ -89,7 +89,7 @@ public class flowcc implements ContractInterface {
     }	
     //check
     @Transaction(intent = Transaction.TYPE.EVALUATE)
-    public boolean check(final Context context, final String flow){
+    public boolean checkApplicationHash(final Context context, final String flow){
         ChaincodeStub stub = context.getStub();
         String mspid = context.getClientIdentity().getMSPID();
 
