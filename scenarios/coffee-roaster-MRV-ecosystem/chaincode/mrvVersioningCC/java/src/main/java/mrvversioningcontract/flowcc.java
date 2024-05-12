@@ -23,9 +23,9 @@ import mrvversioningcontract.models.InspectorOrganisations;
 
 
 @Contract(
-        name = "MRVVersioningContract",
+        name = "mrvVersioningCC",
         info = @Info(
-                title = "MRVVersioningContract",
+                title = "MRV Versioning Contract",
                 description = "This contract saves, checks and manages the flows",
                 version = "0.0.1-Alpha",
                 license = @License(
@@ -37,9 +37,9 @@ import mrvversioningcontract.models.InspectorOrganisations;
 
 
 @Default
-public class flowcc implements ContractInterface {
+public class MRVVersioningContract implements ContractInterface {
 
-    final Logger logger = Logger.getLogger(flowcc.class);
+    final Logger logger = Logger.getLogger(MRVVersioningContract.class);
 
 
     @Transaction(intent = Transaction.TYPE.SUBMIT)
